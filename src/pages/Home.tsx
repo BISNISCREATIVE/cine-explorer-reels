@@ -5,7 +5,15 @@ import { tmdbApi } from '@/services/tmdb';
 import HeroSection from '@/components/HeroSection';
 import MovieGrid from '@/components/MovieGrid';
 import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
+import { Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import MovieCard from '@/components/MovieCard';
 
 const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState<Movie[]>([]);
@@ -72,11 +80,33 @@ const Home = () => {
       <HeroSection />
       
       <div className="space-y-8">
-        <MovieGrid
-          movies={trendingMovies}
-          title="Trending Now"
-          showRanking={true}
-        />
+        {/* Trending Now Carousel */}
+        <section className="py-12">
+          <div className="container mx-auto px-4">
+            <h2 className="text-white text-2xl md:text-3xl font-bold mb-8">Trending Now</h2>
+            
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full"
+            >
+              <CarouselContent className="-ml-2 md:-ml-4">
+                {trendingMovies.map((movie, index) => (
+                  <CarouselItem key={movie.id} className="pl-2 md:pl-4 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6">
+                    <MovieCard
+                      movie={movie}
+                      rank={index + 1}
+                    />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="absolute -left-4 top-1/2 -translate-y-1/2 bg-black/80 border-gray-600 text-white hover:bg-black/90 hover:text-white" />
+              <CarouselNext className="absolute -right-4 top-1/2 -translate-y-1/2 bg-black/80 border-gray-600 text-white hover:bg-black/90 hover:text-white" />
+            </Carousel>
+          </div>
+        </section>
         
         <div>
           <MovieGrid
