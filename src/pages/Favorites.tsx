@@ -2,6 +2,7 @@
 import { Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useFavorites } from '@/hooks/useFavorites';
+import { tmdbApi } from '@/services/tmdb';
 import { Link } from 'react-router-dom';
 
 const Favorites = () => {
