@@ -13,6 +13,7 @@ const MovieDetail = () => {
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [credits, setCredits] = useState<Credits | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showTrailer, setShowTrailer] = useState(false);
   const { isFavorite, toggleFavorite } = useFavorites();
 
   useEffect(() => {
@@ -36,6 +37,10 @@ const MovieDetail = () => {
 
     fetchMovieData();
   }, [id]);
+
+  const handleWatchTrailer = () => {
+    setShowTrailer(true);
+  };
 
   if (loading) {
     return (
@@ -95,7 +100,10 @@ const MovieDetail = () => {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                  <Button className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg flex items-center space-x-2">
+                  <Button 
+                    onClick={handleWatchTrailer}
+                    className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg flex items-center space-x-2"
+                  >
                     <Play size={20} className="fill-white" />
                     <span>Watch Trailer</span>
                   </Button>
@@ -139,6 +147,15 @@ const MovieDetail = () => {
         </div>
       </div>
 
+      {/* Trailer Component */}
+      {id && (
+        <WatchTrailer 
+          movieId={parseInt(id)} 
+          movieTitle={movie.title}
+          onTrailerClick={() => setShowTrailer(true)}
+        />
+      )}
+
       {/* Content Sections */}
       <div className="container mx-auto px-4 py-12">
         <div className="space-y-12">
@@ -148,17 +165,14 @@ const MovieDetail = () => {
             <p className="text-gray-300 text-lg leading-relaxed">{movie.overview}</p>
           </section>
 
-          {/* Watch Trailer */}
-          {id && <WatchTrailer movieId={parseInt(id)} />}
-
           {/* Cast & Crew */}
           {credits && (
             <section>
               <h2 className="text-white text-2xl font-bold mb-6">Cast & Crew</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                {credits.cast.slice(0, 10).map((actor) => (
-                  <div key={actor.id} className="text-center">
-                    <div className="aspect-square bg-gray-700 rounded-lg overflow-hidden mb-3">
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                {credits.cast.slice(0, 6).map((actor) => (
+                  <div key={actor.id} className="flex items-center space-x-3">
+                    <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-700 flex-shrink-0">
                       {actor.profile_path ? (
                         <img
                           src={tmdbApi.getImageUrl(actor.profile_path, 'w185')}
@@ -167,12 +181,14 @@ const MovieDetail = () => {
                         />
                       ) : (
                         <div className="w-full h-full bg-gray-600 flex items-center justify-center">
-                          <span className="text-gray-400 text-xs">No Photo</span>
+                          <span className="text-gray-400 text-xs">N/A</span>
                         </div>
                       )}
                     </div>
-                    <h3 className="text-white font-medium text-sm mb-1">{actor.name}</h3>
-                    <p className="text-gray-400 text-xs">{actor.character}</p>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-white font-medium text-sm truncate">{actor.name}</h3>
+                      <p className="text-gray-400 text-xs truncate">{actor.character}</p>
+                    </div>
                   </div>
                 ))}
               </div>
