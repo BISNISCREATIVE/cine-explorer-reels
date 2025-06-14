@@ -148,15 +148,6 @@ const MovieDetail = () => {
         </div>
       </div>
 
-      {/* Trailer Component */}
-      {id && (
-        <WatchTrailer 
-          movieId={parseInt(id)} 
-          movieTitle={movie.title}
-          onTrailerClick={() => setShowTrailer(true)}
-        />
-      )}
-
       {/* Content Sections */}
       <div className="container mx-auto px-4 py-12">
         <div className="space-y-12">
