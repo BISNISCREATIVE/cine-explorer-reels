@@ -17,8 +17,8 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-red-600 rounded-md flex items-center justify-center">
-              <span className="text-white font-bold text-sm">M</span>
+            <div className="w-8 h-8 bg-white rounded-md flex items-center justify-center">
+              <span className="text-black font-bold text-sm">🎬</span>
             </div>
             <span className="text-white font-semibold text-lg">Movie</span>
           </Link>
@@ -27,19 +27,21 @@ const Header = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               to="/"
-              className={`text-sm font-medium transition-colors ${
+              className={`text-sm font-medium transition-colors flex items-center space-x-2 ${
                 isActive('/') ? 'text-white' : 'text-gray-400 hover:text-white'
               }`}
             >
-              Home
+              <span className="text-lg">🏠</span>
+              <span>Home</span>
             </Link>
             <Link
               to="/favorites"
-              className={`text-sm font-medium transition-colors ${
+              className={`text-sm font-medium transition-colors flex items-center space-x-2 ${
                 isActive('/favorites') ? 'text-white' : 'text-gray-400 hover:text-white'
               }`}
             >
-              Favorites
+              <span className="text-lg">❤️</span>
+              <span>Favorites</span>
             </Link>
           </nav>
 
@@ -52,7 +54,7 @@ const Header = () => {
                 placeholder="Search Movie"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 w-64 bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-red-500"
+                className="pl-10 pr-4 py-2 w-64 bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-red-500 rounded-full"
               />
             </div>
           </div>
@@ -72,21 +74,23 @@ const Header = () => {
             <nav className="flex flex-col space-y-4">
               <Link
                 to="/"
-                className={`text-sm font-medium transition-colors ${
+                className={`text-sm font-medium transition-colors flex items-center space-x-2 ${
                   isActive('/') ? 'text-white' : 'text-gray-400'
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
-                Home
+                <span className="text-lg">🏠</span>
+                <span>Home</span>
               </Link>
               <Link
                 to="/favorites"
-                className={`text-sm font-medium transition-colors ${
+                className={`text-sm font-medium transition-colors flex items-center space-x-2 ${
                   isActive('/favorites') ? 'text-white' : 'text-gray-400'
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
-                Favorites
+                <span className="text-lg">❤️</span>
+                <span>Favorites</span>
               </Link>
               <div className="relative mt-4">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -95,7 +99,7 @@ const Header = () => {
                   placeholder="Search Movie"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 pr-4 py-2 w-full bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-red-500"
+                  className="pl-10 pr-4 py-2 w-full bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-red-500 rounded-full"
                 />
               </div>
             </nav>
