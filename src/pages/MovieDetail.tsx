@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { MovieDetails, Credits } from '@/types/movie';
 import { tmdbApi } from '@/services/tmdb';
 import { useFavorites } from '@/hooks/useFavorites';
+import WatchTrailer from '@/components/WatchTrailer';
 
 const MovieDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -138,7 +139,7 @@ const MovieDetail = () => {
         </div>
       </div>
 
-      {/* Overview and Cast */}
+      {/* Content Sections */}
       <div className="container mx-auto px-4 py-12">
         <div className="space-y-12">
           {/* Overview */}
@@ -147,14 +148,17 @@ const MovieDetail = () => {
             <p className="text-gray-300 text-lg leading-relaxed">{movie.overview}</p>
           </section>
 
+          {/* Watch Trailer */}
+          {id && <WatchTrailer movieId={parseInt(id)} />}
+
           {/* Cast & Crew */}
           {credits && (
             <section>
               <h2 className="text-white text-2xl font-bold mb-6">Cast & Crew</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {credits.cast.slice(0, 6).map((actor) => (
-                  <div key={actor.id} className="flex items-center space-x-4">
-                    <div className="w-16 h-16 bg-gray-700 rounded-full overflow-hidden flex-shrink-0">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                {credits.cast.slice(0, 10).map((actor) => (
+                  <div key={actor.id} className="text-center">
+                    <div className="aspect-square bg-gray-700 rounded-lg overflow-hidden mb-3">
                       {actor.profile_path ? (
                         <img
                           src={tmdbApi.getImageUrl(actor.profile_path, 'w185')}
@@ -167,10 +171,8 @@ const MovieDetail = () => {
                         </div>
                       )}
                     </div>
-                    <div>
-                      <h3 className="text-white font-medium">{actor.name}</h3>
-                      <p className="text-gray-400 text-sm">{actor.character}</p>
-                    </div>
+                    <h3 className="text-white font-medium text-sm mb-1">{actor.name}</h3>
+                    <p className="text-gray-400 text-xs">{actor.character}</p>
                   </div>
                 ))}
               </div>
