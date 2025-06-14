@@ -8,6 +8,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Home from "@/pages/Home";
 import MovieDetail from "@/pages/MovieDetail";
+import TrailerPage from "@/pages/TrailerPage";
 import Favorites from "@/pages/Favorites";
 import NotFound from "./pages/NotFound";
 

@@ -1,18 +1,18 @@
+
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Play, Calendar, Star, Clock, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MovieDetails, Credits } from '@/types/movie';
 import { tmdbApi } from '@/services/tmdb';
 import { useFavorites } from '@/hooks/useFavorites';
-import WatchTrailer from '@/components/WatchTrailer';
 
 const MovieDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [credits, setCredits] = useState<Credits | null>(null);
   const [loading, setLoading] = useState(true);
-  const [showTrailer, setShowTrailer] = useState(false);
   const { isFavorite, toggleFavorite } = useFavorites();
 
   useEffect(() => {
@@ -38,7 +38,9 @@ const MovieDetail = () => {
   }, [id]);
 
   const handleWatchTrailer = () => {
-    setShowTrailer(true);
+    if (id) {
+      navigate(`/movie/${id}/trailer`);
+    }
   };
 
   if (loading) {
