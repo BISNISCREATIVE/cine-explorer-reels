@@ -1,3 +1,4 @@
+
 import { Calendar, Star, Heart, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MovieDetails } from '@/types/movie';
@@ -135,7 +136,6 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
             </div>
 
             {/* Info Card */}
-            {/* Layout Flex style: align center, gap 20px, no border-radius */}
             <div
               style={{
                 display: 'flex',
@@ -147,22 +147,133 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
               className="mt-4"
             >
               {/* Rating Card */}
-              <div className="flex-1 flex flex-col items-center bg-black border border-[#181D27] p-6 min-w-0" style={{ borderRadius: 0 }}>
-                <Star className="text-yellow-400 fill-yellow-400 mb-3" size={32} strokeWidth={2.2} />
-                <span className="text-gray-300 text-lg mb-2 font-normal">Rating</span>
-                <span className="text-white font-extrabold text-2xl md:text-3xl tracking-tight">{movie.vote_average.toFixed(1).replace('.', ',')}/10</span>
+              <div
+                style={{
+                  display: 'flex',
+                  padding: 20,
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 8,
+                  flex: '1 0 0',
+                  alignSelf: 'stretch',
+                  borderRadius: 16,
+                  border: '1px solid #252B37',
+                  background: '#000',
+                }}
+              >
+                <Star className="text-yellow-400 fill-yellow-400" size={32} strokeWidth={2.2} />
+                <span
+                  style={{
+                    color: '#D5D7DA',
+                    textAlign: 'center',
+                    fontFamily: 'Poppins',
+                    fontSize: 16,
+                    fontStyle: 'normal',
+                    fontWeight: 400,
+                    lineHeight: '30px',
+                  }}
+                >
+                  Rating
+                </span>
+                <span
+                  style={{
+                    color: '#FDFDFD',
+                    textAlign: 'center',
+                    fontFamily: 'Poppins',
+                    fontSize: 20,
+                    fontStyle: 'normal',
+                    fontWeight: 600,
+                    lineHeight: '34px',
+                  }}
+                >
+                  {movie.vote_average.toFixed(1).replace('.', ',')}/10
+                </span>
               </div>
               {/* Genre Card */}
-              <div className="flex-1 flex flex-col items-center bg-black border border-[#181D27] p-6 min-w-0" style={{ borderRadius: 0 }}>
-                <CustomFilmIcon className="mb-3" size={32} />
-                <span className="text-gray-300 text-lg mb-2 font-normal">Genre</span>
-                <span className="text-white font-extrabold text-2xl md:text-3xl tracking-tight">{movie.genres[0]?.name || 'N/A'}</span>
+              <div
+                style={{
+                  display: 'flex',
+                  padding: 20,
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 8,
+                  flex: '1 0 0',
+                  alignSelf: 'stretch',
+                  borderRadius: 16,
+                  border: '1px solid #252B37',
+                  background: '#000',
+                }}
+              >
+                <CustomFilmIcon size={32} />
+                <span
+                  style={{
+                    color: '#D5D7DA',
+                    textAlign: 'center',
+                    fontFamily: 'Poppins',
+                    fontSize: 16,
+                    fontStyle: 'normal',
+                    fontWeight: 400,
+                    lineHeight: '30px',
+                  }}
+                >
+                  Genre
+                </span>
+                <span
+                  style={{
+                    color: '#FDFDFD',
+                    textAlign: 'center',
+                    fontFamily: 'Poppins',
+                    fontSize: 20,
+                    fontStyle: 'normal',
+                    fontWeight: 600,
+                    lineHeight: '34px',
+                  }}
+                >
+                  {movie.genres[0]?.name || 'N/A'}
+                </span>
               </div>
               {/* Age Limit Card */}
-              <div className="flex-1 flex flex-col items-center bg-black border border-[#181D27] p-6 min-w-0" style={{ borderRadius: 0 }}>
-                <CustomSmileIcon className="mb-3" size={32} />
-                <span className="text-gray-300 text-lg mb-2 font-normal">Age Limit</span>
-                <span className="text-white font-extrabold text-2xl md:text-3xl tracking-tight">13</span>
+              <div
+                style={{
+                  display: 'flex',
+                  padding: 20,
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 8,
+                  flex: '1 0 0',
+                  alignSelf: 'stretch',
+                  borderRadius: 16,
+                  border: '1px solid #252B37',
+                  background: '#000',
+                }}
+              >
+                <CustomSmileIcon size={32} />
+                <span
+                  style={{
+                    color: '#D5D7DA',
+                    textAlign: 'center',
+                    fontFamily: 'Poppins',
+                    fontSize: 16,
+                    fontStyle: 'normal',
+                    fontWeight: 400,
+                    lineHeight: '30px',
+                  }}
+                >
+                  Age Limit
+                </span>
+                <span
+                  style={{
+                    color: '#FDFDFD',
+                    textAlign: 'center',
+                    fontFamily: 'Poppins',
+                    fontSize: 20,
+                    fontStyle: 'normal',
+                    fontWeight: 600,
+                    lineHeight: '34px',
+                  }}
+                >
+                  13
+                </span>
               </div>
             </div>
           </div>
