@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Movie } from '@/types/movie';
@@ -117,7 +116,6 @@ const Home = () => {
                   {/* Watch Trailer Button */}
                   <button
                     className="flex items-center justify-center bg-[#B91D12] hover:bg-[#941C10] text-white h-[52px] text-base md:text-lg font-semibold rounded-full md:min-w-[160px] min-w-0 w-full md:w-auto px-7 transition-all duration-150 shadow"
-                    style={{ maxWidth: 360 }}
                     onClick={handleToggleTrailer}
                     disabled={trailerLoading}
                   >
@@ -138,7 +136,6 @@ const Home = () => {
                   <a
                     href={`/movie/${heroMovie.id}`}
                     className="flex items-center justify-center bg-white/10 border border-white/30 hover:bg-white/15 text-white text-base md:text-lg font-semibold rounded-full px-7 w-full md:w-[164px] h-[52px] transition-all duration-150"
-                    style={{ maxWidth: 360 }}
                   >
                     See Detail
                   </a>
