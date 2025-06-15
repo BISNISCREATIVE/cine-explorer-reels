@@ -62,14 +62,26 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
               <Button
                 onClick={onWatchTrailer}
                 disabled={!hasTrailer}
-                // Mobile: full width, rounded, height 56px, large text, merah, bold, icon kanan
-                className={`w-full h-14 px-7 flex flex-row items-center justify-center rounded-full bg-[#961200] hover:bg-[#7d1000] text-white text-lg font-extrabold shadow transition
+                className={`
+                  flex items-center justify-center gap-[8px] flex-1 px-4 h-[44px]
+                  rounded-full bg-[#961200] hover:bg-[#7d1000] text-white text-base font-bold shadow transition
                   disabled:bg-gray-700 disabled:hover:bg-gray-700
-                  md:w-auto md:h-16 md:px-10 md:text-lg md:font-bold md:gap-3
+                  md:w-auto md:h-[44px] md:px-8
                 `}
+                style={{
+                  display: 'flex',
+                  height: 44,
+                  padding: 8,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 8,
+                  flex: '1 0 0',
+                  borderRadius: 9999,
+                  background: '#961200',
+                }}
               >
-                <span className="flex-1 text-center">{isTrailerVisible ? "Close Trailer" : "Watch Trailer"}</span>
-                <span className="ml-2 flex">
+                <span className="flex-1 text-center font-bold text-base">{isTrailerVisible ? "Close Trailer" : "Watch Trailer"}</span>
+                <span className="flex">
                   {isTrailerVisible ? <X size={24} /> : <PlayIcon size={24} />}
                 </span>
               </Button>
