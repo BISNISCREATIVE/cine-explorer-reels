@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { tmdbApi } from '@/services/tmdb';
@@ -96,7 +95,7 @@ const SearchPage = () => {
                 ) : (
                     !loading && query && (
                          <div className="flex flex-col items-center justify-center text-center py-20">
-                            <img src="/lovable-uploads/efc2f250-a4eb-4286-a6f7-983ed91bf48f.png" alt="Data Not Found" className="w-32 h-32 mb-6" />
+                            <img src="/lovable-uploads/70623c64-2a7b-48ad-beed-1bbfba185e3a.png" alt="Data Not Found" className="w-32 h-32 mb-6" />
                             <h2 className="text-2xl font-bold text-white">Data Not Found</h2>
                             <p className="text-gray-400 mt-2">Try other keywords</p>
                         </div>
