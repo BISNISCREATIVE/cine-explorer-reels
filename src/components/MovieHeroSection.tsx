@@ -1,4 +1,6 @@
+
 import { Calendar, Star, Heart, Film, User, X } from 'lucide-react';
+import { Film as FilmIcon, Smile } from 'lucide-react'; // import ikon baru
 import { Button } from '@/components/ui/button';
 import { MovieDetails } from '@/types/movie';
 import { tmdbApi } from '@/services/tmdb';
@@ -122,7 +124,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                 className={`w-14 h-14 flex-shrink-0 flex justify-center items-center rounded-full border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] transition-colors hover:bg-[rgba(10,13,18,0.8)]
                   ${isFavorite(movie.id) ? "text-red-500" : "text-white"}`}
                 style={{
-                  marginLeft: '0', // gap handled by gap-4 class
+                  marginLeft: '0',
                 }}
               >
                 <Heart
@@ -139,13 +141,15 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                 <span className="text-white font-bold text-lg md:text-xl">{movie.vote_average.toFixed(1).replace('.', ',')}/10</span>
                 <span className="text-gray-300 mt-1 md:mt-2 text-xs md:text-sm">Rating</span>
               </div>
+              {/* Ganti icon genre ke ikon Film */}
               <div className="flex-1 flex flex-col items-center rounded-xl bg-black/60 border border-white/10 p-3 md:p-5 shadow">
-                <Film className="text-white mb-2" size={24} />
+                <FilmIcon className="text-white mb-2" size={24} />
                 <span className="text-white font-bold text-lg md:text-xl">{movie.genres[0]?.name || 'N/A'}</span>
                 <span className="text-gray-300 mt-1 md:mt-2 text-xs md:text-sm">Genre</span>
               </div>
+              {/* Ganti icon Age Limit ke ikon Smile */}
               <div className="flex-1 flex flex-col items-center rounded-xl bg-black/60 border border-white/10 p-3 md:p-5 shadow">
-                <User className="text-white mb-2" size={24} />
+                <Smile className="text-white mb-2" size={24} />
                 <span className="text-white font-bold text-lg md:text-xl">13</span>
                 <span className="text-gray-300 mt-1 md:mt-2 text-xs md:text-sm">Age Limit</span>
               </div>
