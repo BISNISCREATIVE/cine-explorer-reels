@@ -6,40 +6,52 @@ interface MovieCastCrewProps {
   credits: Credits;
 }
 
+const CARD_WIDTH = 69;
+const CARD_HEIGHT = 104;
+
 const MovieCastCrew = ({ credits }: MovieCastCrewProps) => {
   return (
     <section className="mt-10">
       <h2 className="text-white text-2xl font-extrabold mb-6">Cast &amp; Crew</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-10">
+      <div className="flex flex-row flex-wrap gap-6">
         {credits.cast.slice(0, 6).map((actor) => (
           <div
             key={actor.id}
-            className="flex items-center gap-6"
+            className="flex flex-col items-center"
+            style={{ width: CARD_WIDTH, minWidth: CARD_WIDTH }}
           >
-            <div className="w-24 h-24 rounded-xl overflow-hidden shrink-0 bg-gray-700 border-4 border-white/5">
-              {actor.profile_path ? (
-                <img
-                  src={tmdbApi.getImageUrl(actor.profile_path, 'w185')}
-                  alt={actor.name}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              ) : (
-                <div className="w-full h-full bg-gray-700 flex items-center justify-center">
-                  <span className="text-gray-400 text-xs">N/A</span>
-                </div>
+            <div
+              className="w-[69px] h-[104px] flex-shrink-0 mb-2 relative overflow-hidden"
+              style={{
+                width: CARD_WIDTH,
+                height: CARD_HEIGHT,
+                borderRadius: '10px',
+                background: actor.profile_path
+                  ? `url(${tmdbApi.getImageUrl(actor.profile_path, 'w185')}) lightgray 50% / cover no-repeat`
+                  : 'lightgray',
+                display: 'flex',
+                alignItems: 'flex-end',
+                justifyContent: 'center',
+                boxShadow: '0 2px 12px 0 rgba(0,0,0,0.15)',
+              }}
+            >
+              {!actor.profile_path && (
+                <span className="text-gray-400 text-xs w-full text-center" style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: 0,
+                  right: 0,
+                  transform: 'translateY(-50%)',
+                }}>N/A</span>
               )}
             </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-white font-extrabold text-lg lg:text-xl mb-1 leading-tight truncate">{actor.name}</h3>
+            <div className="w-full flex flex-col items-center min-w-0">
+              <h3 className="text-white text-xs font-bold leading-tight truncate w-full text-center">
+                {actor.name}
+              </h3>
               {actor.character && (
-                <p className="text-gray-400 text-base lg:text-lg font-medium leading-tight whitespace-pre-line">
-                  {actor.character.split('/').map((part, i, arr) => (
-                    <span key={i}>
-                      {part.trim()}
-                      {i < arr.length - 1 && <span className="mx-1 italic text-gray-400">/</span>}
-                    </span>
-                  ))}
+                <p className="text-gray-400 text-[10px] font-medium leading-tight whitespace-pre-line text-center w-full truncate">
+                  {actor.character}
                 </p>
               )}
             </div>
