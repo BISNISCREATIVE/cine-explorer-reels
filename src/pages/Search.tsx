@@ -4,6 +4,7 @@ import { tmdbApi } from '@/services/tmdb';
 import { Movie } from '@/types/movie';
 import MovieCard from '@/components/MovieCard';
 import { Loader2 } from 'lucide-react';
+import InlineSpinner from '@/components/ui/InlineSpinner';
 
 const SearchPage = () => {
     const [searchParams] = useSearchParams();
@@ -104,7 +105,7 @@ const SearchPage = () => {
                 
                 {loading && results.length > 0 && (
                     <div className="flex justify-center py-8">
-                        <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+                        <InlineSpinner size={40} />
                     </div>
                 )}
 
