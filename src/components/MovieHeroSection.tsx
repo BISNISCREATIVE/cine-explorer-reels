@@ -1,4 +1,3 @@
-
 import { Calendar, Star, Heart, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MovieDetails } from '@/types/movie';
