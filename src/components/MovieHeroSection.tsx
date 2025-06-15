@@ -1,5 +1,4 @@
 
-```tsx
 import { Calendar, Star, Heart, Film, User, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MovieDetails } from '@/types/movie';
@@ -106,4 +105,3 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
 };
 
 export default MovieHeroSection;
-```

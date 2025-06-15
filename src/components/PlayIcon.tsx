@@ -1,5 +1,4 @@
 
-```tsx
 import React from 'react';
 
 interface PlayIconProps extends React.SVGProps<SVGSVGElement> {
@@ -25,4 +24,3 @@ const PlayIcon = ({ size = 24, className, ...props }: PlayIconProps) => (
 );
 
 export default PlayIcon;
-```
