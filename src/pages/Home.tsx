@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Movie } from '@/types/movie';
 import { tmdbApi } from '@/services/tmdb';
@@ -24,6 +25,9 @@ const Home = () => {
   const [newReleaseLoading, setNewReleaseLoading] = useState(true);
   const [hasMoreNewReleases, setHasMoreNewReleases] = useState(true);
 
+  // Reference to avoid loading multiple times at once
+  const isFetchingRef = useRef(false);
+
   // Trailer & Video
   const [showTrailer, setShowTrailer] = useState(false);
   const [trailerVideoKey, setTrailerVideoKey] = useState<string | null>(null);
@@ -43,6 +47,7 @@ const Home = () => {
   // Fetch upcoming (new release) movies with pagination
   useEffect(() => {
     const fetchUpcoming = async () => {
+      isFetchingRef.current = true;
       setNewReleaseLoading(true);
       const data = await tmdbApi.getUpcoming(newReleasePage);
       if (!data.results || data.results.length === 0) {
@@ -55,6 +60,7 @@ const Home = () => {
         });
       }
       setNewReleaseLoading(false);
+      isFetchingRef.current = false;
     };
     fetchUpcoming();
   }, [newReleasePage]);
@@ -92,6 +98,28 @@ const Home = () => {
     }
     setTrailerLoading(false);
   };
+
+  // Infinity scroll for New Release section
+  const newReleaseSectionRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = useCallback(() => {
+    if (!hasMoreNewReleases || newReleaseLoading || isFetchingRef.current) return;
+    const scrollY = window.scrollY || window.pageYOffset;
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    const newReleaseSection = newReleaseSectionRef.current;
+
+    if (!newReleaseSection) return;
+    const sectionBottom = newReleaseSection.getBoundingClientRect().bottom + window.scrollY;
+    // Jika viewport + scrollY + threshold (180px buffer) sudah melewati bawah New Release grid
+    if (scrollY + viewportHeight + 180 >= sectionBottom) {
+      setNewReleasePage(prev => prev + 1);
+    }
+  }, [hasMoreNewReleases, newReleaseLoading]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
 
   return (
     <div className="bg-black min-h-screen flex flex-col">
@@ -204,24 +232,31 @@ const Home = () => {
         </section>
 
         {/* NEW RELEASE GRID */}
-        <section className="container max-w-[1200px] mx-auto px-4 pb-16 md:px-10 md:pb-24 pt-4 md:pt-6">
-          <h2 className="font-poppins text-[#FDFDFD] text-2xl md:text-4xl font-bold leading-[48px] tracking-[-0.72px] mb-5 md:mb-7 drop-shadow">New Release</h2>
+        <section
+          ref={newReleaseSectionRef}
+          className="container max-w-[1200px] mx-auto px-4 pb-16 md:px-10 md:pb-24 pt-4 md:pt-6"
+        >
+          <h2 className="font-poppins text-[#FDFDFD] text-2xl md:text-4xl font-bold leading-[48px] tracking-[-0.72px] mb-5 md:mb-7 drop-shadow">
+            New Release
+          </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 xl:grid-cols-6 gap-x-4 md:gap-x-7 gap-y-6 md:gap-y-7">
             {newReleaseMovies.map((movie) => (
               <MovieCard key={movie.id} movie={movie} />
             ))}
           </div>
           <div className="flex justify-center mt-7 md:mt-8">
-            {hasMoreNewReleases && (
-              <button
-                disabled={newReleaseLoading}
-                className="w-full max-w-xs md:max-w-[220px] px-8 bg-white/5 border-2 border-[#232631] hover:bg-white/15 text-white py-3 text-base font-semibold rounded-full shadow transition min-h-[46px] md:min-h-[50px]"
-                onClick={() => setNewReleasePage((p) => p + 1)}
-              >
-                {newReleaseLoading ? <Loader2 className="inline w-5 h-5 animate-spin" /> : 'Load More'}
-              </button>
+            {newReleaseLoading && (
+              <div className="w-full max-w-xs md:max-w-[220px] flex items-center justify-center rounded-full min-h-[46px] md:min-h-[50px] text-white bg-white/5 border-2 border-[#232631] py-3">
+                <Loader2 className="inline w-5 h-5 animate-spin" />
+                <span className="ml-2 text-base">Loading...</span>
+              </div>
             )}
           </div>
+          {!hasMoreNewReleases && newReleaseMovies.length > 0 && (
+            <div className="text-center text-zinc-500 py-4 text-sm">
+              You've reached the end of the list.
+            </div>
+          )}
         </section>
       </main>
     </div>
@@ -229,3 +264,4 @@ const Home = () => {
 };
 
 export default Home;
+
