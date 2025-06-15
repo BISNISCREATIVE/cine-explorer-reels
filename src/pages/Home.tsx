@@ -1,10 +1,9 @@
-
 import { useEffect, useState } from 'react';
 import { Movie } from '@/types/movie';
 import { tmdbApi } from '@/services/tmdb';
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
 import MovieCard from '@/components/MovieCard';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Play } from 'lucide-react';
 
 const Home = () => {
   // Trending Now
@@ -63,15 +62,20 @@ const Home = () => {
               <h1 className="text-white text-3xl md:text-5xl font-bold mb-3 drop-shadow leading-tight">{heroMovie.title}</h1>
               <p className="text-white/80 text-base md:text-lg mb-8 w-full md:w-1/2 drop-shadow-lg">{heroMovie.overview}</p>
               <div className="flex gap-4">
+                {/* Custom Watch Trailer Button */}
                 <button
-                  className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 text-base font-semibold rounded-full transition-shadow shadow-lg whitespace-nowrap"
+                  className="flex items-center gap-2 bg-[#941C10] hover:bg-[#7e160c] text-white px-8 py-3 text-lg font-semibold rounded-full shadow transition-all duration-150"
+                  style={{ minWidth: 180 }}
                   onClick={() => window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(heroMovie.title + " trailer")}`, "_blank")}
                 >
                   Watch Trailer
+                  <Play size={24} className="ml-1" />
                 </button>
+                {/* Custom See Detail Button */}
                 <a
                   href={`/movie/${heroMovie.id}`}
-                  className="bg-white/5 border border-white/20 hover:bg-white/10 text-white px-6 py-3 text-base font-semibold rounded-full transition"
+                  className="bg-[#181B23] hover:bg-[#232631] text-white px-8 py-3 text-lg font-semibold rounded-full shadow transition-all duration-150 flex items-center justify-center"
+                  style={{ minWidth: 180 }}
                 >
                   See Detail
                 </a>
