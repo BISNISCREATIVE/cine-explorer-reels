@@ -6,10 +6,13 @@ interface MovieCastCrewProps {
   credits: Credits;
 }
 
-const PROFILE_SIZE = 56;
+// Card image size & border radius based on your specs
+const CARD_WIDTH = 69;
+const CARD_HEIGHT = 104;
+const CARD_RADIUS = 10;
 
 const MovieCastCrew = ({ credits }: MovieCastCrewProps) => {
-  // Ambil hanya 6 cast teratas
+  // Only show top 6 cast
   const castList = credits.cast.slice(0, 6);
 
   return (
@@ -33,14 +36,19 @@ const MovieCastCrew = ({ credits }: MovieCastCrewProps) => {
           >
             {/* Cast Image */}
             <div
-              className={`flex-shrink-0 w-[${PROFILE_SIZE}px] h-[${PROFILE_SIZE}px] rounded-full bg-gray-800 overflow-hidden flex items-center justify-center mr-4`}
+              className="flex-shrink-0 mr-4"
               style={{
-                width: PROFILE_SIZE,
-                height: PROFILE_SIZE,
-                borderRadius: '50%',
+                width: `${CARD_WIDTH}px`,
+                height: `${CARD_HEIGHT}px`,
+                borderRadius: `${CARD_RADIUS}px`,
                 background: actor.profile_path
-                  ? `url(${tmdbApi.getImageUrl(actor.profile_path, 'w185')}) center/cover no-repeat`
+                  ? `url(${tmdbApi.getImageUrl(actor.profile_path, 'w185')}) lightgray 50% / cover no-repeat`
                   : '#23272F',
+                overflow: 'hidden',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
               }}
             >
               {!actor.profile_path && (
@@ -48,6 +56,8 @@ const MovieCastCrew = ({ credits }: MovieCastCrewProps) => {
                   className="text-gray-400 text-xs w-full text-center"
                   style={{
                     position: 'absolute',
+                    left: 0,
+                    right: 0,
                   }}
                 >
                   N/A
