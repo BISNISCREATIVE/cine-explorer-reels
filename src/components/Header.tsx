@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Menu, X, Home, Heart } from 'lucide-react';
@@ -98,6 +97,9 @@ const Header = () => {
   }, [searchLoading, hasMoreResults]);
 
   const isActive = (path: string) => location.pathname === path;
+
+  // Cek apakah sedang di halaman detail movie (contoh: /movie/xxxxx)
+  const isMovieDetailPage = /^\/movie\/\d+/.test(location.pathname);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-gray-800">
@@ -202,8 +204,9 @@ const Header = () => {
         )}
       </div>
 
-      {/* Show search results panel below header only if needed */}
-      {showResultsPanel && (
+      {/* Show search results panel below header only
+          IF not on a movie detail page */}
+      {!isMovieDetailPage && showResultsPanel && (
         <MovieSearchResults
           results={searchResults}
           loading={searchLoading}
