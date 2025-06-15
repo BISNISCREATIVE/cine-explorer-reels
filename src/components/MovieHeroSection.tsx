@@ -1,4 +1,3 @@
-
 import { Calendar, Star, Heart, Film, User, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MovieDetails } from '@/types/movie';
@@ -61,7 +60,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
               <Button 
                 onClick={onWatchTrailer}
                 disabled={!hasTrailer}
-                className="w-full h-16 px-4 flex justify-between items-center rounded-none bg-[#961200] hover:bg-[#7d1000] text-white text-base font-semibold shadow transition disabled:bg-gray-700 disabled:hover:bg-gray-700 md:w-auto md:h-12 md:px-6 md:justify-center md:rounded-full md:gap-2"
+                className="w-full h-16 px-4 flex justify-between items-center rounded-none bg-[#961200] hover:bg-[#7d1000] text-white text-base font-semibold shadow transition disabled:bg-gray-700 disabled:hover:bg-gray-700 md:w-auto md:h-14 md:px-8 md:justify-center md:rounded-full md:gap-2"
               >
                 {isTrailerVisible ? (
                   <>
@@ -76,7 +75,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
               <button
                 aria-label={isFavorite(movie.id) ? "Remove from Favorites" : "Add to Favorites"}
                 onClick={() => toggleFavorite(movie)}
-                className={`w-12 h-12 p-2 flex justify-center items-center rounded-full border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] transition-colors hover:bg-[rgba(10,13,18,0.8)]
+                className={`w-14 h-14 p-2 flex justify-center items-center rounded-full border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] transition-colors hover:bg-[rgba(10,13,18,0.8)]
                   ${isFavorite(movie.id) ? "text-red-500" : "text-white"}`}
               >
                 <Heart
