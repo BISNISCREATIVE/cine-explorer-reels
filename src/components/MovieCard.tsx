@@ -22,17 +22,19 @@ const MovieCard = ({ movie, rank }: MovieCardProps) => {
   };
 
   return (
-    <Link to={`/movie/${movie.id}`} className="group block">
-      <div className="relative overflow-hidden rounded-lg bg-gray-800 transition-transform duration-300 group-hover:scale-105">
+    <Link to={`/movie/${movie.id}`} className="group block hover:scale-[1.025] transition">
+      <div className="relative overflow-hidden rounded-xl bg-[#171B22] shadow-lg border border-[#232831]">
+        {/* Rank badge if needed */}
         {rank && (
-          <div className="absolute top-2 left-2 z-10 bg-black/80 text-white text-lg font-bold w-8 h-8 rounded-full flex items-center justify-center">
+          <div className="absolute top-3 left-3 z-10 bg-[#1C2027] text-white text-base font-bold w-9 h-9 rounded-full flex items-center justify-center shadow">
             {rank}
           </div>
         )}
-        
+
+        {/* Favorite button */}
         <button
           onClick={handleFavoriteClick}
-          className="absolute top-2 right-2 z-10 p-2 bg-black/60 rounded-full transition-colors hover:bg-black/80"
+          className="absolute top-3 right-3 z-10 p-2 bg-[#232831] rounded-full hover:bg-red-600 transition-colors"
         >
           <Heart
             size={20}
@@ -49,25 +51,23 @@ const MovieCard = ({ movie, rank }: MovieCardProps) => {
           <img
             src={tmdbApi.getImageUrl(movie.poster_path)}
             alt={movie.title}
-            className={`w-full h-full object-cover transition-opacity duration-300 ${
+            className={`w-full h-full object-cover rounded-t-xl transition-opacity duration-300 ${
               imageLoaded ? 'opacity-100' : 'opacity-0'
             }`}
             onLoad={() => setImageLoaded(true)}
           />
         </div>
 
-        <div className="p-3">
-          <h3 className="text-white font-medium text-sm mb-1 line-clamp-1">
-            {movie.title}
-          </h3>
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center space-x-1">
-              <Star size={12} className="text-yellow-500 fill-yellow-500" />
-              <span className="text-gray-400 text-xs">
-                {movie.vote_average.toFixed(1)}/10
-              </span>
-            </div>
+        {/* Card Content */}
+        <div className="p-4 flex flex-col flex-1">
+          <h3 className="text-white font-bold text-lg mb-1 line-clamp-1">{movie.title}</h3>
+          <div className="flex items-center gap-2 mb-1">
+            <Star size={14} className="text-yellow-400 fill-yellow-400" />
+            <span className="text-gray-400 text-xs">
+              {movie.vote_average.toFixed(1)}/10
+            </span>
           </div>
+          <div className="text-gray-400 text-xs">{movie.release_date?.slice(0, 4)}</div>
         </div>
       </div>
     </Link>
