@@ -80,6 +80,12 @@ const Header = () => {
     setShowResultsPanel(!!searchFocused && !!searchQuery);
   }, [searchFocused, searchQuery]);
 
+  // Close search panel on route change
+  useEffect(() => {
+    setSearchFocused(false);
+    setShowResultsPanel(false);
+  }, [location.pathname]);
+
   const handleSelectMovie = (id: number) => {
     setSearchQuery('');
     setSearchResults([]);
