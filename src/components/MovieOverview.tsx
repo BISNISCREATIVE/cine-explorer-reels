@@ -7,9 +7,9 @@ interface MovieOverviewProps {
 
 const MovieOverview = ({ movie }: MovieOverviewProps) => {
   return (
-    <section>
-      <h2 className="text-white text-2xl font-bold mb-4">Overview</h2>
-      <p className="text-gray-300 text-lg leading-relaxed">{movie.overview}</p>
+    <section className="mt-10">
+      <h2 className="text-white text-2xl font-extrabold mb-3">Overview</h2>
+      <p className="text-gray-300 text-base leading-relaxed">{movie.overview}</p>
     </section>
   );
 };
