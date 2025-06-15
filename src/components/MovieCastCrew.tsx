@@ -13,7 +13,10 @@ const MovieCastCrew = ({ credits }: MovieCastCrewProps) => {
   return (
     <section className="mt-10">
       <h2 className="text-white text-2xl font-extrabold mb-6">Cast &amp; Crew</h2>
-      <div className="flex flex-row flex-wrap gap-6">
+      <div
+        className="flex flex-col items-start gap-10"
+        style={{ padding: 0, alignSelf: 'stretch' }}
+      >
         {credits.cast.slice(0, 6).map((actor) => (
           <div
             key={actor.id}
@@ -25,7 +28,7 @@ const MovieCastCrew = ({ credits }: MovieCastCrewProps) => {
               style={{
                 width: CARD_WIDTH,
                 height: CARD_HEIGHT,
-                borderRadius: '10px',
+                borderRadius: '0px',
                 background: actor.profile_path
                   ? `url(${tmdbApi.getImageUrl(actor.profile_path, 'w185')}) lightgray 50% / cover no-repeat`
                   : 'lightgray',
@@ -36,13 +39,18 @@ const MovieCastCrew = ({ credits }: MovieCastCrewProps) => {
               }}
             >
               {!actor.profile_path && (
-                <span className="text-gray-400 text-xs w-full text-center" style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: 0,
-                  right: 0,
-                  transform: 'translateY(-50%)',
-                }}>N/A</span>
+                <span
+                  className="text-gray-400 text-xs w-full text-center"
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: 0,
+                    right: 0,
+                    transform: 'translateY(-50%)',
+                  }}
+                >
+                  N/A
+                </span>
               )}
             </div>
             <div className="w-full flex flex-col items-center min-w-0">
