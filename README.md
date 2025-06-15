@@ -1,6 +1,6 @@
-# Welcome to your Lovable project
+# Welcome to your Lovable project - AHADEMY ASSIGNMENT-9
 
-## Project info
+## Project info - ESTABLISH FIGMA DESIGN TO REACT VITE CODE WITH TAILWINDCSS, API TMDB
 
 **URL**: https://lovable.dev/projects/e82f3c88-7162-4a84-982d-dfbe1eab897d
 **URL**: https://cine-explorer-reels.lovable.app/
