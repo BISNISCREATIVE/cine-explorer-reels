@@ -1,11 +1,12 @@
 
-import { Calendar, Star, Heart, Film, User, X } from 'lucide-react';
-import { Film as FilmIcon, Smile } from 'lucide-react'; // import ikon baru
+import { Calendar, Star, Heart, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MovieDetails } from '@/types/movie';
 import { tmdbApi } from '@/services/tmdb';
 import { useFavorites } from '@/hooks/useFavorites';
 import PlayIcon from './PlayIcon';
+import CustomFilmIcon from './CustomFilmIcon';
+import CustomSmileIcon from './CustomSmileIcon';
 
 interface MovieHeroSectionProps {
   movie: MovieDetails;
@@ -135,23 +136,24 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
             </div>
 
             {/* Info Card */}
-            <div className="flex flex-row gap-3 mt-2">
-              <div className="flex-1 flex flex-col items-center rounded-xl bg-black/60 border border-white/10 p-3 md:p-5 shadow">
-                <Star className="text-yellow-400 fill-yellow-400 mb-2" size={24} />
-                <span className="text-white font-bold text-lg md:text-xl">{movie.vote_average.toFixed(1).replace('.', ',')}/10</span>
-                <span className="text-gray-300 mt-1 md:mt-2 text-xs md:text-sm">Rating</span>
+            <div className="flex flex-row gap-5 mt-3">
+              {/* Rating */}
+              <div className="flex-1 flex flex-col items-center rounded-2xl bg-black/60 border border-white/20 p-4 md:p-6 shadow-lg">
+                <Star className="text-yellow-400 fill-yellow-400 mb-2" size={34} strokeWidth={2.5} />
+                <span className="text-white font-black text-2xl md:text-3xl">{movie.vote_average.toFixed(1).replace('.', ',')}/10</span>
+                <span className="text-gray-200 mt-1 md:mt-2 text-base md:text-lg opacity-90 font-normal">Rating</span>
               </div>
-              {/* Ganti icon genre ke ikon Film */}
-              <div className="flex-1 flex flex-col items-center rounded-xl bg-black/60 border border-white/10 p-3 md:p-5 shadow">
-                <FilmIcon className="text-white mb-2" size={24} />
-                <span className="text-white font-bold text-lg md:text-xl">{movie.genres[0]?.name || 'N/A'}</span>
-                <span className="text-gray-300 mt-1 md:mt-2 text-xs md:text-sm">Genre</span>
+              {/* Genre - Custom Film Icon */}
+              <div className="flex-1 flex flex-col items-center rounded-2xl bg-black/60 border border-white/20 p-4 md:p-6 shadow-lg">
+                <CustomFilmIcon className="mb-2" size={34} />
+                <span className="text-white font-black text-2xl md:text-3xl">{movie.genres[0]?.name || 'N/A'}</span>
+                <span className="text-gray-200 mt-1 md:mt-2 text-base md:text-lg opacity-90 font-normal">Genre</span>
               </div>
-              {/* Ganti icon Age Limit ke ikon Smile */}
-              <div className="flex-1 flex flex-col items-center rounded-xl bg-black/60 border border-white/10 p-3 md:p-5 shadow">
-                <Smile className="text-white mb-2" size={24} />
-                <span className="text-white font-bold text-lg md:text-xl">13</span>
-                <span className="text-gray-300 mt-1 md:mt-2 text-xs md:text-sm">Age Limit</span>
+              {/* Age Limit - Custom Smile Icon */}
+              <div className="flex-1 flex flex-col items-center rounded-2xl bg-black/60 border border-white/20 p-4 md:p-6 shadow-lg">
+                <CustomSmileIcon className="mb-2" size={34} />
+                <span className="text-white font-black text-2xl md:text-3xl">13</span>
+                <span className="text-gray-200 mt-1 md:mt-2 text-base md:text-lg opacity-90 font-normal">Age Limit</span>
               </div>
             </div>
           </div>
