@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { MovieDetails, Credits, Video } from '@/types/movie';
@@ -86,7 +85,11 @@ const MovieDetail = () => {
   return (
     <div className="min-h-screen bg-black">
       {/* Hero Section */}
-      <MovieHeroSection movie={movie} onWatchTrailer={handleWatchTrailer} />
+      <MovieHeroSection
+        movie={movie}
+        onWatchTrailer={handleWatchTrailer}
+        hasTrailer={trailers.length > 0}
+      />
 
       {/* Content Sections */}
       <div className="container mx-auto px-4 py-12">

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { tmdbApi } from "@/services/tmdb";
@@ -61,7 +60,7 @@ const MovieSearchResults: React.FC<MovieSearchResultsProps> = ({
             <div
               key={movie.id}
               className="bg-[#171B22] rounded-2xl shadow-lg border border-[#232831] hover:shadow-xl transition group cursor-pointer flex flex-col overflow-hidden relative"
-              onClick={() => navigate(`/movie/${movie.id}`)}
+              onClick={() => onSelect(movie.id)}
             >
               <img
                 src={
@@ -77,9 +76,7 @@ const MovieSearchResults: React.FC<MovieSearchResultsProps> = ({
                 <h3 className="text-white font-bold text-lg mb-1 line-clamp-2">{movie.title}</h3>
                 <div className="text-gray-400 text-sm mb-2">{movie.release_date?.slice(0, 4)}</div>
                 <div className="text-gray-300 text-sm line-clamp-3 mb-2">{movie.overview}</div>
-                <div className="mt-auto flex gap-2">
-                  {/* Tambahan badge genre/vote jika diinginkan */}
-                </div>
+                <div className="mt-auto flex gap-2"></div>
               </div>
             </div>
           ))}

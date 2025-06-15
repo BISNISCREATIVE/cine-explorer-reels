@@ -8,9 +8,10 @@ import { useFavorites } from '@/hooks/useFavorites';
 interface MovieHeroSectionProps {
   movie: MovieDetails;
   onWatchTrailer: () => void;
+  hasTrailer?: boolean; // tambahkan prop baru
 }
 
-const MovieHeroSection = ({ movie, onWatchTrailer }: MovieHeroSectionProps) => {
+const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer }: MovieHeroSectionProps) => {
   const { isFavorite, toggleFavorite } = useFavorites();
 
   return (
@@ -51,7 +52,8 @@ const MovieHeroSection = ({ movie, onWatchTrailer }: MovieHeroSectionProps) => {
             <div className="flex items-center gap-3 mb-6">
               <Button 
                 onClick={onWatchTrailer}
-                className="bg-red-600 hover:bg-red-700 text-white px-7 py-2 text-base font-semibold rounded-lg shadow transition"
+                disabled={!hasTrailer}
+                className="bg-red-600 hover:bg-red-700 text-white px-7 py-2 text-base font-semibold rounded-lg shadow transition disabled:bg-gray-700 disabled:hover:bg-gray-700"
               >
                 <Play size={18} className="mr-2" /> Watch Trailer
               </Button>
