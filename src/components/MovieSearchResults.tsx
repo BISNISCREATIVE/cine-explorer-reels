@@ -1,5 +1,6 @@
+
 import React, { useEffect, useRef, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { tmdbApi } from "@/services/tmdb";
 import { Movie } from "@/types/movie";
 import { Loader2 } from "lucide-react";
@@ -21,7 +22,6 @@ const MovieSearchResults: React.FC<MovieSearchResultsProps> = ({
   onLoadMore,
   hasMore,
 }) => {
-  const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Infinite scroll: check scroll near bottom, panggil onLoadMore jika ada
@@ -57,15 +57,11 @@ const MovieSearchResults: React.FC<MovieSearchResultsProps> = ({
       ) : results.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-7">
           {results.map((movie) => (
-            <div
+            <Link
               key={movie.id}
-              className="bg-[#171B22] rounded-2xl shadow-lg border border-[#232831] hover:shadow-xl transition group cursor-pointer flex flex-col overflow-hidden relative"
-              tabIndex={0}
-              role="button"
+              to={`/movie/${movie.id}`}
               onClick={() => onSelect(movie.id)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') onSelect(movie.id);
-              }}
+              className="bg-[#171B22] rounded-2xl shadow-lg border border-[#232831] hover:shadow-xl transition group cursor-pointer flex flex-col overflow-hidden relative"
             >
               <img
                 src={
@@ -83,7 +79,7 @@ const MovieSearchResults: React.FC<MovieSearchResultsProps> = ({
                 <div className="text-gray-300 text-sm line-clamp-3 mb-2">{movie.overview}</div>
                 <div className="mt-auto flex gap-2"></div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       ) : (
