@@ -1,129 +1,135 @@
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Movie } from '@/types/movie';
 import { tmdbApi } from '@/services/tmdb';
-import HeroSection from '@/components/HeroSection';
-import MovieGrid from '@/components/MovieGrid';
-import MovieSearchResults from '@/components/MovieSearchResults';
-import { Input } from '@/components/ui/input';
-import { Search, Loader2 } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
+import MovieCard from '@/components/MovieCard';
+import { Loader2 } from 'lucide-react';
 
 const Home = () => {
+  // Trending Now
   const [trendingMovies, setTrendingMovies] = useState<Movie[]>([]);
-  const [newReleases, setNewReleases] = useState<Movie[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [trendingLoading, setTrendingLoading] = useState(true);
 
-  // Search state
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<Movie[]>([]);
-  const [searchLoading, setSearchLoading] = useState(false);
+  // New Release Infinite
+  const [newReleaseMovies, setNewReleaseMovies] = useState<Movie[]>([]);
+  const [newReleasePage, setNewReleasePage] = useState(1);
+  const [newReleaseLoading, setNewReleaseLoading] = useState(true);
+  const [hasMoreNewReleases, setHasMoreNewReleases] = useState(true);
 
+  // Fetch trending movies
   useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const [trendingResponse, upcomingResponse] = await Promise.all([
-          tmdbApi.getTrending(),
-          tmdbApi.getUpcoming(),
-        ]);
-        setTrendingMovies(trendingResponse.results?.slice(0, 12) || []);
-        setNewReleases(upcomingResponse.results || []);
-      } catch (error) {
-        console.error('Error fetching movies:', error);
-      } finally {
-        setLoading(false);
-      }
+    const fetchTrending = async () => {
+      setTrendingLoading(true);
+      const res = await tmdbApi.getTrending();
+      setTrendingMovies(res.results || []);
+      setTrendingLoading(false);
     };
-    fetchMovies();
+    fetchTrending();
   }, []);
 
-  // Handle search (debounce like figma's UX)
+  // Fetch upcoming (new release) movies with pagination
   useEffect(() => {
-    if (!searchQuery) {
-      setSearchResults([]);
-      setSearchLoading(false);
-      return;
-    }
-    setSearchLoading(true);
-    const timeout = setTimeout(async () => {
-      try {
-        const data = await tmdbApi.searchMovies(searchQuery);
-        setSearchResults(data.results?.slice(0, 12) || []);
-      } catch {
-        setSearchResults([]);
+    const fetchUpcoming = async () => {
+      setNewReleaseLoading(true);
+      const data = await tmdbApi.getUpcoming(newReleasePage);
+      if (!data.results || data.results.length === 0) {
+        setHasMoreNewReleases(false);
+      } else {
+        setNewReleaseMovies(prev => [...prev, ...data.results]);
       }
-      setSearchLoading(false);
-    }, 400);
-    return () => clearTimeout(timeout);
-  }, [searchQuery]);
+      setNewReleaseLoading(false);
+    };
+    fetchUpcoming();
+  }, [newReleasePage]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-black">
-        <Loader2 className="w-8 h-8 text-white animate-spin" />
-      </div>
-    );
-  }
+  // Hero Movie
+  const heroMovie = trendingMovies[0];
 
   return (
-    <div className="bg-[#0C1118] min-h-screen">
+    <div className="bg-black min-h-screen">
       {/* HERO SECTION */}
-      <div className="w-full bg-gradient-to-b from-[#12161C] to-[#171B22] pt-20 pb-12 relative">
-        <div className="container mx-auto px-4 flex flex-col items-center text-center">
-          <h1 className="text-white font-extrabold text-4xl md:text-5xl tracking-tight mb-4 font-sans">
-            Discover Your Next <span className="text-red-500">Movie</span>
-          </h1>
-          <p className="text-gray-400 text-lg md:text-xl mb-8 max-w-2xl">
-            Browse trending films, explore new releases, and dive into thousands of movie titles. Search to get started!
-          </p>
-          <div className="w-full max-w-xl relative mb-2">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <Input
-              type="text"
-              className="w-full p-3 pl-12 pr-4 rounded-2xl bg-[#181E26] border border-[#262B33] text-white placeholder:text-gray-500 text-lg shadow-lg"
-              placeholder="Search for movies, e.g. Interstellar"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+      <section className="relative h-[420px] md:h-[410px] w-full flex items-end overflow-hidden bg-gradient-to-b from-[#181c20] to-black">
+        {heroMovie && (
+          <>
+            <img
+              src={tmdbApi.getImageUrl(heroMovie.backdrop_path, 'w1280')}
+              alt={heroMovie.title}
+              className="absolute w-full h-full object-cover object-top opacity-80"
+              draggable={false}
             />
-            {searchLoading && (
-              <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 animate-spin h-5 w-5" />
-            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+            <div className="container relative mx-auto z-10 px-4 flex flex-col justify-center h-full pb-10">
+              <h1 className="text-white text-3xl md:text-5xl font-bold mb-3 drop-shadow leading-tight">{heroMovie.title}</h1>
+              <p className="text-white/80 text-base md:text-lg mb-8 w-full md:w-1/2 drop-shadow-lg">{heroMovie.overview}</p>
+              <div className="flex gap-4">
+                <button
+                  className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 text-base font-semibold rounded-full transition-shadow shadow-lg whitespace-nowrap"
+                  onClick={() => window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(heroMovie.title + " trailer")}`, "_blank")}
+                >
+                  Watch Trailer
+                </button>
+                <a
+                  href={`/movie/${heroMovie.id}`}
+                  className="bg-white/5 border border-white/20 hover:bg-white/10 text-white px-6 py-3 text-base font-semibold rounded-full transition"
+                >
+                  See Detail
+                </a>
+              </div>
+            </div>
+          </>
+        )}
+      </section>
+
+      {/* TRENDING NOW CAROUSEL */}
+      <section className="container mx-auto px-4 pb-8 pt-10">
+        <h2 className="text-white text-2xl md:text-3xl font-bold mb-7">Trending Now</h2>
+        {trendingLoading ? (
+          <div className="flex items-center justify-center h-40">
+            <Loader2 className="w-8 h-8 text-white animate-spin" />
           </div>
+        ) : (
+          <div className="relative">
+            <Carousel className="w-full">
+              <CarouselPrevious />
+              <CarouselNext />
+              <CarouselContent className="gap-7">
+                {trendingMovies.map((movie, idx) => (
+                  <CarouselItem
+                    key={movie.id}
+                    className="basis-2/3 sm:basis-1/3 md:basis-1/4 lg:basis-1/6"
+                  >
+                    <MovieCard movie={movie} rank={idx + 1} hideFavorite compact />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          </div>
+        )}
+      </section>
+
+      {/* NEW RELEASE GRID */}
+      <section className="container mx-auto px-4 pb-16">
+        <h2 className="text-white text-2xl md:text-3xl font-bold mb-7">New Release</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-7">
+          {newReleaseMovies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} hideFavorite compact />
+          ))}
         </div>
-      </div>
-
-      {/* SEARCH RESULT (shows if searchQuery ada) */}
-      {searchQuery && (
-        <section className="container mx-auto px-4 py-10">
-          <h2 className="text-2xl font-bold text-white mb-6">Search Result</h2>
-          <MovieSearchResults
-            results={searchResults}
-            loading={searchLoading}
-            searchQuery={searchQuery}
-            onSelect={() => {/* handled in MovieSearchResults */}}
-          />
-        </section>
-      )}
-
-      {/* IF NOT SEARCHING, Tampilkan list film */}
-      {!searchQuery && (
-        <>
-          <div className="pt-6">
-            <MovieGrid
-              movies={trendingMovies}
-              title="Trending Now"
-            />
-          </div>
-          <div className="pb-16">
-            <MovieGrid
-              movies={newReleases}
-              title="New Release"
-            />
-          </div>
-        </>
-      )}
+        <div className="flex justify-center mt-8">
+          {hasMoreNewReleases && (
+            <button
+              disabled={newReleaseLoading}
+              className="bg-white/5 border border-white/20 hover:bg-white/10 text-white px-7 py-3 text-base font-semibold rounded-full transition min-w-[180px]"
+              onClick={() => setNewReleasePage(p => p + 1)}
+            >
+              {newReleaseLoading ? <Loader2 className="inline w-5 h-5 animate-spin" /> : 'Load More'}
+            </button>
+          )}
+        </div>
+      </section>
     </div>
   );
 };
 
 export default Home;
-
