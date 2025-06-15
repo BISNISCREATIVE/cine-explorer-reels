@@ -1,9 +1,11 @@
 
-import { Calendar, Star, Play, Heart, Film, User, X } from 'lucide-react';
+```tsx
+import { Calendar, Star, Heart, Film, User, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MovieDetails } from '@/types/movie';
 import { tmdbApi } from '@/services/tmdb';
 import { useFavorites } from '@/hooks/useFavorites';
+import PlayIcon from './PlayIcon';
 
 interface MovieHeroSectionProps {
   movie: MovieDetails;
@@ -62,7 +64,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                   </>
                 ) : (
                   <>
-                    <Play size={18} className="mr-2" /> Watch Trailer
+                    <PlayIcon size={18} className="mr-2" /> Watch Trailer
                   </>
                 )}
               </Button>
@@ -104,3 +106,4 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
 };
 
 export default MovieHeroSection;
+```
