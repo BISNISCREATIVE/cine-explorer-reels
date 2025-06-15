@@ -39,7 +39,7 @@ const Header = () => {
           <nav className="hidden md:flex items-center space-x-12">
             <Link
               to="/"
-              className={`text-sm font-medium transition-colors flex items-center space-x-2 px-4 py-2 rounded-lg ${
+              className={`text-sm font-medium transition-colors flex items-center justify-center p-2 gap-2 rounded-none ${
                 isActive('/') 
                   ? 'text-white bg-gray-800' 
                   : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
@@ -50,7 +50,7 @@ const Header = () => {
             </Link>
             <Link
               to="/favorites"
-              className={`text-sm font-medium transition-colors flex items-center space-x-2 px-4 py-2 rounded-lg ${
+              className={`text-sm font-medium transition-colors flex items-center justify-center p-2 gap-2 rounded-none ${
                 isActive('/favorites') 
                   ? 'text-white bg-gray-800' 
                   : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
@@ -90,7 +90,7 @@ const Header = () => {
             <nav className="flex flex-col space-y-4">
               <Link
                 to="/"
-                className={`text-sm font-medium transition-colors flex items-center space-x-2 px-4 py-2 rounded-lg ${
+                className={`text-sm font-medium transition-colors flex items-center justify-center p-2 gap-2 rounded-none ${
                   isActive('/') ? 'text-white bg-gray-800' : 'text-gray-400'
                 }`}
                 onClick={() => setIsMenuOpen(false)}
@@ -100,7 +100,7 @@ const Header = () => {
               </Link>
               <Link
                 to="/favorites"
-                className={`text-sm font-medium transition-colors flex items-center space-x-2 px-4 py-2 rounded-lg ${
+                className={`text-sm font-medium transition-colors flex items-center justify-center p-2 gap-2 rounded-none ${
                   isActive('/favorites') ? 'text-white bg-gray-800' : 'text-gray-400'
                 }`}
                 onClick={() => setIsMenuOpen(false)}
