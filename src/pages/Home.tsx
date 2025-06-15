@@ -1,9 +1,8 @@
-
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Movie } from '@/types/movie';
 import { tmdbApi } from '@/services/tmdb';
-import { Loader2, Play, X, Star } from 'lucide-react';
+import { Loader2, X, Star } from 'lucide-react';
 import {
   Carousel,
   CarouselContent,
@@ -12,6 +11,7 @@ import {
   CarouselNext,
 } from '@/components/ui/carousel';
 import MovieCard from '@/components/MovieCard';
+import PlayIcon from '@/components/PlayIcon';
 
 const Home = () => {
   // Trending Now
@@ -130,7 +130,7 @@ const Home = () => {
                     ) : (
                       <>
                         <span>Watch Trailer</span>
-                        <Play size={24} fill="currentColor" />
+                        <PlayIcon size={24} />
                       </>
                     )}
                   </button>
