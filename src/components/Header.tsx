@@ -1,8 +1,8 @@
-
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Search, Menu, X, Home, Heart } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import Logo from "./Logo";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,9 +17,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-white rounded flex items-center justify-center">
-              <div className="text-black font-bold text-sm">🎬</div>
-            </div>
+            <Logo size={40} />
             <span className="text-white font-medium text-xl">Movie</span>
           </Link>
 
