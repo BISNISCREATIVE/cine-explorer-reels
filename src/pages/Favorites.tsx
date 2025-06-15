@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
-import { Play, Star, Heart, Clapperboard, X } from "lucide-react";
+import { Play, Star, Heart, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFavorites } from "@/hooks/useFavorites";
 import { tmdbApi } from "@/services/tmdb";
 
 const EmptyState = () => (
-  <div className="flex flex-col items-center pt-16">
-    <Clapperboard size={96} strokeWidth={1.5} className="text-zinc-500 mb-6" />
-    <div className="text-white font-bold text-xl mb-1">Data Empty</div>
+  <div className="flex flex-col items-center text-center">
+    <img src="/lovable-uploads/d5817bef-ac81-4d0e-9b45-4d019a2560c6.png" alt="Data Empty" className="w-32 h-32 mb-6" />
+    <div className="text-white font-bold text-2xl mb-2">Data Empty</div>
     <div className="text-gray-400 mb-6">You don't have a favorite movie yet</div>
     <Link to="/">
       <Button
@@ -135,24 +135,18 @@ const Favorites = () => {
     _trailerKey: trailerKeys[movie.id] ?? "",
   }));
 
-  if (favorites.length === 0) {
-    return (
-      <div className="min-h-screen bg-black flex flex-col justify-between">
-        <main className="flex-1 flex flex-col justify-center items-center">
-          <h1 className="text-white text-3xl md:text-4xl font-bold mb-8 mt-16 md:mt-24 text-center">
-            Favorites
-          </h1>
-          <EmptyState />
-        </main>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-black flex flex-col justify-between">
-      <main className="flex-1 w-full pb-2">
-        <div className="container mx-auto px-4 py-12">
-          <h1 className="text-white text-3xl md:text-4xl font-bold mb-8">Favorites</h1>
+    <div className="min-h-screen bg-black text-white pt-24 pb-12">
+      <div className="container mx-auto px-4">
+        <h1 className="text-3xl md:text-4xl font-bold mb-8">
+            Favorites
+        </h1>
+
+        {favorites.length === 0 ? (
+          <div className="flex flex-col items-center justify-center text-center h-[50vh]">
+            <EmptyState />
+          </div>
+        ) : (
           <div className="space-y-8 w-full max-w-3xl mx-auto">
             {moviesWithTrailer.map((movie) => (
               <FavoriteMovieCard
@@ -165,8 +159,8 @@ const Favorites = () => {
               />
             ))}
           </div>
-        </div>
-      </main>
+        )}
+      </div>
     </div>
   );
 };
