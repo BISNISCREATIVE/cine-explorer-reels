@@ -10,6 +10,7 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from '@/components/ui/carousel';
+import MovieCard from '@/components/MovieCard';
 
 const Home = () => {
   // Trending Now
@@ -189,30 +190,7 @@ const Home = () => {
                       key={movie.id}
                       className="max-w-[210px] md:max-w-[215px] min-w-[180px] md:min-w-[215px] px-1 pb-2"
                     >
-                      <Link to={`/movie/${movie.id}`} className="block group relative flex flex-col items-start">
-                        <div className="relative w-full h-[306px] md:h-[320px] mb-4">
-                          <img
-                            src={tmdbApi.getImageUrl(movie.poster_path)}
-                            alt={movie.title}
-                            className="rounded-2xl object-cover w-full h-full bg-[#1a1a1a] shadow-md"
-                          />
-                          <div className="absolute top-3 left-3 bg-[#222228]/85 text-white text-base font-bold w-9 h-9 rounded-full flex items-center justify-center shadow-md z-10 border-2 border-[#191919]/60">
-                            {idx + 1}
-                          </div>
-                          {/* Gradien kanan untuk shadow carousel */}
-                          {idx === trendingMovies.slice(0, 10).length - 1 && (
-                            <div className="hidden md:block absolute right-0 top-0 w-16 h-full rounded-e-2xl pointer-events-none" style={{background:"linear-gradient(90deg,rgba(0,0,0,0),rgba(0,0,0,.30) 80%,rgba(0,0,0,.80) 100%)"}}></div>
-                          )}
-                        </div>
-                        <div className="flex flex-col gap-2 items-start px-1 w-full">
-                          <span className="text-white text-lg font-semibold leading-tight mb-0.5 line-clamp-1">{movie.title}</span>
-                          <div className="flex items-center gap-1 text-base font-medium">
-                            <Star size={18} className="text-yellow-400 fill-yellow-400 mr-1" />
-                            <span className="text-gray-200">{movie.vote_average.toFixed(1)}</span>
-                            <span className="text-gray-400">/10</span>
-                          </div>
-                        </div>
-                      </Link>
+                      <MovieCard movie={movie} rank={idx + 1} />
                     </CarouselItem>
                   ))}
                 </CarouselContent>
@@ -231,25 +209,7 @@ const Home = () => {
           <h2 className="text-white text-xl md:text-3xl font-extrabold mb-5 md:mb-7 mt-0 drop-shadow">New Release</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 xl:grid-cols-6 gap-x-4 md:gap-x-7 gap-y-6 md:gap-y-7">
             {newReleaseMovies.map((movie) => (
-              <Link
-                key={movie.id}
-                to={`/movie/${movie.id}`}
-                className="group cursor-pointer hover:scale-105 transition-transform block"
-              >
-                <img
-                  src={tmdbApi.getImageUrl(movie.poster_path)}
-                  alt={movie.title}
-                  className="rounded-2xl object-cover w-full h-[180px] md:h-[255px] bg-[#1a1a1a] shadow-md"
-                  style={{ minHeight: '150px' }}
-                />
-                <div className="mt-2 md:mt-3">
-                  <div className="text-white text-sm md:text-base font-semibold leading-tight line-clamp-1 mb-0">{movie.title}</div>
-                  <div className="flex items-center gap-1 mt-1">
-                    <Star size={15} className="text-yellow-400 fill-yellow-400" />
-                    <span className="text-gray-200 text-xs md:text-sm">{movie.vote_average.toFixed(1)}/10</span>
-                  </div>
-                </div>
-              </Link>
+              <MovieCard key={movie.id} movie={movie} />
             ))}
           </div>
           <div className="flex justify-center mt-7 md:mt-8">
