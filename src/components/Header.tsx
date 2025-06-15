@@ -62,19 +62,16 @@ const Header = () => {
           </nav>
 
           {/* Search */}
-          <div className="hidden md:flex items-center space-x-4">
-             <form onSubmit={handleSearchSubmit} className="relative w-80">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <div className="hidden md:flex items-center">
+             <form onSubmit={handleSearchSubmit} className="flex-shrink-0 flex items-center gap-2 w-[243px] h-[56px] py-2 px-4 rounded-2xl border border-[#252B37] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px]">
+              <Search className="text-gray-400 w-6 h-6 flex-shrink-0" />
               <Input
                 type="text"
                 placeholder="Search Movie"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 pr-10 py-2 w-80 bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-gray-600 rounded-lg h-11"
+                className="bg-transparent border-0 w-full h-full p-0 text-white placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 text-base"
               />
-              <button type="submit" aria-label="Search" className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
-                <Search size={16} />
-              </button>
             </form>
           </div>
 
@@ -111,14 +108,14 @@ const Header = () => {
                 <Heart size={18} />
                 <span>Favorites</span>
               </Link>
-               <form onSubmit={handleSearchSubmit} className="relative mt-4">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+               <form onSubmit={handleSearchSubmit} className="flex-shrink-0 flex items-center gap-2 w-full h-[56px] py-2 px-4 rounded-2xl border border-[#252B37] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px]">
+                <Search className="text-gray-400 w-6 h-6 flex-shrink-0" />
                 <Input
                   type="text"
                   placeholder="Search Movie"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 pr-4 py-2 w-full bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-gray-600 rounded-lg h-11"
+                  className="bg-transparent border-0 w-full h-full p-0 text-white placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 text-base"
                 />
               </form>
             </nav>
