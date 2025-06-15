@@ -6,30 +6,22 @@ interface CustomFilmIconProps {
   className?: string;
 }
 
+/**
+ * Ikon kamera film sesuai gambar terlampir.
+ */
 const CustomFilmIcon: React.FC<CustomFilmIconProps> = ({ size = 36, className = "" }) => (
   <svg
     width={size}
     height={size}
-    viewBox="0 0 38 38"
+    viewBox="0 0 32 32"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     className={className}
+    xmlns="http://www.w3.org/2000/svg"
   >
-    <rect
-      x="3"
-      y="8"
-      width="32"
-      height="22"
-      rx="5"
-      stroke="white"
-      strokeWidth="2.5"
-      fill="none"
-    />
-    <rect x="10" y="15" width="18" height="8" rx="2" fill="white" />
-    <circle cx="6.5" cy="11.5" r="1.5" fill="white" />
-    <circle cx="6.5" cy="26.5" r="1.5" fill="white" />
-    <circle cx="31.5" cy="11.5" r="1.5" fill="white" />
-    <circle cx="31.5" cy="26.5" r="1.5" fill="white" />
+    {/* Kamera film putih sesuai referensi */}
+    <rect x="3" y="11" width="18" height="10" rx="3" fill="white" />
+    <rect x="21" y="14" width="5" height="4" rx="2" fill="white" />
+    <circle cx="7" cy="16" r="2" fill="#111" />
   </svg>
 );
 

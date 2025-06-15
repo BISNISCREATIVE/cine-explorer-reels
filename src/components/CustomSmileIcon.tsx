@@ -6,31 +6,25 @@ interface CustomSmileIconProps {
   className?: string;
 }
 
+/**
+ * Ikon wajah sesuai gambar terlampir.
+ */
 const CustomSmileIcon: React.FC<CustomSmileIconProps> = ({ size = 36, className = "" }) => (
   <svg
     width={size}
     height={size}
-    viewBox="0 0 38 38"
+    viewBox="0 0 32 32"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     className={className}
+    xmlns="http://www.w3.org/2000/svg"
   >
-    <circle
-      cx="19"
-      cy="19"
-      r="16"
-      stroke="white"
-      strokeWidth="2.5"
-      fill="none"
-    />
-    <path
-      d="M25 21c-1.3 2-5.7 2-7 0"
-      stroke="white"
-      strokeWidth="2.3"
-      strokeLinecap="round"
-    />
-    <circle cx="14" cy="16" r="1.6" fill="white" />
-    <circle cx="24" cy="16" r="1.6" fill="white" />
+    {/* Wajah kotak putih */}
+    <rect x="4" y="4" width="24" height="24" rx="7" fill="white" />
+    {/* Mulut */}
+    <rect x="13" y="19" width="6" height="2" rx="1" fill="#111" />
+    {/* Mata */}
+    <rect x="11" y="12" width="2" height="2" rx="1" fill="#111" />
+    <rect x="19" y="12" width="2" height="2" rx="1" fill="#111" />
   </svg>
 );
 

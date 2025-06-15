@@ -28,7 +28,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
         }}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-      
+
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 pb-10 pt-32">
         <div className="md:flex md:flex-row md:gap-8 md:items-end">
@@ -136,24 +136,34 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
             </div>
 
             {/* Info Card */}
-            <div className="flex flex-row gap-5 mt-3">
-              {/* Rating */}
-              <div className="flex-1 flex flex-col items-center rounded-2xl bg-black/60 border border-white/20 p-4 md:p-6 shadow-lg">
-                <Star className="text-yellow-400 fill-yellow-400 mb-2" size={34} strokeWidth={2.5} />
-                <span className="text-white font-black text-2xl md:text-3xl">{movie.vote_average.toFixed(1).replace('.', ',')}/10</span>
-                <span className="text-gray-200 mt-1 md:mt-2 text-base md:text-lg opacity-90 font-normal">Rating</span>
+            {/* Layout Flex style: align center, gap 20px, no border-radius */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 20,
+                alignSelf: 'stretch',
+                padding: 0,
+              }}
+              className="mt-4"
+            >
+              {/* Rating Card */}
+              <div className="flex-1 flex flex-col items-center bg-black border border-[#181D27] p-6 min-w-0" style={{ borderRadius: 0 }}>
+                <Star className="text-yellow-400 fill-yellow-400 mb-3" size={32} strokeWidth={2.2} />
+                <span className="text-gray-300 text-lg mb-2 font-normal">Rating</span>
+                <span className="text-white font-extrabold text-2xl md:text-3xl tracking-tight">{movie.vote_average.toFixed(1).replace('.', ',')}/10</span>
               </div>
-              {/* Genre - Custom Film Icon */}
-              <div className="flex-1 flex flex-col items-center rounded-2xl bg-black/60 border border-white/20 p-4 md:p-6 shadow-lg">
-                <CustomFilmIcon className="mb-2" size={34} />
-                <span className="text-white font-black text-2xl md:text-3xl">{movie.genres[0]?.name || 'N/A'}</span>
-                <span className="text-gray-200 mt-1 md:mt-2 text-base md:text-lg opacity-90 font-normal">Genre</span>
+              {/* Genre Card */}
+              <div className="flex-1 flex flex-col items-center bg-black border border-[#181D27] p-6 min-w-0" style={{ borderRadius: 0 }}>
+                <CustomFilmIcon className="mb-3" size={32} />
+                <span className="text-gray-300 text-lg mb-2 font-normal">Genre</span>
+                <span className="text-white font-extrabold text-2xl md:text-3xl tracking-tight">{movie.genres[0]?.name || 'N/A'}</span>
               </div>
-              {/* Age Limit - Custom Smile Icon */}
-              <div className="flex-1 flex flex-col items-center rounded-2xl bg-black/60 border border-white/20 p-4 md:p-6 shadow-lg">
-                <CustomSmileIcon className="mb-2" size={34} />
-                <span className="text-white font-black text-2xl md:text-3xl">13</span>
-                <span className="text-gray-200 mt-1 md:mt-2 text-base md:text-lg opacity-90 font-normal">Age Limit</span>
+              {/* Age Limit Card */}
+              <div className="flex-1 flex flex-col items-center bg-black border border-[#181D27] p-6 min-w-0" style={{ borderRadius: 0 }}>
+                <CustomSmileIcon className="mb-3" size={32} />
+                <span className="text-gray-300 text-lg mb-2 font-normal">Age Limit</span>
+                <span className="text-white font-extrabold text-2xl md:text-3xl tracking-tight">13</span>
               </div>
             </div>
           </div>
