@@ -60,7 +60,10 @@ const MovieSearchResults: React.FC<MovieSearchResultsProps> = ({
             <Link
               key={movie.id}
               to={`/movie/${movie.id}`}
-              onClick={() => onSelect(movie.id)}
+              onClick={(e) => {
+                e.preventDefault();
+                onSelect(movie.id);
+              }}
               className="bg-[#171B22] rounded-2xl shadow-lg border border-[#232831] hover:shadow-xl transition group cursor-pointer flex flex-col overflow-hidden relative"
             >
               <img
