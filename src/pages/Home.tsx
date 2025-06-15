@@ -115,7 +115,7 @@ const Home = () => {
                 <div className="flex flex-col md:flex-row gap-3 md:gap-6">
                   {/* Watch Trailer Button */}
                   <button
-                    className="flex items-center justify-center gap-3 bg-[#B91D12] hover:bg-[#941C10] text-white h-[52px] text-base md:text-lg font-semibold rounded-full md:min-w-[160px] min-w-0 w-full md:w-auto px-0 md:px-7 transition-all duration-150 shadow"
+                    className="flex items-center justify-center bg-[#B91D12] hover:bg-[#941C10] text-white h-[52px] text-base md:text-lg font-semibold rounded-full md:min-w-[160px] min-w-0 w-full md:w-auto px-0 md:px-7 transition-all duration-150 shadow"
                     style={{ maxWidth: 360 }}
                     onClick={handleToggleTrailer}
                     disabled={trailerLoading}
@@ -124,13 +124,13 @@ const Home = () => {
                       <Loader2 size={24} className="animate-spin" />
                     ) : showTrailer ? (
                       <>
-                        Close Trailer
-                        <X size={24} />
+                        <span>Close Trailer</span>
+                        <X size={24} className="ml-3" />
                       </>
                     ) : (
                       <>
-                        Watch Trailer
-                        <Play size={24} fill="currentColor" />
+                        <span>Watch Trailer</span>
+                        <Play size={24} fill="currentColor" className="ml-3" />
                       </>
                     )}
                   </button>
