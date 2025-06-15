@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
+
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Menu, X, Home, Heart } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -13,16 +14,28 @@ const Header = () => {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
   const [showResultsPanel, setShowResultsPanel] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
+
+  // INFINITE SCROLL STATE
+  const [searchPage, setSearchPage] = useState(1);
+  const [hasMoreResults, setHasMoreResults] = useState(true);
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  // Search Functionality with Debounce
+  // Reset page & result jika searchQuery berubah (fresh search)
+  useEffect(() => {
+    setSearchPage(1);
+    setSearchResults([]);
+    setHasMoreResults(true);
+  }, [searchQuery]);
+
+  // Fetch search movies (for current page) with debounce
   useEffect(() => {
     if (!searchQuery) {
       setSearchResults([]);
       setSearchLoading(false);
+      setHasMoreResults(true);
       return;
     }
     setSearchLoading(true);
@@ -30,10 +43,16 @@ const Header = () => {
     if (searchTimeout.current) clearTimeout(searchTimeout.current);
     searchTimeout.current = setTimeout(async () => {
       try {
-        const data = await tmdbApi.searchMovies(searchQuery);
-        setSearchResults(data.results || []);
+        const data = await tmdbApi.searchMovies(searchQuery + `&page=${searchPage}`);
+        if (searchPage === 1) {
+          setSearchResults(data.results || []);
+        } else {
+          setSearchResults((prev: any[]) => [...prev, ...(data.results || [])]);
+        }
+        setHasMoreResults((data?.results?.length ?? 0) > 0 && (data.page < (data.total_pages || 999)));
       } catch (err) {
         setSearchResults([]);
+        setHasMoreResults(false);
       } finally {
         setSearchLoading(false);
       }
@@ -42,7 +61,8 @@ const Header = () => {
     return () => {
       if (searchTimeout.current) clearTimeout(searchTimeout.current);
     };
-  }, [searchQuery]);
+    // eslint-disable-next-line
+  }, [searchQuery, searchPage]);
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -65,8 +85,16 @@ const Header = () => {
     setSearchResults([]);
     setSearchFocused(false);
     setShowResultsPanel(false);
+    setSearchPage(1);
     navigate(`/movie/${id}`);
   };
+
+  // Handler fetch next page (dipanggil dari MovieSearchResults saat scroll near bottom)
+  const fetchNextSearchPage = useCallback(() => {
+    // Prevent double fetch
+    if (searchLoading || !hasMoreResults) return;
+    setSearchPage(prev => prev + 1);
+  }, [searchLoading, hasMoreResults]);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -180,6 +208,8 @@ const Header = () => {
           loading={searchLoading}
           onSelect={handleSelectMovie}
           searchQuery={searchQuery}
+          onLoadMore={fetchNextSearchPage}
+          hasMore={hasMoreResults}
         />
       )}
     </header>
@@ -187,3 +217,4 @@ const Header = () => {
 };
 
 export default Header;
+
