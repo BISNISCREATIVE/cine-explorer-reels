@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, Menu, X, Home, Heart } from 'lucide-react';
+import { Search, Menu, X, Home, Heart, ArrowLeft } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import Logo from "./Logo";
 
@@ -36,67 +36,80 @@ const Header = () => {
 
   const isActive = (path: string) => location.pathname === path;
   const isHome = location.pathname === '/';
+  const isMovieDetailPage = location.pathname.startsWith('/movie/');
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ease-in-out ${scrolled || !isHome || isMenuOpen ? 'bg-black border-b border-gray-800' : 'bg-transparent'}`}>
-      <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-[7.111px] w-[129.111px]">
-            <Logo size={40} />
-            <span className="text-white font-medium text-xl">Movie</span>
-          </Link>
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-12">
-            <Link
-              to="/"
-              className={`text-sm font-medium transition-colors flex items-center justify-center p-2 gap-2 rounded-none ${
-                isActive('/') 
-                  ? 'text-white bg-gray-800' 
-                  : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
-              }`}
-            >
-              <Home size={18} />
-              <span>Home</span>
-            </Link>
-            <Link
-              to="/favorites"
-              className={`text-sm font-medium transition-colors flex items-center justify-center p-2 gap-2 rounded-none ${
-                isActive('/favorites') 
-                  ? 'text-white bg-gray-800' 
-                  : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
-              }`}
-            >
-              <Heart size={18} />
-              <span>Favorites</span>
-            </Link>
-          </nav>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ease-in-out ${scrolled || !isHome || isMenuOpen || isMovieDetailPage ? 'bg-black border-b border-gray-800' : 'bg-transparent'}`}>
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          {isMovieDetailPage ? (
+            <>
+              <button onClick={() => navigate(-1)} className="text-white">
+                <ArrowLeft size={24} />
+              </button>
+              <h1 className="text-white text-lg font-semibold">Movie Detail</h1>
+              <div className="w-6" /> {/* Spacer to center title */}
+            </>
+          ) : (
+            <>
+              {/* Logo */}
+              <Link to="/" className="flex items-center gap-[7.111px] w-[129.111px]">
+                <Logo size={40} />
+                <span className="text-white font-medium text-xl">Movie</span>
+              </Link>
+              {/* Desktop Navigation */}
+              <nav className="hidden md:flex items-center space-x-12">
+                <Link
+                  to="/"
+                  className={`text-sm font-medium transition-colors flex items-center justify-center p-2 gap-2 rounded-none ${
+                    isActive('/') 
+                      ? 'text-white bg-gray-800' 
+                      : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                  }`}
+                >
+                  <Home size={18} />
+                  <span>Home</span>
+                </Link>
+                <Link
+                  to="/favorites"
+                  className={`text-sm font-medium transition-colors flex items-center justify-center p-2 gap-2 rounded-none ${
+                    isActive('/favorites') 
+                      ? 'text-white bg-gray-800' 
+                      : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                  }`}
+                >
+                  <Heart size={18} />
+                  <span>Favorites</span>
+                </Link>
+              </nav>
 
-          {/* Search */}
-          <div className="hidden md:flex items-center">
-             <form onSubmit={handleSearchSubmit} className="flex-shrink-0 flex items-center gap-2 w-[243px] h-[56px] py-2 px-4 rounded-2xl border border-[#252B37] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px]">
-              <Search className="text-gray-400 w-6 h-6 flex-shrink-0" />
-              <Input
-                type="text"
-                placeholder="Search Movie"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent border-0 w-full h-full p-0 text-white placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 text-base"
-              />
-            </form>
-          </div>
+              {/* Search */}
+              <div className="hidden md:flex items-center">
+                 <form onSubmit={handleSearchSubmit} className="flex-shrink-0 flex items-center gap-2 w-[243px] h-[56px] py-2 px-4 rounded-2xl border border-[#252B37] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px]">
+                  <Search className="text-gray-400 w-6 h-6 flex-shrink-0" />
+                  <Input
+                    type="text"
+                    placeholder="Search Movie"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="bg-transparent border-0 w-full h-full p-0 text-white placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 text-base"
+                  />
+                </form>
+              </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden text-white"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="md:hidden text-white"
+              >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu */}
-        {isMenuOpen && (
+        {isMenuOpen && !isMovieDetailPage && (
           <div className="md:hidden py-4 border-t border-gray-800">
             <nav className="flex flex-col space-y-4">
               <Link
