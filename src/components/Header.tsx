@@ -41,22 +41,39 @@ const Header = () => {
   const isHome = location.pathname === '/';
   const isMovieDetailPage = location.pathname.startsWith('/movie/');
 
+  const mobileSearchForm = (
+    <form onSubmit={handleSearchSubmit} className="flex-shrink-0 flex items-center gap-2 w-full">
+      <Search className="text-gray-400 w-6 h-6 flex-shrink-0" />
+      <Input
+        type="text"
+        placeholder="Search Movie"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className="bg-transparent border-0 w-full h-full p-0 text-white placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 text-base"
+        autoFocus
+      />
+      <button type="button" onClick={() => setShowMobileSearch(false)} className="text-white">
+        <X size={24} />
+      </button>
+    </form>
+  );
+
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ease-in-out ${scrolled || !isHome || isMenuOpen || isMovieDetailPage || showMobileSearch ? 'bg-black border-b border-gray-800' : 'bg-transparent'}`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {isMovieDetailPage ? (
-            <>
-              <button onClick={() => navigate(-1)} className="text-white">
-                <ArrowLeft size={24} />
-              </button>
-              <h1 className="text-white text-lg font-semibold">Movie Detail</h1>
-              <div className="w-6" /> {/* Spacer to center title */}
-            </>
-          ) : (
-            <>
-              {/* Desktop View */}
-              <div className="hidden md:flex items-center justify-between w-full">
+          {/* Desktop View */}
+          <div className="hidden md:flex items-center justify-between w-full">
+            {isMovieDetailPage ? (
+              <>
+                <button onClick={() => navigate(-1)} className="text-white">
+                  <ArrowLeft size={24} />
+                </button>
+                <h1 className="text-white text-lg font-semibold">Movie Detail</h1>
+                <div className="w-6" /> {/* Spacer to center title */}
+              </>
+            ) : (
+              <>
                 <Link to="/" className="flex items-center gap-[7.111px]">
                   <Logo size={40} />
                   <span className="text-white font-medium text-xl">Movie</span>
@@ -95,44 +112,43 @@ const Header = () => {
                     className="bg-transparent border-0 w-full h-full p-0 text-white placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 text-base"
                   />
                 </form>
-              </div>
-              
-              {/* Mobile View */}
-              <div className="md:hidden flex items-center justify-between w-full">
-                {showMobileSearch ? (
-                  <form onSubmit={handleSearchSubmit} className="flex-shrink-0 flex items-center gap-2 w-full">
-                    <Search className="text-gray-400 w-6 h-6 flex-shrink-0" />
-                    <Input
-                      type="text"
-                      placeholder="Search Movie"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="bg-transparent border-0 w-full h-full p-0 text-white placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 text-base"
-                      autoFocus
-                    />
-                    <button type="button" onClick={() => setShowMobileSearch(false)} className="text-white">
-                      <X size={24} />
+              </>
+            )}
+          </div>
+          
+          {/* Mobile View */}
+          <div className="md:hidden flex items-center justify-between w-full">
+            {showMobileSearch ? (
+              mobileSearchForm
+            ) : (
+              isMovieDetailPage ? (
+                <>
+                  <button onClick={() => navigate(-1)} className="text-white">
+                    <ArrowLeft size={24} />
+                  </button>
+                  <h1 className="text-white text-lg font-semibold">Movie Detail</h1>
+                  <button onClick={() => { setShowMobileSearch(true); setIsMenuOpen(false); }} className="text-white">
+                    <Search size={24} />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/" className="flex items-center gap-[7.111px]">
+                    <Logo size={40} />
+                    <span className="text-white font-medium text-xl">Movie</span>
+                  </Link>
+                  <div className="flex items-center gap-4">
+                    <button onClick={() => { setShowMobileSearch(true); setIsMenuOpen(false); }} className="text-white">
+                      <Search size={24} />
                     </button>
-                  </form>
-                ) : (
-                  <>
-                    <Link to="/" className="flex items-center gap-[7.111px]">
-                      <Logo size={40} />
-                      <span className="text-white font-medium text-xl">Movie</span>
-                    </Link>
-                    <div className="flex items-center gap-4">
-                      <button onClick={() => { setShowMobileSearch(true); setIsMenuOpen(false); }} className="text-white">
-                        <Search size={24} />
-                      </button>
-                      <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white">
-                        {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
-            </>
-          )}
+                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white">
+                      {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                    </button>
+                  </div>
+                </>
+              )
+            )}
+          </div>
         </div>
 
         {/* Mobile Menu */}
