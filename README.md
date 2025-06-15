@@ -3,6 +3,7 @@
 ## Project info
 
 **URL**: https://lovable.dev/projects/e82f3c88-7162-4a84-982d-dfbe1eab897d
+**URL**: https://cine-explorer-reels.lovable.app/
 
 ## How can I edit this code?
 
