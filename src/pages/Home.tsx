@@ -124,13 +124,13 @@ const Home = () => {
                       <Loader2 size={24} className="animate-spin" />
                     ) : showTrailer ? (
                       <>
-                        <X size={24} />
                         Close Trailer
+                        <X size={24} />
                       </>
                     ) : (
                       <>
-                        <Play size={24} fill="currentColor" />
                         Watch Trailer
+                        <Play size={24} fill="currentColor" />
                       </>
                     )}
                   </button>
