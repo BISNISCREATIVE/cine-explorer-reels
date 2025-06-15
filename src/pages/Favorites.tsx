@@ -1,6 +1,7 @@
+
 import { useState } from 'react';
 import { Link } from "react-router-dom";
-import { Play, Star, Heart, X } from "lucide-react";
+import { Star, Heart, X, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFavorites } from "@/hooks/useFavorites";
 import { tmdbApi } from "@/services/tmdb";
@@ -63,14 +64,38 @@ const FavoriteMovieCard = ({
           {movie.overview}
         </p>
         <div className="flex items-center">
-          <Button
+          <button
             onClick={() => onWatchTrailer(movie.id)}
-            className="bg-[#9A1E0C] hover:bg-[#6c1308] px-7 py-3 text-base rounded-full font-semibold transition-colors gap-2 flex items-center"
-            style={{ minWidth: 180 }}
+            className={`
+              flex items-center justify-between
+              rounded-full
+              px-8 py-3
+              md:px-10 md:py-4
+              bg-[#9A1E0C] hover:bg-[#6c1308]
+              transition-colors font-semibold
+              text-base text-white
+              shadow
+              min-w-[180px]
+              max-w-full
+              gap-4
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#9A1E0C]
+            `}
+            style={{
+              fontFamily: 'inherit',
+            }}
           >
-            {watchingTrailerId === movie.id ? 'Close Trailer' : 'Watch Trailer'}{' '}
-            {watchingTrailerId === movie.id ? <X className="w-5 h-5" /> : <Play className="w-5 h-5" />}
-          </Button>
+            <span className="pr-2">{watchingTrailerId === movie.id ? 'Close Trailer' : 'Watch Trailer'}</span>
+            <span
+              className="flex items-center justify-center rounded-full bg-white/20"
+              style={{ width: 32, height: 32 }}
+            >
+              {watchingTrailerId === movie.id ? (
+                <X size={20} className="text-white" />
+              ) : (
+                <Play size={20} className="text-white" />
+              )}
+            </span>
+          </button>
         </div>
       </div>
       {/* Favorite icon button */}
