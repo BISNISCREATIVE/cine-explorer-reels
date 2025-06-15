@@ -50,9 +50,12 @@ export const tmdbApi = {
     return response.json();
   },
 
-  // Search movies
-  searchMovies: async (query: string) => {
-    const response = await fetch(`${BASE_URL}/search/movie?query=${encodeURIComponent(query)}`, { headers });
+  // Search movies - update: accept page param
+  searchMovies: async (query: string, page: number = 1) => {
+    const response = await fetch(
+      `${BASE_URL}/search/movie?query=${encodeURIComponent(query)}&page=${page}`,
+      { headers }
+    );
     return response.json();
   },
 

@@ -43,7 +43,8 @@ const Header = () => {
     if (searchTimeout.current) clearTimeout(searchTimeout.current);
     searchTimeout.current = setTimeout(async () => {
       try {
-        const data = await tmdbApi.searchMovies(searchQuery + `&page=${searchPage}`);
+        // Perbaikan: pisahkan query dan page parameter
+        const data = await tmdbApi.searchMovies(searchQuery, searchPage);
         if (searchPage === 1) {
           setSearchResults(data.results || []);
         } else {
@@ -217,4 +218,3 @@ const Header = () => {
 };
 
 export default Header;
-
