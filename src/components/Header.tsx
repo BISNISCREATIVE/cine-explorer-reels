@@ -18,7 +18,8 @@ const Header = () => {
   const [searchPage, setSearchPage] = useState(1);
   const [hasMoreResults, setHasMoreResults] = useState(true);
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRefDesktop = useRef<HTMLDivElement>(null);
+  const containerRefMobile = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -64,10 +65,10 @@ const Header = () => {
     // eslint-disable-next-line
   }, [searchQuery, searchPage]);
 
-  // Close dropdown on outside click
+  // Close dropdown on outside click (desktop)
   useEffect(() => {
     const handler = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      if (containerRefDesktop.current && !containerRefDesktop.current.contains(event.target as Node)) {
         setSearchFocused(false);
       }
     };
@@ -84,6 +85,7 @@ const Header = () => {
   useEffect(() => {
     setSearchFocused(false);
     setShowResultsPanel(false);
+    setIsMenuOpen(false);
   }, [location.pathname]);
 
   const handleSelectMovie = (id: number) => {
@@ -92,6 +94,7 @@ const Header = () => {
     setSearchFocused(false);
     setShowResultsPanel(false);
     setSearchPage(1);
+    setIsMenuOpen(false); // Tutup mobile menu jika ada
     navigate(`/movie/${id}`);
   };
 
@@ -116,7 +119,6 @@ const Header = () => {
             <Logo size={40} />
             <span className="text-white font-medium text-xl">Movie</span>
           </Link>
-
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             <Link
@@ -144,7 +146,7 @@ const Header = () => {
           </nav>
 
           {/* Search */}
-          <div className="hidden md:flex items-center space-x-4" ref={containerRef}>
+          <div className="hidden md:flex items-center space-x-4" ref={containerRefDesktop}>
             <div className="relative w-80">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <Input
@@ -194,7 +196,7 @@ const Header = () => {
                 <Heart size={18} />
                 <span>Favorites</span>
               </Link>
-              <div className="relative mt-4" ref={containerRef}>
+              <div className="relative mt-4" ref={containerRefMobile}>
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input
                   type="text"

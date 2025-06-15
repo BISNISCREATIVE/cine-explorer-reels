@@ -60,7 +60,12 @@ const MovieSearchResults: React.FC<MovieSearchResultsProps> = ({
             <div
               key={movie.id}
               className="bg-[#171B22] rounded-2xl shadow-lg border border-[#232831] hover:shadow-xl transition group cursor-pointer flex flex-col overflow-hidden relative"
+              tabIndex={0}
+              role="button"
               onClick={() => onSelect(movie.id)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') onSelect(movie.id);
+              }}
             >
               <img
                 src={
