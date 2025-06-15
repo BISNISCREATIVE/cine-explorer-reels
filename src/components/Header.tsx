@@ -4,6 +4,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Menu, X, Home, Heart } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import Logo from "./Logo";
+import { useIsMobile } from "@/hooks/use-mobile";
+import MobileSearchModal from "./MobileSearchModal";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,6 +13,10 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
+
+  // NEW: Modal search mobile state
+  const isMobile = useIsMobile();
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -131,6 +137,22 @@ const Header = () => {
               </form>
             </nav>
           </div>
+        )}
+
+        {/* Mobile search modal trigger */}
+        {isMobile && (
+          <>
+            <div className="md:hidden mt-4 pb-2 flex justify-center">
+              <div
+                className="flex items-center gap-2 w-full h-[42px] py-2 px-4 rounded-xl border border-[#252B37] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] cursor-pointer"
+                onClick={() => setMobileSearchOpen(true)}
+              >
+                <Search className="text-gray-400 w-5 h-5 flex-shrink-0" />
+                <span className="text-gray-400 text-base select-none">Search Movie</span>
+              </div>
+            </div>
+            <MobileSearchModal open={mobileSearchOpen} onOpenChange={setMobileSearchOpen} />
+          </>
         )}
       </div>
     </header>
