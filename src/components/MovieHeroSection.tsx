@@ -1,4 +1,3 @@
-
 import { Calendar, Star, Heart, Film, User, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MovieDetails } from '@/types/movie';
@@ -68,19 +67,23 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                 onClick={onWatchTrailer}
                 disabled={!hasTrailer}
                 className={`
-                  flex items-center justify-center gap-[8px] flex-1 px-4 h-[44px]
-                  rounded-full bg-[#961200] hover:bg-[#7d1000] text-white text-base font-bold shadow transition
+                  flex items-center justify-center gap-[8px]
+                  px-2 py-1
+                  rounded-full
+                  bg-[#961200] hover:bg-[#7d1000] text-white text-base font-bold shadow transition
                   disabled:bg-gray-700 disabled:hover:bg-gray-700
-                  md:w-auto md:h-[44px] md:px-8
+                  w-[220px] h-[52px] min-w-[220px] min-h-[52px] max-w-[220px] max-h-[52px]
+                  md:w-[220px] md:h-[52px]
                 `}
                 style={{
                   display: 'flex',
-                  height: 44,
+                  width: 220,
+                  height: 52,
                   padding: 8,
                   justifyContent: 'center',
                   alignItems: 'center',
                   gap: 8,
-                  flex: '1 0 0',
+                  flex: 'none',
                   borderRadius: 9999,
                   background: '#961200',
                 }}
