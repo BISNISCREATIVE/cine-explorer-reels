@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { Play, Star, Heart, HeartOff, Clapperboard } from "lucide-react";
@@ -40,6 +39,7 @@ const FavoriteMovieCard = ({
   onToggleFavorite,
   onWatchTrailer,
   watchingTrailerId,
+  onCloseTrailer,
 }: any) => (
   <div className="relative flex flex-col md:flex-row bg-[#181b21] rounded-2xl overflow-hidden shadow-lg p-4 md:p-6 mb-8 border border-[#232831] w-full">
     <img
@@ -73,7 +73,7 @@ const FavoriteMovieCard = ({
       </div>
       {watchingTrailerId === movie.id && movie._trailerKey && (
         <div className="w-full mt-5 animate-fadeIn">
-          <div className="aspect-video rounded-xl overflow-hidden border border-[#232831] shadow-md">
+          <div className="aspect-video rounded-xl overflow-hidden border border-[#232831] shadow-md mb-2">
             <iframe
               width="100%"
               height="100%"
@@ -83,6 +83,15 @@ const FavoriteMovieCard = ({
               allowFullScreen
               allow="autoplay; encrypted-media"
             />
+          </div>
+          <div className="flex justify-center pb-2">
+            <Button
+              onClick={onCloseTrailer}
+              variant="ghost"
+              className="text-white hover:bg-zinc-800 border border-white/10 px-5 py-2 rounded-full text-sm"
+            >
+              Close Trailer
+            </Button>
           </div>
         </div>
       )}
@@ -122,6 +131,10 @@ const Favorites = () => {
     }
   };
 
+  const handleCloseTrailer = () => {
+    setWatchingTrailerId(null);
+  };
+
   // Attach trailer key to each movie if available
   const moviesWithTrailer = favorites.map((movie) => ({
     ...movie,
@@ -155,6 +168,7 @@ const Favorites = () => {
                 onToggleFavorite={toggleFavorite}
                 onWatchTrailer={handleWatchTrailer}
                 watchingTrailerId={watchingTrailerId}
+                onCloseTrailer={handleCloseTrailer}
               />
             ))}
           </div>
