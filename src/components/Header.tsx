@@ -31,7 +31,7 @@ const Header = () => {
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center gap-[7.111px] w-[129.111px]">
             <Logo size={40} />
             <span className="text-white font-medium text-xl">Movie</span>
           </Link>
