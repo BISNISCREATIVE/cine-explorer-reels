@@ -57,7 +57,12 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
             </div>
 
             {/* Buttons */}
-            <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-4">
+            <div
+              className="
+                flex flex-row items-center justify-center md:justify-start gap-4 
+                w-full
+              "
+            >
               {/* Watch Trailer Button */}
               <Button
                 onClick={onWatchTrailer}
@@ -92,6 +97,9 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                 onClick={() => toggleFavorite(movie)}
                 className={`w-14 h-14 flex-shrink-0 flex justify-center items-center rounded-full border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] transition-colors hover:bg-[rgba(10,13,18,0.8)]
                   ${isFavorite(movie.id) ? "text-red-500" : "text-white"}`}
+                style={{
+                  marginLeft: '0', // gap handled by gap-4 class
+                }}
               >
                 <Heart
                   size={28}
