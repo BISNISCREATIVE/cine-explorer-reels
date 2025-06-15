@@ -1,3 +1,4 @@
+
 import { Calendar, Star, Heart, Film, User, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MovieDetails } from '@/types/movie';
@@ -60,7 +61,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
               <Button 
                 onClick={onWatchTrailer}
                 disabled={!hasTrailer}
-                className="w-full h-16 px-4 flex justify-between items-center rounded-none bg-[#961200] hover:bg-[#7d1000] text-white text-base font-bold shadow transition disabled:bg-gray-700 disabled:hover:bg-gray-700 md:w-auto md:h-14 md:px-12 md:justify-center md:rounded-full md:gap-2"
+                className="w-full h-16 px-4 flex justify-between items-center rounded-none bg-[#961200] hover:bg-[#7d1000] text-white text-base md:text-lg font-bold shadow transition disabled:bg-gray-700 disabled:hover:bg-gray-700 md:w-auto md:h-16 md:px-10 md:justify-center md:rounded-full md:gap-3"
               >
                 {isTrailerVisible ? (
                   <>
@@ -75,11 +76,11 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
               <button
                 aria-label={isFavorite(movie.id) ? "Remove from Favorites" : "Add to Favorites"}
                 onClick={() => toggleFavorite(movie)}
-                className={`w-14 h-14 p-2 flex justify-center items-center rounded-full border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] transition-colors hover:bg-[rgba(10,13,18,0.8)]
+                className={`w-16 h-16 p-2 flex-shrink-0 flex justify-center items-center rounded-full border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] transition-colors hover:bg-[rgba(10,13,18,0.8)]
                   ${isFavorite(movie.id) ? "text-red-500" : "text-white"}`}
               >
                 <Heart
-                  size={24}
+                  size={28}
                   className={`transition-colors ${isFavorite(movie.id) ? 'fill-red-500' : ''}`}
                 />
               </button>
