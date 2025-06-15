@@ -59,11 +59,11 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
               >
                 {isTrailerVisible ? (
                   <>
-                    <X size={18} className="mr-2" /> Close Trailer
+                    Close Trailer <X size={18} className="ml-2" />
                   </>
                 ) : (
                   <>
-                    <PlayIcon size={18} className="mr-2" /> Watch Trailer
+                    Watch Trailer <PlayIcon size={18} className="ml-2" />
                   </>
                 )}
               </Button>
