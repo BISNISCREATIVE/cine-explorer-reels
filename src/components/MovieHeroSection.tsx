@@ -32,83 +32,50 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 pb-6 md:pb-10 pt-20 md:pt-32">
         <div className="flex flex-col md:flex-row md:gap-8 md:items-end">
-          {/* Poster */}
-          <div className="flex-shrink-0 mx-auto md:mx-0 mb-6 md:mb-0">
-            <div className="rounded-xl shadow-2xl bg-white/5 backdrop-blur-md p-1 w-40 md:w-72">
-              <img
-                src={tmdbApi.getImageUrl(movie.poster_path, 'w500')}
-                alt={movie.title}
-                className="w-full h-auto object-cover rounded-lg"
-              />
-            </div>
-          </div>
+          {/* Mobile Layout */}
+          <div className="md:hidden">
+            <div className="flex gap-4 mb-6">
+              {/* Poster - Left aligned */}
+              <div className="flex-shrink-0">
+                <div className="rounded-xl shadow-2xl bg-white/5 backdrop-blur-md p-1 w-32">
+                  <img
+                    src={tmdbApi.getImageUrl(movie.poster_path, 'w500')}
+                    alt={movie.title}
+                    className="w-full h-auto object-cover rounded-lg"
+                  />
+                </div>
+              </div>
 
-          {/* Details Column */}
-          <div className="flex-1 flex flex-col gap-4 text-center md:text-left">
-            {/* Title & Date */}
-            <div>
-              <h1 className="text-white text-2xl md:text-4xl lg:text-5xl font-bold mb-2">
-                {movie.title}
-              </h1>
-              <div className="flex items-center justify-center md:justify-start gap-2 text-gray-300">
-                <Calendar size={16} className="mr-1" />
-                <span className="text-sm md:text-base">
-                  {new Date(movie.release_date).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}
-                </span>
+              {/* Title and Date - Right side */}
+              <div className="flex-1 flex flex-col justify-end">
+                <h1 className="text-white text-xl font-bold mb-2 text-left">
+                  {movie.title}
+                </h1>
+                <div className="flex items-center gap-2 text-gray-300 mb-4">
+                  <Calendar size={16} className="mr-1" />
+                  <span className="text-sm">
+                    {new Date(movie.release_date).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}
+                  </span>
+                </div>
               </div>
             </div>
 
-            {/* Buttons */}
-            <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-4 w-full">
+            {/* Buttons Row */}
+            <div className="flex items-center gap-4 mb-6">
               {/* Watch Trailer Button */}
               <Button
                 onClick={onWatchTrailer}
                 disabled={!hasTrailer}
-                className="
-                  flex items-center justify-between
-                  px-6
-                  rounded-full
-                  bg-[#961200] hover:bg-[#7d1000] text-white text-base font-bold transition
-                  disabled:bg-gray-700 disabled:hover:bg-gray-700
-                  w-[230px] h-[48px] min-w-[230px] min-h-[48px] max-w-[230px] max-h-[48px]
-                  shadow-none border-none
-                "
-                style={{
-                  display: 'flex',
-                  width: 230,
-                  height: 48,
-                  paddingLeft: 24,
-                  paddingRight: 18,
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  gap: 8,
-                  borderRadius: 9999,
-                  background: '#961200',
-                  boxShadow: 'none',
-                  border: 'none'
-                }}
+                className="flex items-center justify-between px-6 rounded-full bg-[#961200] hover:bg-[#7d1000] text-white text-base font-bold transition disabled:bg-gray-700 disabled:hover:bg-gray-700 flex-1 h-[48px] shadow-none border-none"
               >
-                <span className="font-bold text-base text-white pl-0 pr-2 flex-1 text-left leading-none select-none">
+                <span className="font-bold text-base text-white flex-1 text-left leading-none select-none">
                   {isTrailerVisible ? "Close Trailer" : "Watch Trailer"}
                 </span>
-                <span
-                  className="flex items-center justify-center"
-                  style={{
-                    width: 20,
-                    height: 20,
-                    padding: 0,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexShrink: 0,
-                    aspectRatio: '1 / 1',
-                    borderRadius: 9999,
-                    background: 'white',
-                  }}
-                >
+                <span className="flex items-center justify-center w-5 h-5 bg-white rounded-full">
                   {isTrailerVisible ? 
-                    <X size={16} color="#961200" style={{marginLeft: 0, marginRight: 0}} /> 
+                    <X size={16} color="#961200" /> 
                     : 
-                    <PlayIcon size={16} style={{ color: '#961200', marginLeft: 0, marginRight: 0 }} />
+                    <PlayIcon size={16} style={{ color: '#961200' }} />
                   }
                 </span>
               </Button>
@@ -126,149 +93,138 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                 />
               </button>
             </div>
+          </div>
 
-            {/* Info Cards */}
-            <div className="flex flex-row gap-3 md:gap-5 mt-4 md:mt-6">
-              {/* Rating Card */}
-              <div
-                style={{
-                  display: 'flex',
-                  padding: '16px',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: 8,
-                  flex: '1 0 0',
-                  alignSelf: 'stretch',
-                  borderRadius: 16,
-                  border: '1px solid #252B37',
-                  background: '#000',
-                }}
-                className="md:!p-5"
-              >
-                <Star className="text-yellow-400 fill-yellow-400" size={24} strokeWidth={2.2} />
-                <span
-                  style={{
-                    color: '#D5D7DA',
-                    textAlign: 'center',
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontStyle: 'normal',
-                    fontWeight: 400,
-                    lineHeight: '24px',
-                  }}
-                  className="md:!text-base md:!leading-[30px]"
-                >
-                  Rating
-                </span>
-                <span
-                  style={{
-                    color: '#FDFDFD',
-                    textAlign: 'center',
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    fontStyle: 'normal',
-                    fontWeight: 600,
-                    lineHeight: '28px',
-                  }}
-                  className="md:!text-xl md:!leading-[34px]"
-                >
-                  {movie.vote_average.toFixed(1).replace('.', ',')}/10
+          {/* Desktop Layout */}
+          <div className="hidden md:block flex-shrink-0">
+            <div className="rounded-xl shadow-2xl bg-white/5 backdrop-blur-md p-1 w-72">
+              <img
+                src={tmdbApi.getImageUrl(movie.poster_path, 'w500')}
+                alt={movie.title}
+                className="w-full h-auto object-cover rounded-lg"
+              />
+            </div>
+          </div>
+
+          {/* Desktop Details Column */}
+          <div className="hidden md:flex flex-1 flex-col gap-4 text-left">
+            {/* Title & Date */}
+            <div>
+              <h1 className="text-white text-4xl lg:text-5xl font-bold mb-2">
+                {movie.title}
+              </h1>
+              <div className="flex items-center gap-2 text-gray-300">
+                <Calendar size={16} className="mr-1" />
+                <span className="text-base">
+                  {new Date(movie.release_date).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}
                 </span>
               </div>
+            </div>
 
-              {/* Genre Card */}
-              <div
-                style={{
-                  display: 'flex',
-                  padding: '16px',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: 8,
-                  flex: '1 0 0',
-                  alignSelf: 'stretch',
-                  borderRadius: 16,
-                  border: '1px solid #252B37',
-                  background: '#000',
-                }}
-                className="md:!p-5"
+            {/* Buttons */}
+            <div className="flex items-center gap-4">
+              {/* Watch Trailer Button */}
+              <Button
+                onClick={onWatchTrailer}
+                disabled={!hasTrailer}
+                className="flex items-center justify-between px-6 rounded-full bg-[#961200] hover:bg-[#7d1000] text-white text-base font-bold transition disabled:bg-gray-700 disabled:hover:bg-gray-700 w-[230px] h-[48px] shadow-none border-none"
               >
-                <CustomFilmIcon size={24} className="md:!w-8 md:!h-8" />
-                <span
-                  style={{
-                    color: '#D5D7DA',
-                    textAlign: 'center',
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontStyle: 'normal',
-                    fontWeight: 400,
-                    lineHeight: '24px',
-                  }}
-                  className="md:!text-base md:!leading-[30px]"
-                >
-                  Genre
+                <span className="font-bold text-base text-white pl-0 pr-2 flex-1 text-left leading-none select-none">
+                  {isTrailerVisible ? "Close Trailer" : "Watch Trailer"}
                 </span>
-                <span
-                  style={{
-                    color: '#FDFDFD',
-                    textAlign: 'center',
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    fontStyle: 'normal',
-                    fontWeight: 600,
-                    lineHeight: '28px',
-                  }}
-                  className="md:!text-xl md:!leading-[34px]"
-                >
-                  {movie.genres[0]?.name || 'N/A'}
+                <span className="flex items-center justify-center w-5 h-5 bg-white rounded-full">
+                  {isTrailerVisible ? 
+                    <X size={16} color="#961200" /> 
+                    : 
+                    <PlayIcon size={16} style={{ color: '#961200' }} />
+                  }
                 </span>
-              </div>
+              </Button>
 
-              {/* Age Limit Card */}
-              <div
-                style={{
-                  display: 'flex',
-                  padding: '16px',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: 8,
-                  flex: '1 0 0',
-                  alignSelf: 'stretch',
-                  borderRadius: 16,
-                  border: '1px solid #252B37',
-                  background: '#000',
-                }}
-                className="md:!p-5"
+              {/* Favorite Button */}
+              <button
+                aria-label={isFavorite(movie.id) ? "Remove from Favorites" : "Add to Favorites"}
+                onClick={() => toggleFavorite(movie)}
+                className={`w-14 h-14 flex-shrink-0 flex justify-center items-center rounded-full border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] transition-colors hover:bg-[rgba(10,13,18,0.8)]
+                  ${isFavorite(movie.id) ? "text-red-500" : "text-white"}`}
               >
-                <CustomSmileIcon size={24} className="md:!w-8 md:!h-8" />
-                <span
-                  style={{
-                    color: '#D5D7DA',
-                    textAlign: 'center',
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontStyle: 'normal',
-                    fontWeight: 400,
-                    lineHeight: '24px',
-                  }}
-                  className="md:!text-base md:!leading-[30px]"
-                >
-                  Age Limit
-                </span>
-                <span
-                  style={{
-                    color: '#FDFDFD',
-                    textAlign: 'center',
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    fontStyle: 'normal',
-                    fontWeight: 600,
-                    lineHeight: '28px',
-                  }}
-                  className="md:!text-xl md:!leading-[34px]"
-                >
-                  13
-                </span>
-              </div>
+                <Heart
+                  size={28}
+                  className={`transition-colors ${isFavorite(movie.id) ? 'fill-red-500' : ''}`}
+                />
+              </button>
+            </div>
+          </div>
+
+          {/* Info Cards - Both Mobile and Desktop */}
+          <div className="flex flex-row gap-3 md:gap-5 mt-4 md:mt-6 md:hidden">
+            {/* Rating Card */}
+            <div className="flex p-4 md:p-5 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
+              <Star className="text-yellow-400 fill-yellow-400" size={24} strokeWidth={2.2} />
+              <span className="text-[#D5D7DA] text-center font-normal text-sm md:text-base leading-6 md:leading-[30px]">
+                Rating
+              </span>
+              <span className="text-[#FDFDFD] text-center font-semibold text-base md:text-xl leading-7 md:leading-[34px]">
+                {movie.vote_average.toFixed(1).replace('.', ',')}/10
+              </span>
+            </div>
+
+            {/* Genre Card */}
+            <div className="flex p-4 md:p-5 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
+              <CustomFilmIcon size={24} className="md:!w-8 md:!h-8" />
+              <span className="text-[#D5D7DA] text-center font-normal text-sm md:text-base leading-6 md:leading-[30px]">
+                Genre
+              </span>
+              <span className="text-[#FDFDFD] text-center font-semibold text-base md:text-xl leading-7 md:leading-[34px]">
+                {movie.genres[0]?.name || 'N/A'}
+              </span>
+            </div>
+
+            {/* Age Limit Card */}
+            <div className="flex p-4 md:p-5 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
+              <CustomSmileIcon size={24} className="md:!w-8 md:!h-8" />
+              <span className="text-[#D5D7DA] text-center font-normal text-sm md:text-base leading-6 md:leading-[30px]">
+                Age Limit
+              </span>
+              <span className="text-[#FDFDFD] text-center font-semibold text-base md:text-xl leading-7 md:leading-[34px]">
+                13
+              </span>
+            </div>
+          </div>
+
+          {/* Desktop Info Cards */}
+          <div className="hidden md:flex flex-row gap-3 md:gap-5 mt-4 md:mt-6 w-full">
+            {/* Rating Card */}
+            <div className="flex p-4 md:p-5 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
+              <Star className="text-yellow-400 fill-yellow-400" size={24} strokeWidth={2.2} />
+              <span className="text-[#D5D7DA] text-center font-normal text-sm md:text-base leading-6 md:leading-[30px]">
+                Rating
+              </span>
+              <span className="text-[#FDFDFD] text-center font-semibold text-base md:text-xl leading-7 md:leading-[34px]">
+                {movie.vote_average.toFixed(1).replace('.', ',')}/10
+              </span>
+            </div>
+
+            {/* Genre Card */}
+            <div className="flex p-4 md:p-5 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
+              <CustomFilmIcon size={24} className="md:!w-8 md:!h-8" />
+              <span className="text-[#D5D7DA] text-center font-normal text-sm md:text-base leading-6 md:leading-[30px]">
+                Genre
+              </span>
+              <span className="text-[#FDFDFD] text-center font-semibold text-base md:text-xl leading-7 md:leading-[34px]">
+                {movie.genres[0]?.name || 'N/A'}
+              </span>
+            </div>
+
+            {/* Age Limit Card */}
+            <div className="flex p-4 md:p-5 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
+              <CustomSmileIcon size={24} className="md:!w-8 md:!h-8" />
+              <span className="text-[#D5D7DA] text-center font-normal text-sm md:text-base leading-6 md:leading-[30px]">
+                Age Limit
+              </span>
+              <span className="text-[#FDFDFD] text-center font-semibold text-base md:text-xl leading-7 md:leading-[34px]">
+                13
+              </span>
             </div>
           </div>
         </div>
