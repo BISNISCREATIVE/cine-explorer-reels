@@ -2,8 +2,6 @@
 import { useEffect, useState } from 'react';
 import { Movie } from '@/types/movie';
 import { tmdbApi } from '@/services/tmdb';
-import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
-import MovieCard from '@/components/MovieCard';
 import { Loader2, Play, X, Star } from 'lucide-react';
 
 const Home = () => {
@@ -83,56 +81,53 @@ const Home = () => {
   };
 
   return (
-    <div className="bg-black min-h-screen">
+    <div className="bg-black min-h-screen flex flex-col">
       {/* HERO SECTION */}
-      <section className="relative w-full min-h-[430px] flex flex-col items-center bg-gradient-to-b from-[#181c20] to-black overflow-hidden sm:min-h-[420px]">
+      <section className="relative w-full h-[480px] flex flex-col justify-end items-start bg-gradient-to-b from-[#181c20] to-black overflow-hidden">
         {heroMovie && (
           <>
             <img
               src={tmdbApi.getImageUrl(heroMovie.backdrop_path, 'w1280')}
               alt={heroMovie.title}
-              className="absolute w-full h-[300px] object-cover object-top opacity-80 sm:h-full sm:object-top"
+              className="absolute w-full h-full object-cover object-top opacity-75"
               draggable={false}
-              style={{ top: 0 }}
+              style={{ zIndex: 0 }}
             />
-            {/* Overlay gradient */}
-            <div className="absolute inset-0 h-[300px] bg-gradient-to-b from-black/70 via-black/50 to-transparent pointer-events-none" />
-            {/* Poster+Title+Desc */}
-            <div className="relative z-10 flex flex-col w-full px-4 items-start pt-[210px] pb-6 sm:px-4 sm:pt-[260px]">
-              <h1 className="text-white text-[26px] font-extrabold mb-2 drop-shadow md:text-3xl">{heroMovie.title}</h1>
-              <p className="text-white/80 text-base mb-6 line-clamp-3 max-w-lg">{heroMovie.overview}</p>
-              <div className="flex flex-col gap-3 w-full">
-                {/* Watch Trailer Button */}
-                <button
-                  className={
-                    "w-full flex items-center justify-center gap-2 bg-[#B91D12] hover:bg-[#941C10] text-white py-3 text-lg font-semibold rounded-full shadow transition-all duration-150"
-                  }
-                  onClick={handleToggleTrailer}
-                  disabled={trailerLoading}
-                  style={{ minHeight: 50 }}
-                >
-                  {trailerLoading ? (
-                    <Loader2 size={24} className="animate-spin" />
-                  ) : showTrailer ? (
-                    <>
-                      Close Trailer
-                      <X size={24} className="ml-1" />
-                    </>
-                  ) : (
-                    <>
-                      Watch Trailer
-                      <Play size={24} className="ml-1" />
-                    </>
-                  )}
-                </button>
-                {/* See Detail Button */}
-                <a
-                  href={`/movie/${heroMovie.id}`}
-                  className="w-full flex items-center justify-center border-2 border-[#232631] bg-transparent hover:bg-[#181B23] text-white py-3 text-lg font-semibold rounded-full shadow transition-all duration-150"
-                  style={{ minHeight: 50 }}
-                >
-                  See Detail
-                </a>
+            {/* Overlay dark gradient */}
+            <div className="absolute inset-0 h-full bg-gradient-to-b from-black/75 via-black/50 to-black/90 pointer-events-none" />
+            {/* Hero Content */}
+            <div className="relative z-10 flex flex-col px-14 pt-0 pb-[64px] h-full justify-center max-w-3xl">
+              <div className="mb-6">
+                <h1 className="text-white text-4xl font-extrabold leading-tight drop-shadow-lg mb-4">{heroMovie.title}</h1>
+                <p className="text-white/85 text-base font-normal mb-6 max-w-2xl drop-shadow-lg">{heroMovie.overview}</p>
+                <div className="flex gap-5">
+                  {/* Watch Trailer Button */}
+                  <button
+                    className="flex items-center justify-center gap-2 bg-[#B91D12] hover:bg-[#941C10] text-white py-3 px-7 text-lg font-semibold rounded-full shadow transition-all duration-150 min-w-[160px]"
+                    onClick={handleToggleTrailer}
+                    disabled={trailerLoading}
+                  >
+                    {trailerLoading ? (
+                      <Loader2 size={22} className="animate-spin" />
+                    ) : showTrailer ? (
+                      <>
+                        Close Trailer
+                        <X size={22} className="ml-1" />
+                      </>
+                    ) : (
+                      <>
+                        Watch Trailer
+                        <Play size={22} className="ml-1" />
+                      </>
+                    )}
+                  </button>
+                  <a
+                    href={`/movie/${heroMovie.id}`}
+                    className="flex items-center justify-center px-7 py-3 bg-white/10 border border-white/30 hover:bg-white/15 text-white text-lg font-semibold rounded-full transition-all duration-150 min-w-[140px]"
+                  >
+                    See Detail
+                  </a>
+                </div>
               </div>
             </div>
           </>
@@ -156,76 +151,87 @@ const Home = () => {
         </div>
       )}
 
-      {/* TRENDING NOW CAROUSEL */}
-      <section className="container mx-auto px-3 pb-6 pt-2">
-        <h2 className="text-white text-xl font-bold mb-4 mt-0 md:text-2xl">Trending Now</h2>
-        {trendingLoading ? (
-          <div className="flex items-center justify-center h-40">
-            <Loader2 className="w-8 h-8 text-white animate-spin" />
-          </div>
-        ) : (
-          <div className="flex gap-3 overflow-x-auto scrollbar-none min-h-[278px]">
-            {trendingMovies.slice(0, 10).map((movie, idx) => (
-              <div key={movie.id} className="flex-shrink-0 w-[140px] relative group">
+      <main className="flex-1">
+        {/* TRENDING NOW CAROUSEL */}
+        <section className="container mx-auto px-10 pb-8 pt-10 max-w-7xl">
+          <h2 className="text-white text-2xl font-extrabold mb-6 mt-0 drop-shadow">Trending Now</h2>
+          {trendingLoading ? (
+            <div className="flex items-center justify-center h-44">
+              <Loader2 className="w-8 h-8 text-white animate-spin" />
+            </div>
+          ) : (
+            <div className="flex gap-7 overflow-x-auto min-h-[290px] pb-2 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+              {trendingMovies.slice(0, 10).map((movie, idx) => (
+                <div
+                  key={movie.id}
+                  className="flex-shrink-0 w-[185px] group relative cursor-pointer hover:scale-105 transition-transform"
+                >
+                  <img
+                    src={tmdbApi.getImageUrl(movie.poster_path)}
+                    alt={movie.title}
+                    className="rounded-2xl object-cover w-full h-[255px] bg-[#1a1a1a] shadow-md"
+                    style={{ minHeight: '255px' }}
+                  />
+                  {/* Rank badge */}
+                  <div className="absolute top-2 left-2 bg-black/75 text-white text-xs font-bold w-8 h-8 rounded-full flex items-center justify-center shadow-lg border-2 border-black/40">
+                    {idx + 1}
+                  </div>
+                  <div className="mt-3">
+                    <div className="text-white text-base font-semibold leading-tight line-clamp-1 mb-0">
+                      {movie.title}
+                    </div>
+                    <div className="flex items-center gap-1 mt-1">
+                      <Star size={15} className="text-yellow-400 fill-yellow-400" />
+                      <span className="text-gray-200 text-sm">{movie.vote_average.toFixed(1)}/10</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* NEW RELEASE GRID */}
+        <section className="container mx-auto px-10 pb-20 pt-6 max-w-7xl">
+          <h2 className="text-white text-2xl font-extrabold mb-6 mt-0 drop-shadow">New Release</h2>
+          <div className="grid grid-cols-6 gap-x-7 gap-y-7">
+            {newReleaseMovies.map((movie) => (
+              <div
+                key={movie.id}
+                className="group cursor-pointer hover:scale-105 transition-transform"
+              >
                 <img
                   src={tmdbApi.getImageUrl(movie.poster_path)}
                   alt={movie.title}
-                  className="rounded-2xl object-cover w-full h-[210px] bg-[#1a1a1a] group-hover:scale-105 transition"
-                  style={{ minHeight: '210px' }}
+                  className="rounded-2xl object-cover w-full h-[255px] bg-[#1a1a1a] shadow-md"
+                  style={{ minHeight: '255px' }}
                 />
-                {/* Rank badge */}
-                <div className="absolute top-2 left-2 z-10 bg-[#131417]/80 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shadow">
-                  {idx + 1}
-                </div>
-                <div className="mt-2">
-                  <div className="text-white text-xs font-semibold leading-tight line-clamp-1 mb-0">{movie.title}</div>
-                  <div className="flex items-center gap-1 mt-0.5">
-                    <Star size={13} className="text-yellow-400 fill-yellow-400" />
+                <div className="mt-3">
+                  <div className="text-white text-base font-semibold leading-tight line-clamp-1 mb-0">{movie.title}</div>
+                  <div className="flex items-center gap-1 mt-1">
+                    <Star size={15} className="text-yellow-400 fill-yellow-400" />
                     <span className="text-gray-200 text-sm">{movie.vote_average.toFixed(1)}/10</span>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-        )}
-      </section>
-
-      {/* NEW RELEASE GRID */}
-      <section className="container mx-auto px-3 pb-16 pt-1">
-        <h2 className="text-white text-xl font-bold mb-4 md:text-2xl">New Release</h2>
-        <div className="grid grid-cols-2 gap-3">
-          {newReleaseMovies.map((movie) => (
-            <div key={movie.id} className="group">
-              <img
-                src={tmdbApi.getImageUrl(movie.poster_path)}
-                alt={movie.title}
-                className="rounded-2xl object-cover w-full h-[220px] bg-[#1a1a1a] group-hover:scale-105 transition"
-                style={{ minHeight: '220px' }}
-              />
-              <div className="mt-1">
-                <div className="text-white text-xs font-semibold leading-tight line-clamp-1 mb-0">{movie.title}</div>
-                <div className="flex items-center gap-1 mt-0.5">
-                  <Star size={13} className="text-yellow-400 fill-yellow-400" />
-                  <span className="text-gray-200 text-sm">{movie.vote_average.toFixed(1)}/10</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="flex justify-center mt-8">
-          {hasMoreNewReleases && (
-            <button
-              disabled={newReleaseLoading}
-              className="w-full bg-transparent border-2 border-[#232631] hover:bg-[#181B23] text-white py-3 text-base font-semibold rounded-full transition min-h-[50px] mt-0"
-              onClick={() => setNewReleasePage(p => p + 1)}
-            >
-              {newReleaseLoading ? <Loader2 className="inline w-5 h-5 animate-spin" /> : 'Load More'}
-            </button>
-          )}
-        </div>
-      </section>
+          <div className="flex justify-center mt-8">
+            {hasMoreNewReleases && (
+              <button
+                disabled={newReleaseLoading}
+                className="w-fit px-8 bg-white/10 border-2 border-[#232631] hover:bg-white/15 text-white py-3 text-base font-semibold rounded-full shadow transition min-h-[50px] mt-0"
+                onClick={() => setNewReleasePage((p) => p + 1)}
+              >
+                {newReleaseLoading ? <Loader2 className="inline w-5 h-5 animate-spin" /> : 'Load More'}
+              </button>
+            )}
+          </div>
+        </section>
+      </main>
     </div>
   );
 };
 
 export default Home;
+
