@@ -167,7 +167,7 @@ const Home = () => {
       <main className="flex-1">
         {/* TRENDING NOW CAROUSEL */}
         <section className="container max-w-[1200px] mx-auto px-4 pb-8 pt-8 md:px-10 md:pt-12">
-          <h2 className="text-white text-2xl md:text-4xl font-extrabold mb-7 md:mb-10 drop-shadow text-center md:text-left">
+          <h2 className="font-poppins text-[#FDFDFD] text-2xl md:text-4xl font-bold leading-[48px] tracking-[-0.72px] mb-7 md:mb-10 drop-shadow text-center md:text-left">
             Trending Now
           </h2>
           {trendingLoading ? (
