@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Movie } from '@/types/movie';
 import { tmdbApi } from '@/services/tmdb';
 import { Loader2, Play, X, Star } from 'lucide-react';
@@ -45,7 +46,11 @@ const Home = () => {
       if (!data.results || data.results.length === 0) {
         setHasMoreNewReleases(false);
       } else {
-        setNewReleaseMovies(prev => [...prev, ...data.results]);
+        setNewReleaseMovies(prev => {
+          const existingIds = new Set(prev.map(m => m.id));
+          const newMovies = data.results.filter((m: Movie) => !existingIds.has(m.id));
+          return [...prev, ...newMovies];
+        });
       }
       setNewReleaseLoading(false);
     };
@@ -184,7 +189,7 @@ const Home = () => {
                       key={movie.id}
                       className="max-w-[210px] md:max-w-[215px] min-w-[180px] md:min-w-[215px] px-1 pb-2"
                     >
-                      <div className="group relative flex flex-col items-start">
+                      <Link to={`/movie/${movie.id}`} className="block group relative flex flex-col items-start">
                         <div className="relative w-full h-[306px] md:h-[320px] mb-4">
                           <img
                             src={tmdbApi.getImageUrl(movie.poster_path)}
@@ -207,7 +212,7 @@ const Home = () => {
                             <span className="text-gray-400">/10</span>
                           </div>
                         </div>
-                      </div>
+                      </Link>
                     </CarouselItem>
                   ))}
                 </CarouselContent>
@@ -226,9 +231,10 @@ const Home = () => {
           <h2 className="text-white text-xl md:text-3xl font-extrabold mb-5 md:mb-7 mt-0 drop-shadow">New Release</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 xl:grid-cols-6 gap-x-4 md:gap-x-7 gap-y-6 md:gap-y-7">
             {newReleaseMovies.map((movie) => (
-              <div
+              <Link
                 key={movie.id}
-                className="group cursor-pointer hover:scale-105 transition-transform"
+                to={`/movie/${movie.id}`}
+                className="group cursor-pointer hover:scale-105 transition-transform block"
               >
                 <img
                   src={tmdbApi.getImageUrl(movie.poster_path)}
@@ -243,7 +249,7 @@ const Home = () => {
                     <span className="text-gray-200 text-xs md:text-sm">{movie.vote_average.toFixed(1)}/10</span>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
           <div className="flex justify-center mt-7 md:mt-8">
