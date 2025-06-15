@@ -31,7 +31,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 pb-6 md:pb-10 pt-20 md:pt-32">
-        <div className="flex flex-col md:flex-row md:gap-8 md:items-end">
+        <div className="flex flex-col md:flex-row md:gap-8 md:items-start">
           {/* Mobile Layout */}
           <div className="md:hidden">
             <div className="flex gap-4 mb-6">
@@ -93,6 +93,42 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                 />
               </button>
             </div>
+
+            {/* Info Cards - Mobile */}
+            <div className="flex flex-row gap-3 mt-4">
+              {/* Rating Card */}
+              <div className="flex px-4 py-4 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
+                <Star className="text-yellow-400 fill-yellow-400" size={24} strokeWidth={2.2} />
+                <span className="text-[#D5D7DA] text-center font-normal text-sm leading-6">
+                  Rating
+                </span>
+                <span className="text-[#FDFDFD] text-center font-semibold text-base leading-7">
+                  {movie.vote_average.toFixed(1).replace('.', ',')}/10
+                </span>
+              </div>
+
+              {/* Genre Card */}
+              <div className="flex px-4 py-4 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
+                <CustomFilmIcon size={24} />
+                <span className="text-[#D5D7DA] text-center font-normal text-sm leading-6">
+                  Genre
+                </span>
+                <span className="text-[#FDFDFD] text-center font-semibold text-base leading-7">
+                  {movie.genres[0]?.name || 'N/A'}
+                </span>
+              </div>
+
+              {/* Age Limit Card */}
+              <div className="flex px-4 py-4 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
+                <CustomSmileIcon size={24} />
+                <span className="text-[#D5D7DA] text-center font-normal text-sm leading-6">
+                  Age Limit
+                </span>
+                <span className="text-[#FDFDFD] text-center font-semibold text-base leading-7">
+                  13
+                </span>
+              </div>
+            </div>
           </div>
 
           {/* Desktop Layout */}
@@ -107,7 +143,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
           </div>
 
           {/* Desktop Details Column */}
-          <div className="hidden md:flex flex-1 flex-col gap-4 text-left">
+          <div className="hidden md:flex flex-1 flex-col gap-6 text-left">
             {/* Title & Date */}
             <div>
               <h1 className="text-white text-4xl lg:text-5xl font-bold mb-2">
@@ -154,77 +190,41 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                 />
               </button>
             </div>
-          </div>
 
-          {/* Info Cards - Both Mobile and Desktop */}
-          <div className="flex flex-row gap-3 md:gap-5 mt-4 md:mt-6 md:hidden">
-            {/* Rating Card */}
-            <div className="flex p-4 md:p-5 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
-              <Star className="text-yellow-400 fill-yellow-400" size={24} strokeWidth={2.2} />
-              <span className="text-[#D5D7DA] text-center font-normal text-sm md:text-base leading-6 md:leading-[30px]">
-                Rating
-              </span>
-              <span className="text-[#FDFDFD] text-center font-semibold text-base md:text-xl leading-7 md:leading-[34px]">
-                {movie.vote_average.toFixed(1).replace('.', ',')}/10
-              </span>
-            </div>
+            {/* Desktop Info Cards - Below buttons */}
+            <div className="flex flex-row gap-5 max-w-lg">
+              {/* Rating Card */}
+              <div className="flex p-5 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
+                <Star className="text-yellow-400 fill-yellow-400" size={32} strokeWidth={2.2} />
+                <span className="text-[#D5D7DA] text-center font-normal text-base leading-[30px]">
+                  Rating
+                </span>
+                <span className="text-[#FDFDFD] text-center font-semibold text-xl leading-[34px]">
+                  {movie.vote_average.toFixed(1).replace('.', ',')}/10
+                </span>
+              </div>
 
-            {/* Genre Card */}
-            <div className="flex p-4 md:p-5 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
-              <CustomFilmIcon size={24} className="md:!w-8 md:!h-8" />
-              <span className="text-[#D5D7DA] text-center font-normal text-sm md:text-base leading-6 md:leading-[30px]">
-                Genre
-              </span>
-              <span className="text-[#FDFDFD] text-center font-semibold text-base md:text-xl leading-7 md:leading-[34px]">
-                {movie.genres[0]?.name || 'N/A'}
-              </span>
-            </div>
+              {/* Genre Card */}
+              <div className="flex p-5 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
+                <CustomFilmIcon size={32} />
+                <span className="text-[#D5D7DA] text-center font-normal text-base leading-[30px]">
+                  Genre
+                </span>
+                <span className="text-[#FDFDFD] text-center font-semibold text-xl leading-[34px]">
+                  {movie.genres[0]?.name || 'N/A'}
+                </span>
+              </div>
 
-            {/* Age Limit Card */}
-            <div className="flex p-4 md:p-5 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
-              <CustomSmileIcon size={24} className="md:!w-8 md:!h-8" />
-              <span className="text-[#D5D7DA] text-center font-normal text-sm md:text-base leading-6 md:leading-[30px]">
-                Age Limit
-              </span>
-              <span className="text-[#FDFDFD] text-center font-semibold text-base md:text-xl leading-7 md:leading-[34px]">
-                13
-              </span>
-            </div>
-          </div>
-
-          {/* Desktop Info Cards */}
-          <div className="hidden md:flex flex-row gap-3 md:gap-5 mt-4 md:mt-6 w-full">
-            {/* Rating Card */}
-            <div className="flex p-4 md:p-5 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
-              <Star className="text-yellow-400 fill-yellow-400" size={24} strokeWidth={2.2} />
-              <span className="text-[#D5D7DA] text-center font-normal text-sm md:text-base leading-6 md:leading-[30px]">
-                Rating
-              </span>
-              <span className="text-[#FDFDFD] text-center font-semibold text-base md:text-xl leading-7 md:leading-[34px]">
-                {movie.vote_average.toFixed(1).replace('.', ',')}/10
-              </span>
-            </div>
-
-            {/* Genre Card */}
-            <div className="flex p-4 md:p-5 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
-              <CustomFilmIcon size={24} className="md:!w-8 md:!h-8" />
-              <span className="text-[#D5D7DA] text-center font-normal text-sm md:text-base leading-6 md:leading-[30px]">
-                Genre
-              </span>
-              <span className="text-[#FDFDFD] text-center font-semibold text-base md:text-xl leading-7 md:leading-[34px]">
-                {movie.genres[0]?.name || 'N/A'}
-              </span>
-            </div>
-
-            {/* Age Limit Card */}
-            <div className="flex p-4 md:p-5 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
-              <CustomSmileIcon size={24} className="md:!w-8 md:!h-8" />
-              <span className="text-[#D5D7DA] text-center font-normal text-sm md:text-base leading-6 md:leading-[30px]">
-                Age Limit
-              </span>
-              <span className="text-[#FDFDFD] text-center font-semibold text-base md:text-xl leading-7 md:leading-[34px]">
-                13
-              </span>
+              {/* Age Limit Card */}
+              <div className="flex p-5 flex-col items-center gap-2 flex-1 rounded-2xl border border-[#252B37] bg-black">
+                <CustomSmileIcon size={32} />
+                <span className="text-[#D5D7DA] text-center font-normal text-base leading-[30px]">
+                  Age Limit
+                </span>
+                <span className="text-[#FDFDFD] text-center font-semibold text-xl leading-[34px]">
+                  13
+                </span>
+              </div>
             </div>
           </div>
         </div>
