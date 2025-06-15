@@ -116,7 +116,7 @@ const Home = () => {
                 <div className="flex flex-col md:flex-row gap-3 md:gap-6">
                   {/* Watch Trailer Button */}
                   <button
-                    className="flex items-center justify-center bg-[#961200] hover:bg-[#7d1000] text-white h-[52px] text-base md:text-lg font-semibold rounded-full w-[230px] gap-2 transition-all duration-150 shadow"
+                    className="flex items-center justify-center bg-[#961200] hover:bg-[#7d1000] text-white h-[44px] text-base md:text-lg font-semibold rounded-full w-full md:w-[230px] gap-2 transition-all duration-150 shadow"
                     onClick={handleToggleTrailer}
                     disabled={trailerLoading}
                   >
@@ -136,7 +136,7 @@ const Home = () => {
                   </button>
                   <a
                     href={`/movie/${heroMovie.id}`}
-                    className="flex items-center justify-center h-[52px] w-[230px] rounded-full border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] hover:bg-[rgba(10,13,18,0.80)] text-white text-base md:text-lg font-semibold transition-all duration-150"
+                    className="flex items-center justify-center h-[44px] w-full md:w-[230px] rounded-full border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] hover:bg-[rgba(10,13,18,0.80)] text-white text-base md:text-lg font-semibold transition-all duration-150"
                   >
                     See Detail
                   </a>
