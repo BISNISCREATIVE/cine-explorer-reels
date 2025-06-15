@@ -66,44 +66,52 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
               <Button
                 onClick={onWatchTrailer}
                 disabled={!hasTrailer}
-                className={`
-                  flex items-center justify-center gap-[8px]
-                  px-2 py-1
+                className="
+                  flex items-center justify-between
+                  px-6
                   rounded-full
-                  bg-[#961200] hover:bg-[#7d1000] text-white text-base font-bold shadow transition
+                  bg-[#961200] hover:bg-[#7d1000] text-white text-base font-bold transition
                   disabled:bg-gray-700 disabled:hover:bg-gray-700
-                  w-[220px] h-[52px] min-w-[220px] min-h-[52px] max-w-[220px] max-h-[52px]
-                  md:w-[220px] md:h-[52px]
-                `}
+                  w-[230px] h-[48px] min-w-[230px] min-h-[48px] max-w-[230px] max-h-[48px]
+                  shadow-none border-none
+                "
                 style={{
                   display: 'flex',
-                  width: 220,
-                  height: 52,
-                  padding: 8,
-                  justifyContent: 'center',
+                  width: 230,
+                  height: 48,
+                  paddingLeft: 24,
+                  paddingRight: 18,
+                  justifyContent: 'space-between',
                   alignItems: 'center',
                   gap: 8,
-                  flex: 'none',
                   borderRadius: 9999,
                   background: '#961200',
+                  boxShadow: 'none',
+                  border: 'none'
                 }}
               >
-                <span className="flex-1 text-center font-bold text-base">{isTrailerVisible ? "Close Trailer" : "Watch Trailer"}</span>
+                <span className="font-bold text-base text-white pl-0 pr-2 flex-1 text-left leading-none select-none">
+                  {isTrailerVisible ? "Close Trailer" : "Watch Trailer"}
+                </span>
                 <span
                   className="flex items-center justify-center"
                   style={{
-                    display: 'flex',
-                    width: 24,
-                    height: 24,
-                    padding: 2,
+                    width: 20,
+                    height: 20,
+                    padding: 0,
                     justifyContent: 'center',
                     alignItems: 'center',
                     flexShrink: 0,
                     aspectRatio: '1 / 1',
-                    borderRadius: 0,
+                    borderRadius: 9999,
+                    background: 'white',
                   }}
                 >
-                  {isTrailerVisible ? <X size={24} /> : <PlayIcon size={24} />}
+                  {isTrailerVisible ? 
+                    <X size={16} color="#961200" style={{marginLeft: 0, marginRight: 0}} /> 
+                    : 
+                    <PlayIcon size={16} style={{ color: '#961200', marginLeft: 0, marginRight: 0 }} />
+                  }
                 </span>
               </Button>
 
