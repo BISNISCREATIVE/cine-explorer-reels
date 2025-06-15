@@ -8,6 +8,7 @@ import Logo from "./Logo";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
@@ -23,6 +24,7 @@ const Header = () => {
 
   useEffect(() => {
     setIsMenuOpen(false);
+    setShowMobileSearch(false);
   }, [location.pathname]);
 
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -31,6 +33,7 @@ const Header = () => {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
       setSearchQuery('');
       setIsMenuOpen(false); // Close mobile menu on search
+      setShowMobileSearch(false);
     }
   };
 
@@ -39,7 +42,7 @@ const Header = () => {
   const isMovieDetailPage = location.pathname.startsWith('/movie/');
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ease-in-out ${scrolled || !isHome || isMenuOpen || isMovieDetailPage ? 'bg-black border-b border-gray-800' : 'bg-transparent'}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ease-in-out ${scrolled || !isHome || isMenuOpen || isMovieDetailPage || showMobileSearch ? 'bg-black border-b border-gray-800' : 'bg-transparent'}`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {isMovieDetailPage ? (
@@ -52,40 +55,37 @@ const Header = () => {
             </>
           ) : (
             <>
-              {/* Logo */}
-              <Link to="/" className="flex items-center gap-[7.111px] w-[129.111px]">
-                <Logo size={40} />
-                <span className="text-white font-medium text-xl">Movie</span>
-              </Link>
-              {/* Desktop Navigation */}
-              <nav className="hidden md:flex items-center space-x-12">
-                <Link
-                  to="/"
-                  className={`text-sm font-medium transition-colors flex items-center justify-center p-2 gap-2 rounded-none ${
-                    isActive('/') 
-                      ? 'text-white bg-gray-800' 
-                      : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
-                  }`}
-                >
-                  <Home size={18} />
-                  <span>Home</span>
+              {/* Desktop View */}
+              <div className="hidden md:flex items-center justify-between w-full">
+                <Link to="/" className="flex items-center gap-[7.111px]">
+                  <Logo size={40} />
+                  <span className="text-white font-medium text-xl">Movie</span>
                 </Link>
-                <Link
-                  to="/favorites"
-                  className={`text-sm font-medium transition-colors flex items-center justify-center p-2 gap-2 rounded-none ${
-                    isActive('/favorites') 
-                      ? 'text-white bg-gray-800' 
-                      : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
-                  }`}
-                >
-                  <Heart size={18} />
-                  <span>Favorites</span>
-                </Link>
-              </nav>
-
-              {/* Search */}
-              <div className="hidden md:flex items-center">
-                 <form onSubmit={handleSearchSubmit} className="flex-shrink-0 flex items-center gap-2 w-[243px] h-[56px] py-2 px-4 rounded-2xl border border-[#252B37] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px]">
+                <nav className="flex items-center space-x-12">
+                  <Link
+                    to="/"
+                    className={`text-sm font-medium transition-colors flex items-center justify-center p-2 gap-2 rounded-none ${
+                      isActive('/') 
+                        ? 'text-white bg-gray-800' 
+                        : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                    }`}
+                  >
+                    <Home size={18} />
+                    <span>Home</span>
+                  </Link>
+                  <Link
+                    to="/favorites"
+                    className={`text-sm font-medium transition-colors flex items-center justify-center p-2 gap-2 rounded-none ${
+                      isActive('/favorites') 
+                        ? 'text-white bg-gray-800' 
+                        : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                    }`}
+                  >
+                    <Heart size={18} />
+                    <span>Favorites</span>
+                  </Link>
+                </nav>
+                <form onSubmit={handleSearchSubmit} className="flex-shrink-0 flex items-center gap-2 w-[243px] h-[56px] py-2 px-4 rounded-2xl border border-[#252B37] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px]">
                   <Search className="text-gray-400 w-6 h-6 flex-shrink-0" />
                   <Input
                     type="text"
@@ -96,14 +96,41 @@ const Header = () => {
                   />
                 </form>
               </div>
-
-              {/* Mobile Menu Button */}
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden text-white"
-              >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
+              
+              {/* Mobile View */}
+              <div className="md:hidden flex items-center justify-between w-full">
+                {showMobileSearch ? (
+                  <form onSubmit={handleSearchSubmit} className="flex-shrink-0 flex items-center gap-2 w-full">
+                    <Search className="text-gray-400 w-6 h-6 flex-shrink-0" />
+                    <Input
+                      type="text"
+                      placeholder="Search Movie"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="bg-transparent border-0 w-full h-full p-0 text-white placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 text-base"
+                      autoFocus
+                    />
+                    <button type="button" onClick={() => setShowMobileSearch(false)} className="text-white">
+                      <X size={24} />
+                    </button>
+                  </form>
+                ) : (
+                  <>
+                    <Link to="/" className="flex items-center gap-[7.111px]">
+                      <Logo size={40} />
+                      <span className="text-white font-medium text-xl">Movie</span>
+                    </Link>
+                    <div className="flex items-center gap-4">
+                      <button onClick={() => { setShowMobileSearch(true); setIsMenuOpen(false); }} className="text-white">
+                        <Search size={24} />
+                      </button>
+                      <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white">
+                        {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </>
           )}
         </div>
@@ -132,16 +159,6 @@ const Header = () => {
                 <Heart size={18} />
                 <span>Favorites</span>
               </Link>
-               <form onSubmit={handleSearchSubmit} className="flex-shrink-0 flex items-center gap-2 w-full h-[56px] py-2 px-4 rounded-2xl border border-[#252B37] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px]">
-                <Search className="text-gray-400 w-6 h-6 flex-shrink-0" />
-                <Input
-                  type="text"
-                  placeholder="Search Movie"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="bg-transparent border-0 w-full h-full p-0 text-white placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 text-base"
-                />
-              </form>
             </nav>
           </div>
         )}
