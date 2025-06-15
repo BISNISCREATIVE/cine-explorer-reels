@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { MovieDetails, Credits, Video } from '@/types/movie';
@@ -96,7 +97,7 @@ const MovieDetail = () => {
 
   return (
     <div className="min-h-screen bg-black">
-      {/* Hero Section */}
+      {/* Hero Section - no top padding since header is transparent */}
       <MovieHeroSection
         movie={movie}
         onWatchTrailer={handleWatchTrailer}
@@ -105,8 +106,8 @@ const MovieDetail = () => {
       />
 
       {/* Content Sections */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="space-y-12">
+      <div className="container mx-auto px-4 py-8 md:py-12">
+        <div className="space-y-8 md:space-y-12">
           {/* Overview */}
           <MovieOverview movie={movie} />
 

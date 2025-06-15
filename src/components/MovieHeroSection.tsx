@@ -30,11 +30,11 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 pb-10 pt-32">
-        <div className="md:flex md:flex-row md:gap-8 md:items-end">
+      <div className="relative z-10 container mx-auto px-4 pb-6 md:pb-10 pt-20 md:pt-32">
+        <div className="flex flex-col md:flex-row md:gap-8 md:items-end">
           {/* Poster */}
-          <div className="flex-shrink-0 mx-auto md:mx-0">
-            <div className="rounded-xl shadow-2xl bg-white/5 backdrop-blur-md p-1 w-48 md:w-72">
+          <div className="flex-shrink-0 mx-auto md:mx-0 mb-6 md:mb-0">
+            <div className="rounded-xl shadow-2xl bg-white/5 backdrop-blur-md p-1 w-40 md:w-72">
               <img
                 src={tmdbApi.getImageUrl(movie.poster_path, 'w500')}
                 alt={movie.title}
@@ -44,13 +44,13 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
           </div>
 
           {/* Details Column */}
-          <div className="flex-1 flex flex-col gap-4 mt-6 md:mt-0 text-center md:text-left">
+          <div className="flex-1 flex flex-col gap-4 text-center md:text-left">
             {/* Title & Date */}
             <div>
-              <h1 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold">
+              <h1 className="text-white text-2xl md:text-4xl lg:text-5xl font-bold mb-2">
                 {movie.title}
               </h1>
-              <div className="flex items-center justify-center md:justify-start gap-2 text-gray-300 mt-2">
+              <div className="flex items-center justify-center md:justify-start gap-2 text-gray-300">
                 <Calendar size={16} className="mr-1" />
                 <span className="text-sm md:text-base">
                   {new Date(movie.release_date).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}
@@ -59,12 +59,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
             </div>
 
             {/* Buttons */}
-            <div
-              className="
-                flex flex-row items-center justify-center md:justify-start gap-4 
-                w-full
-              "
-            >
+            <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-4 w-full">
               {/* Watch Trailer Button */}
               <Button
                 onClick={onWatchTrailer}
@@ -124,9 +119,6 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                 onClick={() => toggleFavorite(movie)}
                 className={`w-14 h-14 flex-shrink-0 flex justify-center items-center rounded-full border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] transition-colors hover:bg-[rgba(10,13,18,0.8)]
                   ${isFavorite(movie.id) ? "text-red-500" : "text-white"}`}
-                style={{
-                  marginLeft: '0',
-                }}
               >
                 <Heart
                   size={28}
@@ -135,22 +127,13 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
               </button>
             </div>
 
-            {/* Info Card */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 20,
-                alignSelf: 'stretch',
-                padding: 0,
-              }}
-              className="mt-4"
-            >
+            {/* Info Cards */}
+            <div className="flex flex-row gap-3 md:gap-5 mt-4 md:mt-6">
               {/* Rating Card */}
               <div
                 style={{
                   display: 'flex',
-                  padding: '16px', // Mobile: 16px, Desktop: 20px (handled via responsive classes)
+                  padding: '16px',
                   flexDirection: 'column',
                   alignItems: 'center',
                   gap: 8,
@@ -160,19 +143,20 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                   border: '1px solid #252B37',
                   background: '#000',
                 }}
-                className="md:!p-5" // Desktop: 20px padding
+                className="md:!p-5"
               >
-                <Star className="text-yellow-400 fill-yellow-400" size={32} strokeWidth={2.2} />
+                <Star className="text-yellow-400 fill-yellow-400" size={24} strokeWidth={2.2} />
                 <span
                   style={{
                     color: '#D5D7DA',
                     textAlign: 'center',
                     fontFamily: 'Poppins',
-                    fontSize: 16,
+                    fontSize: 14,
                     fontStyle: 'normal',
                     fontWeight: 400,
-                    lineHeight: '30px',
+                    lineHeight: '24px',
                   }}
+                  className="md:!text-base md:!leading-[30px]"
                 >
                   Rating
                 </span>
@@ -181,20 +165,22 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                     color: '#FDFDFD',
                     textAlign: 'center',
                     fontFamily: 'Poppins',
-                    fontSize: 20,
+                    fontSize: 16,
                     fontStyle: 'normal',
                     fontWeight: 600,
-                    lineHeight: '34px',
+                    lineHeight: '28px',
                   }}
+                  className="md:!text-xl md:!leading-[34px]"
                 >
                   {movie.vote_average.toFixed(1).replace('.', ',')}/10
                 </span>
               </div>
+
               {/* Genre Card */}
               <div
                 style={{
                   display: 'flex',
-                  padding: '16px', // Mobile: 16px, Desktop: 20px (handled via responsive classes)
+                  padding: '16px',
                   flexDirection: 'column',
                   alignItems: 'center',
                   gap: 8,
@@ -204,19 +190,20 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                   border: '1px solid #252B37',
                   background: '#000',
                 }}
-                className="md:!p-5" // Desktop: 20px padding
+                className="md:!p-5"
               >
-                <CustomFilmIcon size={32} />
+                <CustomFilmIcon size={24} className="md:!w-8 md:!h-8" />
                 <span
                   style={{
                     color: '#D5D7DA',
                     textAlign: 'center',
                     fontFamily: 'Poppins',
-                    fontSize: 16,
+                    fontSize: 14,
                     fontStyle: 'normal',
                     fontWeight: 400,
-                    lineHeight: '30px',
+                    lineHeight: '24px',
                   }}
+                  className="md:!text-base md:!leading-[30px]"
                 >
                   Genre
                 </span>
@@ -225,20 +212,22 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                     color: '#FDFDFD',
                     textAlign: 'center',
                     fontFamily: 'Poppins',
-                    fontSize: 20,
+                    fontSize: 16,
                     fontStyle: 'normal',
                     fontWeight: 600,
-                    lineHeight: '34px',
+                    lineHeight: '28px',
                   }}
+                  className="md:!text-xl md:!leading-[34px]"
                 >
                   {movie.genres[0]?.name || 'N/A'}
                 </span>
               </div>
+
               {/* Age Limit Card */}
               <div
                 style={{
                   display: 'flex',
-                  padding: '16px', // Mobile: 16px, Desktop: 20px (handled via responsive classes)
+                  padding: '16px',
                   flexDirection: 'column',
                   alignItems: 'center',
                   gap: 8,
@@ -248,19 +237,20 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                   border: '1px solid #252B37',
                   background: '#000',
                 }}
-                className="md:!p-5" // Desktop: 20px padding
+                className="md:!p-5"
               >
-                <CustomSmileIcon size={32} />
+                <CustomSmileIcon size={24} className="md:!w-8 md:!h-8" />
                 <span
                   style={{
                     color: '#D5D7DA',
                     textAlign: 'center',
                     fontFamily: 'Poppins',
-                    fontSize: 16,
+                    fontSize: 14,
                     fontStyle: 'normal',
                     fontWeight: 400,
-                    lineHeight: '30px',
+                    lineHeight: '24px',
                   }}
+                  className="md:!text-base md:!leading-[30px]"
                 >
                   Age Limit
                 </span>
@@ -269,11 +259,12 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                     color: '#FDFDFD',
                     textAlign: 'center',
                     fontFamily: 'Poppins',
-                    fontSize: 20,
+                    fontSize: 16,
                     fontStyle: 'normal',
                     fontWeight: 600,
-                    lineHeight: '34px',
+                    lineHeight: '28px',
                   }}
+                  className="md:!text-xl md:!leading-[34px]"
                 >
                   13
                 </span>
