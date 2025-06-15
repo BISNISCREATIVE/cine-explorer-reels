@@ -55,7 +55,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
               <Button 
                 onClick={onWatchTrailer}
                 disabled={!hasTrailer}
-                className="bg-red-600 hover:bg-red-700 text-white px-7 py-2 text-base font-semibold rounded-lg shadow transition disabled:bg-gray-700 disabled:hover:bg-gray-700"
+                className="flex-1 h-11 p-2 rounded-full bg-[#961200] hover:bg-[#7d1000] text-white text-base font-semibold shadow transition disabled:bg-gray-700 disabled:hover:bg-gray-700"
               >
                 {isTrailerVisible ? (
                   <>
