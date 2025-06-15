@@ -205,7 +205,7 @@ const Home = () => {
 
         {/* NEW RELEASE GRID */}
         <section className="container max-w-[1200px] mx-auto px-4 pb-16 md:px-10 md:pb-24 pt-4 md:pt-6">
-          <h2 className="text-white text-xl md:text-3xl font-extrabold mb-5 md:mb-7 mt-0 drop-shadow">New Release</h2>
+          <h2 className="font-poppins text-[#FDFDFD] text-2xl md:text-4xl font-bold leading-[48px] tracking-[-0.72px] mb-5 md:mb-7 drop-shadow">New Release</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 xl:grid-cols-6 gap-x-4 md:gap-x-7 gap-y-6 md:gap-y-7">
             {newReleaseMovies.map((movie) => (
               <MovieCard key={movie.id} movie={movie} />
