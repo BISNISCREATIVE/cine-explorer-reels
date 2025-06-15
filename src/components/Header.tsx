@@ -10,6 +10,16 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Set initial state
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -25,9 +35,10 @@ const Header = () => {
   };
 
   const isActive = (path: string) => location.pathname === path;
+  const isHome = location.pathname === '/';
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-gray-800">
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ease-in-out ${scrolled || !isHome || isMenuOpen ? 'bg-black border-b border-gray-800' : 'bg-transparent'}`}>
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
