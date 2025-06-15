@@ -15,6 +15,11 @@ const MovieDetail = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Reset state every time id changes
+    setMovie(null);
+    setCredits(null);
+    setLoading(true);
+
     const fetchMovieData = async () => {
       if (!id) return;
 
@@ -23,7 +28,6 @@ const MovieDetail = () => {
           tmdbApi.getMovieDetails(parseInt(id)),
           tmdbApi.getMovieCredits(parseInt(id)),
         ]);
-
         setMovie(movieResponse);
         setCredits(creditsResponse);
       } catch (error) {
@@ -78,3 +82,4 @@ const MovieDetail = () => {
 };
 
 export default MovieDetail;
+
