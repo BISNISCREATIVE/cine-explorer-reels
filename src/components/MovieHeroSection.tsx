@@ -70,7 +70,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
               <button
                 aria-label={isFavorite(movie.id) ? "Remove from Favorites" : "Add to Favorites"}
                 onClick={() => toggleFavorite(movie)}
-                className={`ml-2 w-11 h-11 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 border border-white/20 shadow transition-colors
+                className={`w-11 h-11 p-2 flex justify-center items-center gap-2 aspect-square rounded-full border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] transition-colors hover:bg-[rgba(10,13,18,0.8)]
                   ${isFavorite(movie.id) ? "text-red-500" : "text-white"}`}
               >
                 <Heart
