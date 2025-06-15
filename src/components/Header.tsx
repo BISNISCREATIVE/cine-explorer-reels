@@ -1,10 +1,10 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Menu, X, Home, Heart } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import Logo from "./Logo";
 import { tmdbApi } from "@/services/tmdb";
+import MovieSearchResults from './MovieSearchResults';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,6 +12,7 @@ const Header = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
+  const [showResultsPanel, setShowResultsPanel] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -54,10 +55,16 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  // Show panel when input focused & ada searchQuery
+  useEffect(() => {
+    setShowResultsPanel(!!searchFocused && !!searchQuery);
+  }, [searchFocused, searchQuery]);
+
   const handleSelectMovie = (id: number) => {
     setSearchQuery('');
     setSearchResults([]);
     setSearchFocused(false);
+    setShowResultsPanel(false);
     navigate(`/movie/${id}`);
   };
 
@@ -114,34 +121,6 @@ const Header = () => {
               <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
                 <Search size={16} />
               </button>
-              {/* Dropdown search results */}
-              {searchFocused && searchQuery && (
-                <div className="absolute top-12 left-0 w-full z-50 bg-gray-900 border border-gray-800 rounded-b-lg shadow-lg max-h-80 overflow-y-auto">
-                  {searchLoading ? (
-                    <div className="text-sm text-gray-400 p-4">Searching...</div>
-                  ) : searchResults.length > 0 ? (
-                    searchResults.slice(0, 8).map((movie) => (
-                      <div
-                        key={movie.id}
-                        className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-800"
-                        onClick={() => handleSelectMovie(movie.id)}
-                      >
-                        <img
-                          src={movie.poster_path ? tmdbApi.getImageUrl(movie.poster_path, 'w92') : '/placeholder.svg'}
-                          alt={movie.title}
-                          className="w-10 h-14 object-cover rounded mr-4 flex-shrink-0 bg-gray-700"
-                        />
-                        <div className="truncate">
-                          <div className="text-white font-semibold text-sm truncate">{movie.title}</div>
-                          <div className="text-gray-400 text-xs">{movie.release_date?.slice(0, 4)}</div>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="text-sm text-gray-400 p-4">No results found.</div>
-                  )}
-                </div>
-              )}
             </div>
           </div>
 
@@ -188,42 +167,21 @@ const Header = () => {
                   onFocus={() => setSearchFocused(true)}
                   className="pl-12 pr-4 py-2 w-full bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-gray-600 rounded-lg h-11"
                 />
-                {/* Dropdown search results (mobile) */}
-                {searchFocused && searchQuery && (
-                  <div className="absolute top-12 left-0 w-full z-50 bg-gray-900 border border-gray-800 rounded-b-lg shadow-lg max-h-80 overflow-y-auto">
-                    {searchLoading ? (
-                      <div className="text-sm text-gray-400 p-4">Searching...</div>
-                    ) : searchResults.length > 0 ? (
-                      searchResults.slice(0, 8).map((movie) => (
-                        <div
-                          key={movie.id}
-                          className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-800"
-                          onClick={() => {
-                            handleSelectMovie(movie.id);
-                            setIsMenuOpen(false);
-                          }}
-                        >
-                          <img
-                            src={movie.poster_path ? tmdbApi.getImageUrl(movie.poster_path, 'w92') : '/placeholder.svg'}
-                            alt={movie.title}
-                            className="w-10 h-14 object-cover rounded mr-4 flex-shrink-0 bg-gray-700"
-                          />
-                          <div className="truncate">
-                            <div className="text-white font-semibold text-sm truncate">{movie.title}</div>
-                            <div className="text-gray-400 text-xs">{movie.release_date?.slice(0, 4)}</div>
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <div className="text-sm text-gray-400 p-4">No results found.</div>
-                    )}
-                  </div>
-                )}
               </div>
             </nav>
           </div>
         )}
       </div>
+
+      {/* Show search results panel below header only if needed */}
+      {showResultsPanel && (
+        <MovieSearchResults
+          results={searchResults}
+          loading={searchLoading}
+          onSelect={handleSelectMovie}
+          searchQuery={searchQuery}
+        />
+      )}
     </header>
   );
 };
