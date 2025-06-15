@@ -18,8 +18,11 @@ const MobileSearchModal: React.FC<MobileSearchModalProps> = ({
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Ensure input is focused on modal open and not unfocused until modal closes
   useEffect(() => {
-    if (open && inputRef.current) inputRef.current.focus();
+    if (open && inputRef.current) {
+      inputRef.current.focus();
+    }
     if (!open) setSearchQuery(""); // Reset query on close
   }, [open]);
 
@@ -36,8 +39,7 @@ const MobileSearchModal: React.FC<MobileSearchModalProps> = ({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="top"
-        // -- FULLSCREEN, no border-radius, full black
-        className="p-0 bg-black h-screen max-w-full !rounded-none border-0 flex flex-col"
+        className="p-0 bg-black h-screen max-w-full !rounded-none border-0 flex flex-col z-[9999]"
       >
         {/* HEADER BAR */}
         <form
@@ -55,6 +57,8 @@ const MobileSearchModal: React.FC<MobileSearchModalProps> = ({
           </button>
           <Input
             ref={inputRef}
+            type="search" // mobile will show Search keyboard
+            inputMode="search"
             className="
               flex-1 h-11
               rounded-xl bg-[#181B20]
@@ -79,3 +83,4 @@ const MobileSearchModal: React.FC<MobileSearchModalProps> = ({
   );
 };
 export default MobileSearchModal;
+
