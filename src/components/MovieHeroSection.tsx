@@ -57,26 +57,26 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
             </div>
 
             {/* Buttons */}
-            <div className="flex items-center justify-center md:justify-start gap-3">
+            <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-3">
               <Button 
                 onClick={onWatchTrailer}
                 disabled={!hasTrailer}
-                className="h-11 p-2 flex justify-center items-center gap-2 rounded-full bg-[#961200] hover:bg-[#7d1000] text-white text-base font-semibold shadow transition disabled:bg-gray-700 disabled:hover:bg-gray-700 w-auto px-6"
+                className="w-full h-16 px-4 flex justify-between items-center rounded-none bg-[#961200] hover:bg-[#7d1000] text-white text-base font-semibold shadow transition disabled:bg-gray-700 disabled:hover:bg-gray-700 md:w-auto md:h-14 md:px-8 md:justify-center md:rounded-lg md:gap-2"
               >
                 {isTrailerVisible ? (
                   <>
-                    Close Trailer <X size={18} className="ml-2" />
+                    <span>Close Trailer</span> <X size={24} />
                   </>
                 ) : (
                   <>
-                    Watch Trailer <PlayIcon size={18} className="ml-2" />
+                    <span>Watch Trailer</span> <PlayIcon size={24} />
                   </>
                 )}
               </Button>
               <button
                 aria-label={isFavorite(movie.id) ? "Remove from Favorites" : "Add to Favorites"}
                 onClick={() => toggleFavorite(movie)}
-                className={`w-11 h-11 p-2 flex justify-center items-center gap-2 aspect-square rounded-full border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] transition-colors hover:bg-[rgba(10,13,18,0.8)]
+                className={`w-14 h-14 p-2 flex justify-center items-center gap-2 aspect-square rounded-lg border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] transition-colors hover:bg-[rgba(10,13,18,0.8)]
                   ${isFavorite(movie.id) ? "text-red-500" : "text-white"}`}
               >
                 <Heart
