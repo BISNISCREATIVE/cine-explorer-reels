@@ -1,11 +1,12 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { MovieDetails, Credits } from '@/types/movie';
+import { MovieDetails, Credits, Video } from '@/types/movie';
 import { tmdbApi } from '@/services/tmdb';
 import MovieHeroSection from '@/components/MovieHeroSection';
 import MovieOverview from '@/components/MovieOverview';
 import MovieCastCrew from '@/components/MovieCastCrew';
+import InlineTrailerPlayer from '@/components/InlineTrailerPlayer';
 
 const MovieDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,22 +15,36 @@ const MovieDetail = () => {
   const [credits, setCredits] = useState<Credits | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Tambahan untuk trailer
+  const [trailers, setTrailers] = useState<Video[]>([]);
+  const [showTrailer, setShowTrailer] = useState(false);
+  const [selectedTrailer, setSelectedTrailer] = useState<Video | null>(null);
+
   useEffect(() => {
     // Reset state every time id changes
     setMovie(null);
     setCredits(null);
     setLoading(true);
+    setTrailers([]);
+    setShowTrailer(false);
+    setSelectedTrailer(null);
 
     const fetchMovieData = async () => {
       if (!id) return;
 
       try {
-        const [movieResponse, creditsResponse] = await Promise.all([
+        const [movieResponse, creditsResponse, trailerResponse] = await Promise.all([
           tmdbApi.getMovieDetails(parseInt(id)),
           tmdbApi.getMovieCredits(parseInt(id)),
+          tmdbApi.getMovieVideos(parseInt(id)),
         ]);
         setMovie(movieResponse);
         setCredits(creditsResponse);
+
+        const trailersFiltered = trailerResponse.results.filter(
+          (video: Video) => video.type === 'Trailer' && video.site === 'YouTube'
+        );
+        setTrailers(trailersFiltered);
       } catch (error) {
         console.error('Error fetching movie data:', error);
       } finally {
@@ -41,9 +56,15 @@ const MovieDetail = () => {
   }, [id]);
 
   const handleWatchTrailer = () => {
-    if (id) {
-      navigate(`/movie/${id}/trailer`);
+    if (trailers.length > 0) {
+      setSelectedTrailer(trailers[0]);
+      setShowTrailer(true);
     }
+  };
+
+  const handleCloseTrailer = () => {
+    setShowTrailer(false);
+    setSelectedTrailer(null);
   };
 
   if (loading) {
@@ -73,6 +94,11 @@ const MovieDetail = () => {
           {/* Overview */}
           <MovieOverview movie={movie} />
 
+          {/* Inline Trailer */}
+          {showTrailer && selectedTrailer && (
+            <InlineTrailerPlayer video={selectedTrailer} onClose={handleCloseTrailer} />
+          )}
+
           {/* Cast & Crew */}
           {credits && <MovieCastCrew credits={credits} />}
         </div>
@@ -82,4 +108,3 @@ const MovieDetail = () => {
 };
 
 export default MovieDetail;
-
