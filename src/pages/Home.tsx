@@ -4,7 +4,7 @@ import { Movie } from '@/types/movie';
 import { tmdbApi } from '@/services/tmdb';
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
 import MovieCard from '@/components/MovieCard';
-import { Loader2, Play, X } from 'lucide-react';
+import { Loader2, Play, X, Star } from 'lucide-react';
 
 const Home = () => {
   // Trending Now
@@ -60,7 +60,6 @@ const Home = () => {
     }
     if (!heroMovie) return;
     setTrailerLoading(true);
-    // Fetch trailer video TMDB
     try {
       const response = await tmdbApi.getMovieVideos(heroMovie.id);
       const trailers = response.results?.filter(
@@ -86,32 +85,31 @@ const Home = () => {
   return (
     <div className="bg-black min-h-screen">
       {/* HERO SECTION */}
-      <section className="relative h-[420px] md:h-[410px] w-full flex items-end overflow-hidden bg-gradient-to-b from-[#181c20] to-black">
+      <section className="relative w-full min-h-[430px] flex flex-col items-center bg-gradient-to-b from-[#181c20] to-black overflow-hidden sm:min-h-[420px]">
         {heroMovie && (
           <>
             <img
               src={tmdbApi.getImageUrl(heroMovie.backdrop_path, 'w1280')}
               alt={heroMovie.title}
-              className="absolute w-full h-full object-cover object-top opacity-80"
+              className="absolute w-full h-[300px] object-cover object-top opacity-80 sm:h-full sm:object-top"
               draggable={false}
+              style={{ top: 0 }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
-            <div className="container relative mx-auto z-10 px-4 flex flex-col justify-center h-full pb-10">
-              <h1 className="text-white text-3xl md:text-5xl font-bold mb-3 drop-shadow leading-tight">{heroMovie.title}</h1>
-              <p className="text-white/80 text-base md:text-lg mb-8 w-full md:w-1/2 drop-shadow-lg">{heroMovie.overview}</p>
-              <div className="flex gap-4">
+            {/* Overlay gradient */}
+            <div className="absolute inset-0 h-[300px] bg-gradient-to-b from-black/70 via-black/50 to-transparent pointer-events-none" />
+            {/* Poster+Title+Desc */}
+            <div className="relative z-10 flex flex-col w-full px-4 items-start pt-[210px] pb-6 sm:px-4 sm:pt-[260px]">
+              <h1 className="text-white text-[26px] font-extrabold mb-2 drop-shadow md:text-3xl">{heroMovie.title}</h1>
+              <p className="text-white/80 text-base mb-6 line-clamp-3 max-w-lg">{heroMovie.overview}</p>
+              <div className="flex flex-col gap-3 w-full">
                 {/* Watch Trailer Button */}
                 <button
                   className={
-                    "flex items-center gap-2 " +
-                    (showTrailer
-                      ? "bg-gray-700 hover:bg-gray-800"
-                      : "bg-[#941C10] hover:bg-[#7e160c]") +
-                    " text-white px-8 py-3 text-lg font-semibold rounded-full shadow transition-all duration-150"
+                    "w-full flex items-center justify-center gap-2 bg-[#B91D12] hover:bg-[#941C10] text-white py-3 text-lg font-semibold rounded-full shadow transition-all duration-150"
                   }
-                  style={{ minWidth: 180 }}
                   onClick={handleToggleTrailer}
                   disabled={trailerLoading}
+                  style={{ minHeight: 50 }}
                 >
                   {trailerLoading ? (
                     <Loader2 size={24} className="animate-spin" />
@@ -130,8 +128,8 @@ const Home = () => {
                 {/* See Detail Button */}
                 <a
                   href={`/movie/${heroMovie.id}`}
-                  className="bg-[#181B23] hover:bg-[#232631] text-white px-8 py-3 text-lg font-semibold rounded-full shadow transition-all duration-150 flex items-center justify-center"
-                  style={{ minWidth: 180 }}
+                  className="w-full flex items-center justify-center border-2 border-[#232631] bg-transparent hover:bg-[#181B23] text-white py-3 text-lg font-semibold rounded-full shadow transition-all duration-150"
+                  style={{ minHeight: 50 }}
                 >
                   See Detail
                 </a>
@@ -143,8 +141,8 @@ const Home = () => {
 
       {/* Trailer Player (shown below Hero Section) */}
       {showTrailer && trailerVideoKey && (
-        <div className="flex justify-center bg-black py-6">
-          <div className="w-full max-w-3xl aspect-video rounded-xl overflow-hidden shadow-lg border border-[#232631]">
+        <div className="flex justify-center bg-black py-5 px-2">
+          <div className="w-full max-w-2xl aspect-video rounded-xl overflow-hidden shadow-lg border border-[#232631]">
             <iframe
               width="100%"
               height="100%"
@@ -159,45 +157,66 @@ const Home = () => {
       )}
 
       {/* TRENDING NOW CAROUSEL */}
-      <section className="container mx-auto px-4 pb-8 pt-10">
-        <h2 className="text-white text-2xl md:text-3xl font-bold mb-7">Trending Now</h2>
+      <section className="container mx-auto px-3 pb-6 pt-2">
+        <h2 className="text-white text-xl font-bold mb-4 mt-0 md:text-2xl">Trending Now</h2>
         {trendingLoading ? (
           <div className="flex items-center justify-center h-40">
             <Loader2 className="w-8 h-8 text-white animate-spin" />
           </div>
         ) : (
-          <div className="relative">
-            <Carousel className="w-full">
-              <CarouselPrevious />
-              <CarouselNext />
-              <CarouselContent className="gap-7">
-                {trendingMovies.map((movie, idx) => (
-                  <CarouselItem
-                    key={movie.id}
-                    className="basis-2/3 sm:basis-1/3 md:basis-1/4 lg:basis-1/6"
-                  >
-                    <MovieCard movie={movie} rank={idx + 1} hideFavorite compact />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
+          <div className="flex gap-3 overflow-x-auto scrollbar-none min-h-[278px]">
+            {trendingMovies.slice(0, 10).map((movie, idx) => (
+              <div key={movie.id} className="flex-shrink-0 w-[140px] relative group">
+                <img
+                  src={tmdbApi.getImageUrl(movie.poster_path)}
+                  alt={movie.title}
+                  className="rounded-2xl object-cover w-full h-[210px] bg-[#1a1a1a] group-hover:scale-105 transition"
+                  style={{ minHeight: '210px' }}
+                />
+                {/* Rank badge */}
+                <div className="absolute top-2 left-2 z-10 bg-[#131417]/80 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shadow">
+                  {idx + 1}
+                </div>
+                <div className="mt-2">
+                  <div className="text-white text-xs font-semibold leading-tight line-clamp-1 mb-0">{movie.title}</div>
+                  <div className="flex items-center gap-1 mt-0.5">
+                    <Star size={13} className="text-yellow-400 fill-yellow-400" />
+                    <span className="text-gray-200 text-sm">{movie.vote_average.toFixed(1)}/10</span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </section>
 
       {/* NEW RELEASE GRID */}
-      <section className="container mx-auto px-4 pb-16">
-        <h2 className="text-white text-2xl md:text-3xl font-bold mb-7">New Release</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-7">
+      <section className="container mx-auto px-3 pb-16 pt-1">
+        <h2 className="text-white text-xl font-bold mb-4 md:text-2xl">New Release</h2>
+        <div className="grid grid-cols-2 gap-3">
           {newReleaseMovies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} hideFavorite compact />
+            <div key={movie.id} className="group">
+              <img
+                src={tmdbApi.getImageUrl(movie.poster_path)}
+                alt={movie.title}
+                className="rounded-2xl object-cover w-full h-[220px] bg-[#1a1a1a] group-hover:scale-105 transition"
+                style={{ minHeight: '220px' }}
+              />
+              <div className="mt-1">
+                <div className="text-white text-xs font-semibold leading-tight line-clamp-1 mb-0">{movie.title}</div>
+                <div className="flex items-center gap-1 mt-0.5">
+                  <Star size={13} className="text-yellow-400 fill-yellow-400" />
+                  <span className="text-gray-200 text-sm">{movie.vote_average.toFixed(1)}/10</span>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
         <div className="flex justify-center mt-8">
           {hasMoreNewReleases && (
             <button
               disabled={newReleaseLoading}
-              className="bg-white/5 border border-white/20 hover:bg-white/10 text-white px-7 py-3 text-base font-semibold rounded-full transition min-w-[180px]"
+              className="w-full bg-transparent border-2 border-[#232631] hover:bg-[#181B23] text-white py-3 text-base font-semibold rounded-full transition min-h-[50px] mt-0"
               onClick={() => setNewReleasePage(p => p + 1)}
             >
               {newReleaseLoading ? <Loader2 className="inline w-5 h-5 animate-spin" /> : 'Load More'}
