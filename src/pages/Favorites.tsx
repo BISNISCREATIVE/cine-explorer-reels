@@ -1,10 +1,10 @@
-
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { Star, Heart, X, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFavorites } from "@/hooks/useFavorites";
 import { tmdbApi } from "@/services/tmdb";
+import PlayCircleIcon from "@/components/PlayCircleIcon";
 
 const EmptyState = () => (
   <div className="flex flex-col items-center text-center">
@@ -85,14 +85,12 @@ const FavoriteMovieCard = ({
             }}
           >
             <span className="pr-2">{watchingTrailerId === movie.id ? 'Close Trailer' : 'Watch Trailer'}</span>
-            <span
-              className="flex items-center justify-center rounded-full bg-white/20"
-              style={{ width: 32, height: 32 }}
-            >
+            <span className="flex items-center justify-center">
+              {/* Perubahan: Ikon khusus dari gambar referensi */}
               {watchingTrailerId === movie.id ? (
                 <X size={20} className="text-white" />
               ) : (
-                <Play size={20} className="text-white" />
+                <PlayCircleIcon size={32} />
               )}
             </span>
           </button>
