@@ -56,11 +56,11 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
             </div>
 
             {/* Buttons */}
-            <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-3">
+            <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-4">
               <Button 
                 onClick={onWatchTrailer}
                 disabled={!hasTrailer}
-                className="w-full h-16 px-4 flex justify-between items-center rounded-none bg-[#961200] hover:bg-[#7d1000] text-white text-base font-semibold shadow transition disabled:bg-gray-700 disabled:hover:bg-gray-700 md:w-auto md:h-14 md:px-8 md:justify-center md:rounded-full md:gap-2"
+                className="w-full h-16 px-4 flex justify-between items-center rounded-none bg-[#961200] hover:bg-[#7d1000] text-white text-base font-bold shadow transition disabled:bg-gray-700 disabled:hover:bg-gray-700 md:w-auto md:h-14 md:px-12 md:justify-center md:rounded-full md:gap-2"
               >
                 {isTrailerVisible ? (
                   <>
