@@ -6,51 +6,41 @@ interface MovieCastCrewProps {
   credits: Credits;
 }
 
-const CARD_WIDTH = 69;
-const CARD_HEIGHT = 104;
+const PROFILE_SIZE = 56;
 
 const MovieCastCrew = ({ credits }: MovieCastCrewProps) => {
-  // Slice only first 6 cast
+  // Ambil hanya 6 cast teratas
   const castList = credits.cast.slice(0, 6);
+
   return (
-    <section className="mt-10">
-      <h2 className="text-white text-2xl font-extrabold mb-6">Cast &amp; Crew</h2>
+    <section className="mt-8">
+      <h2 className="text-white text-xl font-bold mb-4">Cast &amp; Crew</h2>
       <div
-        className="flex flex-wrap gap-x-[96px] gap-y-[48px] items-start"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-12 gap-y-8"
         style={{
-          padding: 0,
           alignSelf: 'stretch',
         }}
       >
-        {castList.map((actor, idx) => (
+        {castList.map((actor) => (
           <div
             key={actor.id}
             className="flex flex-row items-center"
             style={{
-              flex: '0 0 calc(33.3333% - 64px)', // minus 2/3 gap for 3 columns
-              minWidth: 230,
-              maxWidth: 320,
               padding: 0,
+              borderRadius: 0,
               alignSelf: 'stretch',
-              gap: 24,
             }}
           >
             {/* Cast Image */}
             <div
-              className="flex-shrink-0"
+              className={`flex-shrink-0 w-[${PROFILE_SIZE}px] h-[${PROFILE_SIZE}px] rounded-full bg-gray-800 overflow-hidden flex items-center justify-center mr-4`}
               style={{
-                width: CARD_WIDTH,
-                height: CARD_HEIGHT,
-                borderRadius: '10px',
+                width: PROFILE_SIZE,
+                height: PROFILE_SIZE,
+                borderRadius: '50%',
                 background: actor.profile_path
-                  ? `url(${tmdbApi.getImageUrl(actor.profile_path, 'w185')}) lightgray 50% / cover no-repeat`
-                  : 'lightgray',
-                overflow: 'hidden',
-                position: 'relative',
-                boxShadow: '0 2px 12px 0 rgba(0,0,0,0.12)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+                  ? `url(${tmdbApi.getImageUrl(actor.profile_path, 'w185')}) center/cover no-repeat`
+                  : '#23272F',
               }}
             >
               {!actor.profile_path && (
@@ -58,10 +48,6 @@ const MovieCastCrew = ({ credits }: MovieCastCrewProps) => {
                   className="text-gray-400 text-xs w-full text-center"
                   style={{
                     position: 'absolute',
-                    top: '50%',
-                    left: 0,
-                    right: 0,
-                    transform: 'translateY(-50%)',
                   }}
                 >
                   N/A
@@ -70,11 +56,11 @@ const MovieCastCrew = ({ credits }: MovieCastCrewProps) => {
             </div>
             {/* Cast Info */}
             <div className="flex flex-col items-start min-w-0">
-              <h3 className="text-white text-lg font-extrabold leading-snug truncate max-w-[180px]">
+              <h3 className="text-white text-base font-semibold leading-tight truncate max-w-[150px] mb-0.5">
                 {actor.name}
               </h3>
               {actor.character && (
-                <p className="text-gray-400 text-base font-medium leading-snug whitespace-pre-line truncate max-w-[180px]">
+                <p className="text-gray-400 text-xs font-medium leading-tight truncate max-w-[150px]">
                   {actor.character}
                 </p>
               )}
