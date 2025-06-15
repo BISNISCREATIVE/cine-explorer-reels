@@ -58,25 +58,27 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
 
             {/* Buttons */}
             <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-4">
-              <Button 
+              {/* Watch Trailer Button */}
+              <Button
                 onClick={onWatchTrailer}
                 disabled={!hasTrailer}
-                className="w-full h-16 px-4 flex justify-between items-center rounded-none bg-[#961200] hover:bg-[#7d1000] text-white text-base md:text-lg font-bold shadow transition disabled:bg-gray-700 disabled:hover:bg-gray-700 md:w-auto md:h-16 md:px-10 md:justify-center md:rounded-full md:gap-3"
+                // Mobile: full width, rounded, height 56px, large text, merah, bold, icon kanan
+                className={`w-full h-14 px-7 flex flex-row items-center justify-center rounded-full bg-[#961200] hover:bg-[#7d1000] text-white text-lg font-extrabold shadow transition
+                  disabled:bg-gray-700 disabled:hover:bg-gray-700
+                  md:w-auto md:h-16 md:px-10 md:text-lg md:font-bold md:gap-3
+                `}
               >
-                {isTrailerVisible ? (
-                  <>
-                    <span>Close Trailer</span> <X size={24} />
-                  </>
-                ) : (
-                  <>
-                    <span>Watch Trailer</span> <PlayIcon size={24} />
-                  </>
-                )}
+                <span className="flex-1 text-center">{isTrailerVisible ? "Close Trailer" : "Watch Trailer"}</span>
+                <span className="ml-2 flex">
+                  {isTrailerVisible ? <X size={24} /> : <PlayIcon size={24} />}
+                </span>
               </Button>
+
+              {/* Favorite Button */}
               <button
                 aria-label={isFavorite(movie.id) ? "Remove from Favorites" : "Add to Favorites"}
                 onClick={() => toggleFavorite(movie)}
-                className={`w-16 h-16 p-2 flex-shrink-0 flex justify-center items-center rounded-full border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] transition-colors hover:bg-[rgba(10,13,18,0.8)]
+                className={`w-14 h-14 flex-shrink-0 flex justify-center items-center rounded-full border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] transition-colors hover:bg-[rgba(10,13,18,0.8)]
                   ${isFavorite(movie.id) ? "text-red-500" : "text-white"}`}
               >
                 <Heart
