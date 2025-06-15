@@ -7,21 +7,25 @@ interface CustomFilmIconProps {
 }
 
 /**
- * Ikon kamera film sesuai gambar terlampir.
+ * Ikon kamera film proporsional sesuai gambar/figma.
  */
 const CustomFilmIcon: React.FC<CustomFilmIconProps> = ({ size = 36, className = "" }) => (
   <svg
     width={size}
     height={size}
-    viewBox="0 0 32 32"
+    viewBox="0 0 36 36"
     fill="none"
     className={className}
     xmlns="http://www.w3.org/2000/svg"
   >
-    {/* Kamera film putih sesuai referensi */}
-    <rect x="3" y="11" width="18" height="10" rx="3" fill="white" />
-    <rect x="21" y="14" width="5" height="4" rx="2" fill="white" />
-    <circle cx="7" cy="16" r="2" fill="#111" />
+    {/* Background circle */}
+    <rect x="0" y="0" width="36" height="36" rx="8" fill="white" />
+    {/* Kamera bodi */}
+    <rect x="8" y="14" width="12" height="8" rx="2.5" fill="#111" />
+    {/* Kamera lensa */}
+    <rect x="22" y="17" width="5" height="4" rx="2" fill="#111" />
+    {/* Lingkaran kecil */}
+    <circle cx="12.5" cy="18" r="1.7" fill="white" />
   </svg>
 );
 
