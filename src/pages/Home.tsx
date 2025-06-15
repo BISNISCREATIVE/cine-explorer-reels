@@ -1,9 +1,10 @@
+
 import { useEffect, useState } from 'react';
 import { Movie } from '@/types/movie';
 import { tmdbApi } from '@/services/tmdb';
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
 import MovieCard from '@/components/MovieCard';
-import { Loader2, Play } from 'lucide-react';
+import { Loader2, Play, X } from 'lucide-react';
 
 const Home = () => {
   // Trending Now
@@ -16,7 +17,12 @@ const Home = () => {
   const [newReleaseLoading, setNewReleaseLoading] = useState(true);
   const [hasMoreNewReleases, setHasMoreNewReleases] = useState(true);
 
-  // Fetch trending movies
+  // Trailer & Video
+  const [showTrailer, setShowTrailer] = useState(false);
+  const [trailerVideoKey, setTrailerVideoKey] = useState<string | null>(null);
+  const [trailerLoading, setTrailerLoading] = useState(false);
+
+  // Fetch trending movies (live)
   useEffect(() => {
     const fetchTrending = async () => {
       setTrendingLoading(true);
@@ -45,6 +51,38 @@ const Home = () => {
   // Hero Movie
   const heroMovie = trendingMovies[0];
 
+  // Handle Watch Trailer and Close Trailer
+  const handleToggleTrailer = async () => {
+    if (showTrailer) {
+      setShowTrailer(false);
+      setTrailerVideoKey(null);
+      return;
+    }
+    if (!heroMovie) return;
+    setTrailerLoading(true);
+    // Fetch trailer video TMDB
+    try {
+      const response = await tmdbApi.getMovieVideos(heroMovie.id);
+      const trailers = response.results?.filter(
+        (video: any) =>
+          video.type === 'Trailer' && video.site === 'YouTube'
+      );
+      if (trailers && trailers.length > 0) {
+        setTrailerVideoKey(trailers[0].key);
+        setShowTrailer(true);
+      } else {
+        setTrailerVideoKey(null);
+        setShowTrailer(false);
+        alert('Trailer not available');
+      }
+    } catch {
+      setTrailerVideoKey(null);
+      setShowTrailer(false);
+      alert('Failed to fetch trailer');
+    }
+    setTrailerLoading(false);
+  };
+
   return (
     <div className="bg-black min-h-screen">
       {/* HERO SECTION */}
@@ -62,16 +100,34 @@ const Home = () => {
               <h1 className="text-white text-3xl md:text-5xl font-bold mb-3 drop-shadow leading-tight">{heroMovie.title}</h1>
               <p className="text-white/80 text-base md:text-lg mb-8 w-full md:w-1/2 drop-shadow-lg">{heroMovie.overview}</p>
               <div className="flex gap-4">
-                {/* Custom Watch Trailer Button */}
+                {/* Watch Trailer Button */}
                 <button
-                  className="flex items-center gap-2 bg-[#941C10] hover:bg-[#7e160c] text-white px-8 py-3 text-lg font-semibold rounded-full shadow transition-all duration-150"
+                  className={
+                    "flex items-center gap-2 " +
+                    (showTrailer
+                      ? "bg-gray-700 hover:bg-gray-800"
+                      : "bg-[#941C10] hover:bg-[#7e160c]") +
+                    " text-white px-8 py-3 text-lg font-semibold rounded-full shadow transition-all duration-150"
+                  }
                   style={{ minWidth: 180 }}
-                  onClick={() => window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(heroMovie.title + " trailer")}`, "_blank")}
+                  onClick={handleToggleTrailer}
+                  disabled={trailerLoading}
                 >
-                  Watch Trailer
-                  <Play size={24} className="ml-1" />
+                  {trailerLoading ? (
+                    <Loader2 size={24} className="animate-spin" />
+                  ) : showTrailer ? (
+                    <>
+                      Close Trailer
+                      <X size={24} className="ml-1" />
+                    </>
+                  ) : (
+                    <>
+                      Watch Trailer
+                      <Play size={24} className="ml-1" />
+                    </>
+                  )}
                 </button>
-                {/* Custom See Detail Button */}
+                {/* See Detail Button */}
                 <a
                   href={`/movie/${heroMovie.id}`}
                   className="bg-[#181B23] hover:bg-[#232631] text-white px-8 py-3 text-lg font-semibold rounded-full shadow transition-all duration-150 flex items-center justify-center"
@@ -84,6 +140,23 @@ const Home = () => {
           </>
         )}
       </section>
+
+      {/* Trailer Player (shown below Hero Section) */}
+      {showTrailer && trailerVideoKey && (
+        <div className="flex justify-center bg-black py-6">
+          <div className="w-full max-w-3xl aspect-video rounded-xl overflow-hidden shadow-lg border border-[#232631]">
+            <iframe
+              width="100%"
+              height="100%"
+              src={`https://www.youtube.com/embed/${trailerVideoKey}?autoplay=1&controls=1&showinfo=0&rel=0`}
+              title="Official Movie Trailer"
+              className="w-full h-full"
+              allowFullScreen
+              allow="autoplay; encrypted-media"
+            />
+          </div>
+        </div>
+      )}
 
       {/* TRENDING NOW CAROUSEL */}
       <section className="container mx-auto px-4 pb-8 pt-10">
