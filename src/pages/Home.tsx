@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Movie } from '@/types/movie';
@@ -135,7 +136,7 @@ const Home = () => {
                   </button>
                   <a
                     href={`/movie/${heroMovie.id}`}
-                    className="flex items-center justify-center bg-white/10 border border-white/30 hover:bg-white/15 text-white text-base md:text-lg font-semibold rounded-full px-7 w-full md:w-[164px] h-[52px] transition-all duration-150"
+                    className="flex items-center justify-center h-[52px] w-[230px] rounded-full border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] hover:bg-[rgba(10,13,18,0.80)] text-white text-base md:text-lg font-semibold transition-all duration-150"
                   >
                     See Detail
                   </a>
