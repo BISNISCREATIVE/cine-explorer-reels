@@ -196,8 +196,8 @@ const Home = () => {
                 </CarouselContent>
                 {/* Panah Carousel */}
                 <div className="hidden md:block">
-                  <CarouselPrevious className="-left-9 bg-[#18181c] border-none shadow-lg text-white" />
-                  <CarouselNext className="-right-9 bg-[#18181c] border-none shadow-lg text-white" />
+                  <CarouselPrevious className="-left-9" />
+                  <CarouselNext className="-right-9" />
                 </div>
               </Carousel>
             </div>
