@@ -129,7 +129,7 @@ const Home = () => {
                       </>
                     ) : (
                       <>
-                        <Play size={24} />
+                        <Play size={24} fill="currentColor" />
                         Watch Trailer
                       </>
                     )}
