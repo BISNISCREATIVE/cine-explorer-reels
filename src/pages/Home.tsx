@@ -1,8 +1,14 @@
-
 import { useEffect, useState } from 'react';
 import { Movie } from '@/types/movie';
 import { tmdbApi } from '@/services/tmdb';
 import { Loader2, Play, X, Star } from 'lucide-react';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from '@/components/ui/carousel';
 
 const Home = () => {
   // Trending Now
@@ -156,39 +162,61 @@ const Home = () => {
       <main className="flex-1">
         {/* TRENDING NOW CAROUSEL */}
         <section className="container max-w-[1200px] mx-auto px-4 pb-8 pt-8 md:px-10 md:pt-12">
-          <h2 className="text-white text-xl md:text-3xl font-extrabold mb-5 md:mb-7 mt-0 drop-shadow">Trending Now</h2>
+          <h2 className="text-white text-2xl md:text-4xl font-extrabold mb-7 md:mb-10 drop-shadow text-center md:text-left">
+            Trending Now
+          </h2>
           {trendingLoading ? (
             <div className="flex items-center justify-center h-44">
               <Loader2 className="w-8 h-8 text-white animate-spin" />
             </div>
           ) : (
-            <div className="flex gap-5 md:gap-7 overflow-x-auto min-h-[260px] pb-1 md:pb-2 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
-              {trendingMovies.slice(0, 10).map((movie, idx) => (
-                <div
-                  key={movie.id}
-                  className="flex-shrink-0 w-[140px] md:w-[185px] group relative cursor-pointer hover:scale-105 transition-transform"
-                >
-                  <img
-                    src={tmdbApi.getImageUrl(movie.poster_path)}
-                    alt={movie.title}
-                    className="rounded-2xl object-cover w-full h-[200px] md:h-[255px] bg-[#1a1a1a] shadow-md"
-                    style={{ minHeight: '180px' }}
-                  />
-                  {/* Rank badge */}
-                  <div className="absolute top-2 left-2 bg-black/75 text-white text-xs font-bold w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center shadow-lg border-2 border-black/40">
-                    {idx + 1}
-                  </div>
-                  <div className="mt-2 md:mt-3">
-                    <div className="text-white text-sm md:text-base font-semibold leading-tight line-clamp-1 mb-0">
-                      {movie.title}
-                    </div>
-                    <div className="flex items-center gap-1 mt-1">
-                      <Star size={15} className="text-yellow-400 fill-yellow-400" />
-                      <span className="text-gray-200 text-xs md:text-sm">{movie.vote_average.toFixed(1)}/10</span>
-                    </div>
-                  </div>
+            <div className="relative">
+              <Carousel
+                className="w-full"
+                opts={{
+                  align: 'start',
+                  containScroll: 'trimSnaps',
+                }}
+              >
+                <CarouselContent>
+                  {trendingMovies.slice(0, 10).map((movie, idx) => (
+                    <CarouselItem
+                      key={movie.id}
+                      className="max-w-[210px] md:max-w-[215px] min-w-[180px] md:min-w-[215px] px-1 pb-2"
+                    >
+                      <div className="group relative flex flex-col items-start">
+                        <div className="relative w-full h-[306px] md:h-[320px] mb-4">
+                          <img
+                            src={tmdbApi.getImageUrl(movie.poster_path)}
+                            alt={movie.title}
+                            className="rounded-2xl object-cover w-full h-full bg-[#1a1a1a] shadow-md"
+                          />
+                          <div className="absolute top-3 left-3 bg-[#222228]/85 text-white text-base font-bold w-9 h-9 rounded-full flex items-center justify-center shadow-md z-10 border-2 border-[#191919]/60">
+                            {idx + 1}
+                          </div>
+                          {/* Gradien kanan untuk shadow carousel */}
+                          {idx === trendingMovies.slice(0, 10).length - 1 && (
+                            <div className="hidden md:block absolute right-0 top-0 w-16 h-full rounded-e-2xl pointer-events-none" style={{background:"linear-gradient(90deg,rgba(0,0,0,0),rgba(0,0,0,.30) 80%,rgba(0,0,0,.80) 100%)"}}></div>
+                          )}
+                        </div>
+                        <div className="flex flex-col gap-2 items-start px-1 w-full">
+                          <span className="text-white text-lg font-semibold leading-tight mb-0.5 line-clamp-1">{movie.title}</span>
+                          <div className="flex items-center gap-1 text-base font-medium">
+                            <Star size={18} className="text-yellow-400 fill-yellow-400 mr-1" />
+                            <span className="text-gray-200">{movie.vote_average.toFixed(1)}</span>
+                            <span className="text-gray-400">/10</span>
+                          </div>
+                        </div>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                {/* Panah Carousel */}
+                <div className="hidden md:block">
+                  <CarouselPrevious className="-left-9 bg-[#18181c] border-none shadow-lg text-white" />
+                  <CarouselNext className="-right-9 bg-[#18181c] border-none shadow-lg text-white" />
                 </div>
-              ))}
+              </Carousel>
             </div>
           )}
         </section>
@@ -236,4 +264,3 @@ const Home = () => {
 };
 
 export default Home;
-
