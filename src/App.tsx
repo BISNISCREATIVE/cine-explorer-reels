@@ -10,6 +10,7 @@ import Home from "@/pages/Home";
 import MovieDetail from "@/pages/MovieDetail";
 import TrailerPage from "@/pages/TrailerPage";
 import Favorites from "@/pages/Favorites";
+import Search from "@/pages/Search";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
               <Route path="/" element={<Home />} />
               <Route path="/movie/:id" element={<MovieDetail />} />
               <Route path="/favorites" element={<Favorites />} />
+              <Route path="/search" element={<Search />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
@@ -38,3 +40,4 @@ const App = () => (
 );
 
 export default App;
+
