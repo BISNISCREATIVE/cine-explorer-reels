@@ -89,7 +89,20 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                 }}
               >
                 <span className="flex-1 text-center font-bold text-base">{isTrailerVisible ? "Close Trailer" : "Watch Trailer"}</span>
-                <span className="flex">
+                <span
+                  className="flex items-center justify-center"
+                  style={{
+                    display: 'flex',
+                    width: 24,
+                    height: 24,
+                    padding: 2,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexShrink: 0,
+                    aspectRatio: '1 / 1',
+                    borderRadius: 0,
+                  }}
+                >
                   {isTrailerVisible ? <X size={24} /> : <PlayIcon size={24} />}
                 </span>
               </Button>
