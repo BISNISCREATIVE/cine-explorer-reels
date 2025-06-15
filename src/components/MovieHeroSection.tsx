@@ -150,7 +150,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
               <div
                 style={{
                   display: 'flex',
-                  padding: 20,
+                  padding: '16px', // Mobile: 16px, Desktop: 20px (handled via responsive classes)
                   flexDirection: 'column',
                   alignItems: 'center',
                   gap: 8,
@@ -160,6 +160,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                   border: '1px solid #252B37',
                   background: '#000',
                 }}
+                className="md:!p-5" // Desktop: 20px padding
               >
                 <Star className="text-yellow-400 fill-yellow-400" size={32} strokeWidth={2.2} />
                 <span
@@ -193,7 +194,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
               <div
                 style={{
                   display: 'flex',
-                  padding: 20,
+                  padding: '16px', // Mobile: 16px, Desktop: 20px (handled via responsive classes)
                   flexDirection: 'column',
                   alignItems: 'center',
                   gap: 8,
@@ -203,6 +204,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                   border: '1px solid #252B37',
                   background: '#000',
                 }}
+                className="md:!p-5" // Desktop: 20px padding
               >
                 <CustomFilmIcon size={32} />
                 <span
@@ -236,7 +238,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
               <div
                 style={{
                   display: 'flex',
-                  padding: 20,
+                  padding: '16px', // Mobile: 16px, Desktop: 20px (handled via responsive classes)
                   flexDirection: 'column',
                   alignItems: 'center',
                   gap: 8,
@@ -246,6 +248,7 @@ const MovieHeroSection = ({ movie, onWatchTrailer, hasTrailer, isTrailerVisible 
                   border: '1px solid #252B37',
                   background: '#000',
                 }}
+                className="md:!p-5" // Desktop: 20px padding
               >
                 <CustomSmileIcon size={32} />
                 <span
