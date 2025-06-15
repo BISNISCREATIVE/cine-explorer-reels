@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
-import { Play, Star, Heart, HeartOff, Clapperboard } from "lucide-react";
+import { Play, Star, Heart, Clapperboard, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFavorites } from "@/hooks/useFavorites";
 import { tmdbApi } from "@/services/tmdb";
@@ -39,7 +39,6 @@ const FavoriteMovieCard = ({
   onToggleFavorite,
   onWatchTrailer,
   watchingTrailerId,
-  onCloseTrailer,
 }: any) => (
   <div className="relative flex flex-col md:flex-row bg-[#181b21] rounded-2xl overflow-hidden shadow-lg p-4 md:p-6 mb-8 border border-[#232831] w-full">
     <img
@@ -68,7 +67,8 @@ const FavoriteMovieCard = ({
           className="bg-[#9A1E0C] hover:bg-[#6c1308] px-7 py-3 text-base rounded-full font-semibold transition-colors gap-2 flex items-center"
           style={{ minWidth: 180 }}
         >
-          Watch Trailer <Play className="w-5 h-5" />
+          {watchingTrailerId === movie.id ? 'Close Trailer' : 'Watch Trailer'}{' '}
+          {watchingTrailerId === movie.id ? <X className="w-5 h-5" /> : <Play className="w-5 h-5" />}
         </Button>
       </div>
       {watchingTrailerId === movie.id && movie._trailerKey && (
@@ -83,15 +83,6 @@ const FavoriteMovieCard = ({
               allowFullScreen
               allow="autoplay; encrypted-media"
             />
-          </div>
-          <div className="flex justify-center pb-2">
-            <Button
-              onClick={onCloseTrailer}
-              variant="ghost"
-              className="text-white hover:bg-zinc-800 border border-white/10 px-5 py-2 rounded-full text-sm"
-            >
-              Close Trailer
-            </Button>
           </div>
         </div>
       )}
@@ -118,6 +109,11 @@ const Favorites = () => {
   const [trailerKeys, setTrailerKeys] = useState<Record<number, string>>({});
 
   const handleWatchTrailer = async (movieId: number) => {
+    if (watchingTrailerId === movieId) {
+      setWatchingTrailerId(null);
+      return;
+    }
+    
     if (loadingTrailerId) return;
     setLoadingTrailerId(movieId);
     if (!trailerKeys[movieId]) {
@@ -129,10 +125,6 @@ const Favorites = () => {
       setLoadingTrailerId(null);
       setWatchingTrailerId(trailerKeys[movieId] ? movieId : null);
     }
-  };
-
-  const handleCloseTrailer = () => {
-    setWatchingTrailerId(null);
   };
 
   // Attach trailer key to each movie if available
@@ -168,7 +160,6 @@ const Favorites = () => {
                 onToggleFavorite={toggleFavorite}
                 onWatchTrailer={handleWatchTrailer}
                 watchingTrailerId={watchingTrailerId}
-                onCloseTrailer={handleCloseTrailer}
               />
             ))}
           </div>

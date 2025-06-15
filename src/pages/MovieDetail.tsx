@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { MovieDetails, Credits, Video } from '@/types/movie';
@@ -102,6 +101,7 @@ const MovieDetail = () => {
         movie={movie}
         onWatchTrailer={handleWatchTrailer}
         hasTrailer={trailers.length > 0}
+        isTrailerVisible={showTrailer}
       />
 
       {/* Content Sections */}
