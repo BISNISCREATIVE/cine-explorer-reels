@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { MovieDetails, Credits, Video } from '@/types/movie';
@@ -55,16 +56,21 @@ const MovieDetail = () => {
   }, [id]);
 
   const handleWatchTrailer = () => {
-    if (trailers.length > 0) {
-      setSelectedTrailer(trailers[0]);
-      setShowTrailer(true);
-      // Scroll otomatis ke inline trailer jika tampil
-      setTimeout(() => {
-        const trailerSection = document.getElementById('inline-trailer-player');
-        if (trailerSection) {
-          trailerSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 200);
+    if (showTrailer) {
+      setShowTrailer(false);
+      setSelectedTrailer(null);
+    } else {
+      if (trailers.length > 0) {
+        setSelectedTrailer(trailers[0]);
+        setShowTrailer(true);
+        // Scroll otomatis ke inline trailer jika tampil
+        setTimeout(() => {
+          const trailerSection = document.getElementById('inline-trailer-player');
+          if (trailerSection) {
+            trailerSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 200);
+      }
     }
   };
 
