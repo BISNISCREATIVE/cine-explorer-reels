@@ -40,65 +40,67 @@ const FavoriteMovieCard = ({
   onWatchTrailer,
   watchingTrailerId,
 }: any) => (
-  <div className="relative flex flex-col md:flex-row bg-[#181b21] rounded-2xl overflow-hidden shadow-lg p-4 md:p-6 mb-8 border border-[#232831] w-full">
-    <img
-      src={tmdbApi.getImageUrl(movie.poster_path)}
-      alt={movie.title}
-      className="w-32 h-48 rounded-xl object-cover flex-shrink-0 mb-3 md:mb-0 md:mr-7"
-      style={{ minWidth: 128, minHeight: 192 }}
-      draggable={false}
-    />
-    <div className="flex flex-col flex-1 min-w-0">
-      <div className="flex flex-col md:flex-row md:items-center md:gap-5">
-        <h3 className="text-white font-bold text-lg md:text-xl mb-2 md:mb-0 line-clamp-2">
-          {movie.title}
-        </h3>
-        <div className="flex items-center text-yellow-400 font-medium text-sm mt-1 md:mt-0 gap-2 ml-0 md:ml-0">
-          <Star size={18} className="text-yellow-400 fill-yellow-400" />
-          <span className="text-white text-sm">{movie.vote_average.toFixed(1)}/10</span>
-        </div>
-      </div>
-      <p className="text-gray-300 text-sm mt-2 mb-5 line-clamp-2 md:line-clamp-2">
-        {movie.overview}
-      </p>
-      <div className="flex items-center">
-        <Button
-          onClick={() => onWatchTrailer(movie.id)}
-          className="bg-[#9A1E0C] hover:bg-[#6c1308] px-7 py-3 text-base rounded-full font-semibold transition-colors gap-2 flex items-center"
-          style={{ minWidth: 180 }}
-        >
-          {watchingTrailerId === movie.id ? 'Close Trailer' : 'Watch Trailer'}{' '}
-          {watchingTrailerId === movie.id ? <X className="w-5 h-5" /> : <Play className="w-5 h-5" />}
-        </Button>
-      </div>
-      {watchingTrailerId === movie.id && movie._trailerKey && (
-        <div className="w-full mt-5 animate-fadeIn">
-          <div className="aspect-video rounded-xl overflow-hidden border border-[#232831] shadow-md mb-2">
-            <iframe
-              width="100%"
-              height="100%"
-              src={`https://www.youtube.com/embed/${movie._trailerKey}?autoplay=1&controls=1&showinfo=0&rel=0`}
-              title={`Trailer ${movie.title}`}
-              className="w-full h-full"
-              allowFullScreen
-              allow="autoplay; encrypted-media"
-            />
+  <div>
+    <div className="relative flex flex-col md:flex-row bg-[#181b21] rounded-2xl overflow-hidden shadow-lg p-4 md:p-6 border border-[#232831] w-full">
+      <img
+        src={tmdbApi.getImageUrl(movie.poster_path)}
+        alt={movie.title}
+        className="w-32 h-48 rounded-xl object-cover flex-shrink-0 mb-3 md:mb-0 md:mr-7"
+        style={{ minWidth: 128, minHeight: 192 }}
+        draggable={false}
+      />
+      <div className="flex flex-col flex-1 min-w-0">
+        <div className="flex flex-col md:flex-row md:items-center md:gap-5">
+          <h3 className="text-white font-bold text-lg md:text-xl mb-2 md:mb-0 line-clamp-2">
+            {movie.title}
+          </h3>
+          <div className="flex items-center text-yellow-400 font-medium text-sm mt-1 md:mt-0 gap-2 ml-0 md:ml-0">
+            <Star size={18} className="text-yellow-400 fill-yellow-400" />
+            <span className="text-white text-sm">{movie.vote_average.toFixed(1)}/10</span>
           </div>
         </div>
-      )}
+        <p className="text-gray-300 text-sm mt-2 mb-5 line-clamp-2 md:line-clamp-2">
+          {movie.overview}
+        </p>
+        <div className="flex items-center">
+          <Button
+            onClick={() => onWatchTrailer(movie.id)}
+            className="bg-[#9A1E0C] hover:bg-[#6c1308] px-7 py-3 text-base rounded-full font-semibold transition-colors gap-2 flex items-center"
+            style={{ minWidth: 180 }}
+          >
+            {watchingTrailerId === movie.id ? 'Close Trailer' : 'Watch Trailer'}{' '}
+            {watchingTrailerId === movie.id ? <X className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+          </Button>
+        </div>
+      </div>
+      {/* Favorite icon button */}
+      <button
+        onClick={() => onToggleFavorite(movie)}
+        className="absolute top-4 right-4 md:static ml-auto flex items-center justify-center w-10 h-10 rounded-full border border-[#232831] hover:bg-[#241316]/50 transition-colors"
+        aria-label={isFavorite ? 'Unfavorite' : 'Favorite'}
+      >
+        {isFavorite ? (
+          <Heart className="text-[#9A1E0C] fill-[#9A1E0C] w-6 h-6" />
+        ) : (
+          <Heart className="text-zinc-400 w-6 h-6" />
+        )}
+      </button>
     </div>
-    {/* Favorite icon button */}
-    <button
-      onClick={() => onToggleFavorite(movie)}
-      className="absolute top-4 right-4 md:static ml-auto flex items-center justify-center w-10 h-10 rounded-full border border-[#232831] hover:bg-[#241316]/50 transition-colors"
-      aria-label={isFavorite ? 'Unfavorite' : 'Favorite'}
-    >
-      {isFavorite ? (
-        <Heart className="text-[#9A1E0C] fill-[#9A1E0C] w-6 h-6" />
-      ) : (
-        <Heart className="text-zinc-400 w-6 h-6" />
-      )}
-    </button>
+    {watchingTrailerId === movie.id && movie._trailerKey && (
+      <div className="w-full mt-5 animate-fadeIn">
+        <div className="aspect-video rounded-xl overflow-hidden border border-[#232831] shadow-md">
+          <iframe
+            width="100%"
+            height="100%"
+            src={`https://www.youtube.com/embed/${movie._trailerKey}?autoplay=1&controls=1&showinfo=0&rel=0`}
+            title={`Trailer ${movie.title}`}
+            className="w-full h-full"
+            allowFullScreen
+            allow="autoplay; encrypted-media"
+          />
+        </div>
+      </div>
+    )}
   </div>
 );
 
