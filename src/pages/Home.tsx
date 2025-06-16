@@ -1,5 +1,4 @@
 
-
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Movie } from '@/types/movie';
@@ -138,87 +137,12 @@ const Home = () => {
             {/* Overlay dark gradient */}
             <div className="absolute inset-0 h-full bg-gradient-to-b from-black/80 via-black/60 to-black/95 pointer-events-none z-10" />
             {/* Hero Content */}
-            <div className="relative z-20 flex flex-col justify-center h-full px-5 pt-12 pb-7 md:px-16 md:pb-[72px] md:pt-0 max-w-full w-full">
-              {/* Mobile Layout */}
-              <div className="flex flex-col items-start gap-6 w-full md:hidden">
-                <div className="flex flex-col gap-4">
-                  <h1 className="text-white text-2xl font-bold leading-tight">
-                    {heroMovie.title}
-                  </h1>
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    {heroMovie.overview}
-                  </p>
-                </div>
-                <div className="flex flex-col gap-3 w-full">
-                  <button
-                    className="flex items-center justify-center bg-[#961200] hover:bg-[#7d1000] text-white h-[44px] text-base font-semibold rounded-full w-full gap-2 transition-all duration-150 shadow"
-                    onClick={handleToggleTrailer}
-                    disabled={trailerLoading}
-                  >
-                    {trailerLoading ? (
-                      <Loader2 size={24} className="animate-spin" />
-                    ) : showTrailer ? (
-                      <>
-                        <span>Close Trailer</span>
-                        <X size={24} />
-                      </>
-                    ) : (
-                      <>
-                        <span>Watch Trailer</span>
-                        <PlayIcon size={24} />
-                      </>
-                    )}
-                  </button>
-                  <a
-                    href={`/movie/${heroMovie.id}`}
-                    className="flex items-center justify-center h-[44px] w-full rounded-full border border-[#181D27] bg-[rgba(10,13,18,0.60)] backdrop-blur-[20px] hover:bg-[rgba(10,13,18,0.80)] text-white text-base font-semibold transition-all duration-150"
-                  >
-                    See Detail
-                  </a>
-                </div>
-              </div>
-              
-              {/* Desktop Layout */}
-              <div 
-                className="hidden md:flex flex-col items-start gap-12 w-full max-w-[635px]"
-                style={{
-                  display: 'flex',
-                  width: '635px',
-                  padding: '0px',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  gap: '48px',
-                  borderRadius: '0px'
-                }}
-              >
-                <div className="flex flex-col gap-6">
-                  <h1 
-                    className="text-[#FDFDFD] font-bold leading-[60px] tracking-[-0.96px]"
-                    style={{
-                      fontFamily: 'Poppins',
-                      fontSize: '48px',
-                      fontStyle: 'normal',
-                      fontWeight: 700,
-                      lineHeight: '60px',
-                      letterSpacing: '-0.96px'
-                    }}
-                  >
-                    {heroMovie.title}
-                  </h1>
-                  <p 
-                    className="text-[#A4A7AE] max-w-2xl"
-                    style={{
-                      fontFamily: 'Poppins',
-                      fontSize: '16px',
-                      fontStyle: 'normal',
-                      fontWeight: 400,
-                      lineHeight: '30px'
-                    }}
-                  >
-                    {heroMovie.overview}
-                  </p>
-                </div>
+            <div className="relative z-20 flex flex-col justify-center h-full px-5 pt-12 pb-7 md:px-16 md:pb-[72px] md:pt-0 max-w-full w-full md:max-w-3xl">
+              <div className="mb-5 md:mb-6">
+                <h1 className="text-white text-[2rem] md:text-5xl font-extrabold leading-tight drop-shadow-lg mb-4">{heroMovie.title}</h1>
+                <p className="text-white/85 text-base md:text-lg mb-6 max-w-2xl drop-shadow-lg font-normal">{heroMovie.overview}</p>
                 <div className="flex flex-col md:flex-row gap-3 md:gap-6">
+                  {/* Watch Trailer Button */}
                   <button
                     className="flex items-center justify-center bg-[#961200] hover:bg-[#7d1000] text-white h-[44px] text-base md:text-lg font-semibold rounded-full w-full md:w-[230px] gap-2 transition-all duration-150 shadow"
                     onClick={handleToggleTrailer}
@@ -340,4 +264,3 @@ const Home = () => {
 };
 
 export default Home;
-
