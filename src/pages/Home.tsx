@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Movie } from '@/types/movie';
@@ -204,29 +203,23 @@ const Home = () => {
             </div>
           ) : (
             <div className="relative">
-              <Carousel
-                className="w-full"
-                opts={{
-                  align: 'start',
-                  containScroll: 'trimSnaps',
+              <div 
+                className="flex items-center gap-5 overflow-x-auto pb-2"
+                style={{
+                  display: 'flex',
+                  padding: '0px',
+                  alignItems: 'center',
+                  gap: '20px',
+                  alignSelf: 'stretch',
+                  borderRadius: '0px'
                 }}
               >
-                <CarouselContent>
-                  {trendingMovies.slice(0, 10).map((movie, idx) => (
-                    <CarouselItem
-                      key={movie.id}
-                      className="max-w-[210px] md:max-w-[215px] min-w-[180px] md:min-w-[215px] px-1 pb-2"
-                    >
-                      <MovieCard movie={movie} rank={idx + 1} />
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                {/* Panah Carousel */}
-                <div className="hidden md:block">
-                  <CarouselPrevious className="-left-9" />
-                  <CarouselNext className="-right-9" />
-                </div>
-              </Carousel>
+                {trendingMovies.slice(0, 10).map((movie, idx) => (
+                  <div key={movie.id} className="flex-shrink-0">
+                    <MovieCard movie={movie} rank={idx + 1} />
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </section>
@@ -264,4 +257,3 @@ const Home = () => {
 };
 
 export default Home;
-
