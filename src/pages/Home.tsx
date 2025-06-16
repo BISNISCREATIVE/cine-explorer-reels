@@ -211,17 +211,17 @@ const Home = () => {
                   containScroll: 'trimSnaps',
                 }}
               >
-                <CarouselContent className="-ml-4">
+                <CarouselContent>
                   {trendingMovies.slice(0, 10).map((movie, idx) => (
                     <CarouselItem
                       key={movie.id}
-                      className="pl-4 basis-auto"
+                      className="max-w-[210px] md:max-w-[215px] min-w-[180px] md:min-w-[215px] px-1 pb-2"
                     >
                       <MovieCard movie={movie} rank={idx + 1} />
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                {/* Carousel Navigation Arrows */}
+                {/* Panah Carousel */}
                 <div className="hidden md:block">
                   <CarouselPrevious className="-left-9" />
                   <CarouselNext className="-right-9" />
@@ -264,3 +264,4 @@ const Home = () => {
 };
 
 export default Home;
+
