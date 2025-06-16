@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { Star, Heart, X, Play } from "lucide-react";
@@ -42,51 +43,82 @@ const FavoriteMovieCard = ({
   watchingTrailerId,
 }: any) => (
   <div>
-    <div className="relative flex flex-col md:flex-row bg-[#181b21] rounded-2xl overflow-hidden shadow-lg p-4 md:p-6 border border-[#232831] w-full">
+    {/* Mobile Layout */}
+    <div className="md:hidden relative flex flex-col bg-[#181b21] rounded-2xl overflow-hidden shadow-lg p-4 border border-[#232831] w-full">
+      <div className="flex gap-4 mb-4">
+        <img
+          src={tmdbApi.getImageUrl(movie.poster_path)}
+          alt={movie.title}
+          className="w-20 h-28 rounded-xl object-cover flex-shrink-0"
+          draggable={false}
+        />
+        <div className="flex flex-col flex-1 min-w-0">
+          <div className="flex items-start justify-between mb-2">
+            <h3 className="text-white font-bold text-base line-clamp-2 flex-1 mr-2">
+              {movie.title}
+            </h3>
+            <button
+              onClick={() => onToggleFavorite(movie)}
+              className="flex items-center justify-center w-8 h-8 rounded-full border border-[#232831] hover:bg-[#241316]/50 transition-colors flex-shrink-0"
+              aria-label={isFavorite ? 'Unfavorite' : 'Favorite'}
+            >
+              {isFavorite ? (
+                <Heart className="text-[#9A1E0C] fill-[#9A1E0C] w-4 h-4" />
+              ) : (
+                <Heart className="text-zinc-400 w-4 h-4" />
+              )}
+            </button>
+          </div>
+          <div className="flex items-center text-yellow-400 font-medium text-sm mb-2">
+            <Star size={16} className="text-yellow-400 fill-yellow-400 mr-1" />
+            <span className="text-white text-sm">{movie.vote_average.toFixed(1)}/10</span>
+          </div>
+          <p className="text-gray-300 text-sm line-clamp-2">
+            {movie.overview}
+          </p>
+        </div>
+      </div>
+      <button
+        onClick={() => onWatchTrailer(movie.id)}
+        className="flex items-center justify-center rounded-full px-6 py-3 bg-[#9A1E0C] hover:bg-[#6c1308] transition-colors font-semibold text-sm text-white shadow w-full gap-2"
+      >
+        <span>{watchingTrailerId === movie.id ? 'Close Trailer' : 'Watch Trailer'}</span>
+        {watchingTrailerId === movie.id ? (
+          <X size={16} className="text-white" />
+        ) : (
+          <PlayCircleIcon size={24} />
+        )}
+      </button>
+    </div>
+
+    {/* Desktop Layout */}
+    <div className="hidden md:flex relative flex-row bg-[#181b21] rounded-2xl overflow-hidden shadow-lg p-6 border border-[#232831] w-full">
       <img
         src={tmdbApi.getImageUrl(movie.poster_path)}
         alt={movie.title}
-        className="w-32 h-48 rounded-xl object-cover flex-shrink-0 mb-3 md:mb-0 md:mr-7"
-        style={{ minWidth: 128, minHeight: 192 }}
+        className="w-32 h-48 rounded-xl object-cover flex-shrink-0 mr-7"
         draggable={false}
       />
       <div className="flex flex-col flex-1 min-w-0">
-        <div className="flex flex-col md:flex-row md:items-center md:gap-5">
-          <h3 className="text-white font-bold text-lg md:text-xl mb-2 md:mb-0 line-clamp-2">
+        <div className="flex flex-row items-center gap-5">
+          <h3 className="text-white font-bold text-xl line-clamp-2">
             {movie.title}
           </h3>
-          <div className="flex items-center text-yellow-400 font-medium text-sm mt-1 md:mt-0 gap-2 ml-0 md:ml-0">
+          <div className="flex items-center text-yellow-400 font-medium text-sm gap-2">
             <Star size={18} className="text-yellow-400 fill-yellow-400" />
             <span className="text-white text-sm">{movie.vote_average.toFixed(1)}/10</span>
           </div>
         </div>
-        <p className="text-gray-300 text-sm mt-2 mb-5 line-clamp-2 md:line-clamp-2">
+        <p className="text-gray-300 text-sm mt-2 mb-5 line-clamp-2">
           {movie.overview}
         </p>
         <div className="flex items-center">
           <button
             onClick={() => onWatchTrailer(movie.id)}
-            className={`
-              flex items-center justify-between
-              rounded-full
-              px-8 py-3
-              md:px-10 md:py-4
-              bg-[#9A1E0C] hover:bg-[#6c1308]
-              transition-colors font-semibold
-              text-base text-white
-              shadow
-              min-w-[180px]
-              max-w-full
-              gap-4
-              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#9A1E0C]
-            `}
-            style={{
-              fontFamily: 'inherit',
-            }}
+            className="flex items-center justify-between rounded-full px-10 py-4 bg-[#9A1E0C] hover:bg-[#6c1308] transition-colors font-semibold text-base text-white shadow min-w-[180px] gap-4"
           >
             <span className="pr-2">{watchingTrailerId === movie.id ? 'Close Trailer' : 'Watch Trailer'}</span>
             <span className="flex items-center justify-center">
-              {/* Perubahan: Ikon khusus dari gambar referensi */}
               {watchingTrailerId === movie.id ? (
                 <X size={20} className="text-white" />
               ) : (
@@ -96,10 +128,9 @@ const FavoriteMovieCard = ({
           </button>
         </div>
       </div>
-      {/* Favorite icon button */}
       <button
         onClick={() => onToggleFavorite(movie)}
-        className="absolute top-4 right-4 md:static ml-auto flex items-center justify-center w-10 h-10 rounded-full border border-[#232831] hover:bg-[#241316]/50 transition-colors"
+        className="ml-auto flex items-center justify-center w-10 h-10 rounded-full border border-[#232831] hover:bg-[#241316]/50 transition-colors"
         aria-label={isFavorite ? 'Unfavorite' : 'Favorite'}
       >
         {isFavorite ? (
@@ -109,6 +140,7 @@ const FavoriteMovieCard = ({
         )}
       </button>
     </div>
+
     {watchingTrailerId === movie.id && movie._trailerKey && (
       <div className="w-full mt-5 animate-fadeIn">
         <div className="aspect-video rounded-xl overflow-hidden border border-[#232831] shadow-md">
@@ -152,7 +184,6 @@ const Favorites = () => {
     }
   };
 
-  // Attach trailer key to each movie if available
   const moviesWithTrailer = favorites.map((movie) => ({
     ...movie,
     _trailerKey: trailerKeys[movie.id] ?? "",
@@ -170,7 +201,7 @@ const Favorites = () => {
             <EmptyState />
           </div>
         ) : (
-          <div className="space-y-8 w-full max-w-3xl mx-auto">
+          <div className="space-y-6 md:space-y-8 w-full max-w-3xl mx-auto">
             {moviesWithTrailer.map((movie) => (
               <FavoriteMovieCard
                 key={movie.id}
