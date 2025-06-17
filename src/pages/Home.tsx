@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Movie } from '@/types/movie';
@@ -195,7 +194,7 @@ const Home = () => {
       <main className="flex-1">
         {/* TRENDING NOW CAROUSEL */}
         <section className="container max-w-[1200px] mx-auto px-4 pb-8 pt-8 md:px-10 md:pt-12">
-          <h2 className="font-poppins text-[#FDFDFD] text-2xl md:text-4xl font-bold leading-[48px] tracking-[-0.72px] mb-7 md:mb-10 drop-shadow text-center md:text-left">
+          <h2 className="font-poppins text-[#FDFDFD] text-xl md:text-4xl font-bold leading-tight md:leading-[48px] tracking-[-0.72px] mb-5 md:mb-10 drop-shadow text-left px-1 md:px-0">
             Trending Now
           </h2>
           {trendingLoading ? (
@@ -236,7 +235,7 @@ const Home = () => {
           ref={newReleaseSectionRef}
           className="container max-w-[1200px] mx-auto px-4 pb-16 md:px-10 md:pb-24 pt-4 md:pt-6"
         >
-          <h2 className="font-poppins text-[#FDFDFD] text-2xl md:text-4xl font-bold leading-[48px] tracking-[-0.72px] mb-5 md:mb-7 drop-shadow">
+          <h2 className="font-poppins text-[#FDFDFD] text-xl md:text-4xl font-bold leading-tight md:leading-[48px] tracking-[-0.72px] mb-5 md:mb-7 drop-shadow px-1 md:px-0">
             New Release
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 xl:grid-cols-6 gap-x-4 md:gap-x-7 gap-y-6 md:gap-y-7">
@@ -264,4 +263,3 @@ const Home = () => {
 };
 
 export default Home;
-
