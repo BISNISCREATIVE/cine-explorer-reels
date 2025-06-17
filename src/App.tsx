@@ -14,11 +14,14 @@ import Favorites from "@/pages/Favorites";
 import Search from "@/pages/Search";
 import NotFound from "./pages/NotFound";
 import PageSpinner from "@/components/ui/PageSpinner";
+import CustomToast from "@/components/CustomToast";
+import { useCustomToast } from "@/hooks/useCustomToast";
 
 // Custom wrapper to listen route changes with location
 function AppWithLoader() {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
+  const { toastMessage, isToastVisible, hideToast } = useCustomToast();
 
   useEffect(() => {
     setLoading(true);
@@ -30,6 +33,11 @@ function AppWithLoader() {
   return (
     <>
       {loading && <PageSpinner />}
+      <CustomToast 
+        message={toastMessage}
+        isVisible={isToastVisible}
+        onClose={hideToast}
+      />
       <div className="min-h-screen bg-black" style={{ filter: loading ? "blur(2px)" : "none" }}>
         <Header />
         <main>

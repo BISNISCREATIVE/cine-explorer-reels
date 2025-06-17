@@ -1,11 +1,11 @@
 
 import { useState, useEffect } from 'react';
 import { Movie } from '@/types/movie';
-import { useToast } from '@/hooks/use-toast';
+import { useCustomToast } from '@/hooks/useCustomToast';
 
 export const useFavorites = () => {
   const [favorites, setFavorites] = useState<Movie[]>([]);
-  const { toast } = useToast();
+  const { showToast } = useCustomToast();
 
   useEffect(() => {
     const stored = localStorage.getItem('movie-favorites');
@@ -19,11 +19,7 @@ export const useFavorites = () => {
     setFavorites(newFavorites);
     localStorage.setItem('movie-favorites', JSON.stringify(newFavorites));
     
-    toast({
-      title: "Success Add to Favorites",
-      description: `${movie.title} has been added to your favorites.`,
-      duration: 3000,
-    });
+    showToast('Success Add to Favorites');
   };
 
   const removeFromFavorites = (movieId: number) => {
@@ -33,11 +29,7 @@ export const useFavorites = () => {
     localStorage.setItem('movie-favorites', JSON.stringify(newFavorites));
     
     if (movie) {
-      toast({
-        title: "Removed from Favorites",
-        description: `${movie.title} has been removed from your favorites.`,
-        duration: 3000,
-      });
+      showToast('Removed from Favorites');
     }
   };
 
