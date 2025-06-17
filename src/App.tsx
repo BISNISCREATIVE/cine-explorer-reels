@@ -15,13 +15,54 @@ import Search from "@/pages/Search";
 import NotFound from "./pages/NotFound";
 import PageSpinner from "@/components/ui/PageSpinner";
 import CustomToast from "@/components/CustomToast";
-import { useCustomToast } from "@/hooks/useCustomToast";
+
+// Create a context to share toast state globally
+import { createContext, useContext } from "react";
+
+interface ToastContextType {
+  showToast: (message: string) => void;
+  toastMessage: string;
+  isToastVisible: boolean;
+  hideToast: () => void;
+}
+
+const ToastContext = createContext<ToastContextType | undefined>(undefined);
+
+export const useGlobalToast = () => {
+  const context = useContext(ToastContext);
+  if (!context) {
+    throw new Error('useGlobalToast must be used within ToastProvider');
+  }
+  return context;
+};
+
+// Custom hook for toast functionality
+const useCustomToast = () => {
+  const [toastMessage, setToastMessage] = useState('');
+  const [isToastVisible, setIsToastVisible] = useState(false);
+
+  const showToast = (message: string) => {
+    setToastMessage(message);
+    setIsToastVisible(true);
+  };
+
+  const hideToast = () => {
+    setIsToastVisible(false);
+  };
+
+  return {
+    toastMessage,
+    isToastVisible,
+    showToast,
+    hideToast,
+  };
+};
 
 // Custom wrapper to listen route changes with location
 function AppWithLoader() {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
-  const { toastMessage, isToastVisible, hideToast } = useCustomToast();
+  const { toastMessage, isToastVisible, showToast, hideToast } = useCustomToast();
 
   useEffect(() => {
     setLoading(true);
@@ -31,7 +72,7 @@ function AppWithLoader() {
   }, [location.pathname]);
 
   return (
-    <>
+    <ToastContext.Provider value={{ showToast, toastMessage, isToastVisible, hideToast }}>
       {loading && <PageSpinner />}
       <CustomToast 
         message={toastMessage}
@@ -52,7 +93,7 @@ function AppWithLoader() {
         </main>
         <Footer />
       </div>
-    </>
+    </ToastContext.Provider>
   );
 }
 

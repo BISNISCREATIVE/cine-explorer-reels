@@ -1,11 +1,11 @@
 
 import { useState, useEffect } from 'react';
 import { Movie } from '@/types/movie';
-import { useCustomToast } from '@/hooks/useCustomToast';
+import { useGlobalToast } from '@/App';
 
 export const useFavorites = () => {
   const [favorites, setFavorites] = useState<Movie[]>([]);
-  const { showToast } = useCustomToast();
+  const { showToast } = useGlobalToast();
 
   useEffect(() => {
     const stored = localStorage.getItem('movie-favorites');
