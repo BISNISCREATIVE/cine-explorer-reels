@@ -21,7 +21,7 @@ const CustomToast = ({ message, isVisible, onClose }: CustomToastProps) => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed top-20 md:top-4 left-1/2 transform -translate-x-1/2 z-50 px-4 w-full max-w-[531px]">
+    <div className="fixed top-20 md:top-24 left-1/2 transform -translate-x-1/2 z-50 px-4 w-full max-w-[531px]">
       <div 
         className="flex justify-center items-center gap-3 px-6 py-0 bg-black/25 backdrop-blur-[20px] rounded-2xl mx-auto"
         style={{

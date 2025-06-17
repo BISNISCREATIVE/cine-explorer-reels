@@ -14,7 +14,6 @@ const Header = () => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
 
-  // NEW: Modal search mobile state
   const isMobile = useIsMobile();
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
@@ -23,7 +22,7 @@ const Header = () => {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Set initial state
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -36,7 +35,7 @@ const Header = () => {
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
       setSearchQuery('');
-      setIsMenuOpen(false); // Close mobile menu on search
+      setIsMenuOpen(false);
     }
   };
 
@@ -52,37 +51,39 @@ const Header = () => {
     }`}>
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-[7.111px] w-[129.111px]">
-            <Logo size={40} />
-            <span className="text-white font-medium text-xl">Movie</span>
-          </Link>
+          {/* Logo and Navigation - Desktop */}
+          <div className="flex items-center gap-12">
+            <Link to="/" className="flex items-center gap-[7.111px] w-[129.111px]">
+              <Logo size={40} />
+              <span className="text-white font-medium text-xl">Movie</span>
+            </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-12">
-            <Link
-              to="/"
-              className={`text-sm font-medium transition-colors flex items-center justify-center p-2 gap-2 rounded-none ${
-                isActive('/') 
-                  ? 'text-white bg-gray-800' 
-                  : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
-              }`}
-            >
-              <Home size={18} />
-              <span>Home</span>
-            </Link>
-            <Link
-              to="/favorites"
-              className={`text-sm font-medium transition-colors flex items-center justify-center p-2 gap-2 rounded-none ${
-                isActive('/favorites') 
-                  ? 'text-white bg-gray-800' 
-                  : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
-              }`}
-            >
-              <Heart size={18} />
-              <span>Favorites</span>
-            </Link>
-          </nav>
+            {/* Desktop Navigation - moved closer to logo */}
+            <nav className="hidden md:flex items-center space-x-8">
+              <Link
+                to="/"
+                className={`text-sm font-medium transition-colors flex items-center justify-center p-2 gap-2 rounded-none ${
+                  isActive('/') 
+                    ? 'text-white bg-gray-800' 
+                    : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                }`}
+              >
+                <Home size={18} />
+                <span>Home</span>
+              </Link>
+              <Link
+                to="/favorites"
+                className={`text-sm font-medium transition-colors flex items-center justify-center p-2 gap-2 rounded-none ${
+                  isActive('/favorites') 
+                    ? 'text-white bg-gray-800' 
+                    : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                }`}
+              >
+                <Heart size={18} />
+                <span>Favorites</span>
+              </Link>
+            </nav>
+          </div>
 
           {/* Desktop Search */}
           <div className="hidden md:flex items-center">
