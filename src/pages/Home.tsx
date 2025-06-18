@@ -19,16 +19,13 @@ const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState<Movie[]>([]);
   const [trendingLoading, setTrendingLoading] = useState(true);
 
-  // New Release Infinite
   const [newReleaseMovies, setNewReleaseMovies] = useState<Movie[]>([]);
   const [newReleasePage, setNewReleasePage] = useState(1);
   const [newReleaseLoading, setNewReleaseLoading] = useState(true);
   const [hasMoreNewReleases, setHasMoreNewReleases] = useState(true);
 
-  // Reference to avoid loading multiple times at once
   const isFetchingRef = useRef(false);
 
-  // Trailer & Video
   const [showTrailer, setShowTrailer] = useState(false);
   const [trailerVideoKey, setTrailerVideoKey] = useState<string | null>(null);
   const [trailerLoading, setTrailerLoading] = useState(false);
@@ -44,7 +41,6 @@ const Home = () => {
     fetchTrending();
   }, []);
 
-  // Fetch upcoming (new release) movies with pagination
   useEffect(() => {
     const fetchUpcoming = async () => {
       isFetchingRef.current = true;
@@ -65,10 +61,8 @@ const Home = () => {
     fetchUpcoming();
   }, [newReleasePage]);
 
-  // Hero Movie
   const heroMovie = trendingMovies[0];
 
-  // Handle Watch Trailer and Close Trailer
   const handleToggleTrailer = async () => {
     if (showTrailer) {
       setShowTrailer(false);
@@ -99,7 +93,6 @@ const Home = () => {
     setTrailerLoading(false);
   };
 
-  // Infinity scroll for New Release section
   const newReleaseSectionRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = useCallback(() => {
@@ -110,7 +103,6 @@ const Home = () => {
 
     if (!newReleaseSection) return;
     const sectionBottom = newReleaseSection.getBoundingClientRect().bottom + window.scrollY;
-    // Jika viewport + scrollY + threshold (180px buffer) sudah melewati bawah New Release grid
     if (scrollY + viewportHeight + 180 >= sectionBottom) {
       setNewReleasePage(prev => prev + 1);
     }
@@ -122,7 +114,7 @@ const Home = () => {
   }, [handleScroll]);
 
   return (
-    <div className="bg-black min-h-screen flex flex-col">
+    <div className="bg-black min-h-screen flex flex-col w-full max-w-[1440px] mx-auto">
       {/* HERO SECTION */}
       <section className="relative w-full min-h-[430px] md:h-[550px] flex flex-col justify-end items-start bg-gradient-to-b from-[#181c20] to-black overflow-hidden">
         {heroMovie && (
@@ -134,15 +126,33 @@ const Home = () => {
               draggable={false}
               style={{ zIndex: 0 }}
             />
-            {/* Overlay dark gradient */}
             <div className="absolute inset-0 h-full bg-gradient-to-b from-black/80 via-black/60 to-black/95 pointer-events-none z-10" />
-            {/* Hero Content */}
-            <div className="relative z-20 flex flex-col justify-center h-full px-5 pt-12 pb-7 md:px-16 md:pb-[72px] md:pt-0 max-w-full w-full md:max-w-3xl">
+            <div className="relative z-20 flex flex-col justify-center h-full px-5 pt-12 pb-7 md:px-[140px] md:pb-[72px] md:pt-0 max-w-full w-full">
               <div className="mb-5 md:mb-6">
-                <h1 className="text-white text-[2rem] md:text-5xl font-extrabold leading-tight drop-shadow-lg mb-4">{heroMovie.title}</h1>
-                <p className="text-white/85 text-base md:text-lg mb-6 max-w-2xl drop-shadow-lg font-normal">{heroMovie.overview}</p>
+                <h1 
+                  className="text-[#FDFDFD] font-bold leading-tight drop-shadow-lg mb-4"
+                  style={{
+                    fontFamily: 'Poppins',
+                    fontSize: 'clamp(2rem, 5vw, 48px)',
+                    fontWeight: 700,
+                    lineHeight: 'clamp(2.5rem, 6vw, 60px)',
+                    letterSpacing: '-0.96px'
+                  }}
+                >
+                  {heroMovie.title}
+                </h1>
+                <p 
+                  className="text-[#A4A7AE] mb-6 max-w-2xl drop-shadow-lg"
+                  style={{
+                    fontFamily: 'Poppins',
+                    fontSize: '16px',
+                    fontWeight: 400,
+                    lineHeight: '30px'
+                  }}
+                >
+                  {heroMovie.overview}
+                </p>
                 <div className="flex flex-col md:flex-row gap-3 md:gap-6">
-                  {/* Watch Trailer Button */}
                   <button
                     className="flex items-center justify-center bg-[#961200] hover:bg-[#7d1000] text-white h-[44px] text-base md:text-lg font-semibold rounded-full w-full md:w-[230px] gap-2 transition-all duration-150 shadow"
                     onClick={handleToggleTrailer}
@@ -175,7 +185,7 @@ const Home = () => {
         )}
       </section>
 
-      {/* Trailer Player (shown below Hero Section) */}
+      {/* Trailer Player */}
       {showTrailer && trailerVideoKey && (
         <div className="flex justify-center bg-black py-5 px-2">
           <div className="w-full max-w-2xl aspect-video rounded-xl overflow-hidden shadow-lg border border-[#232631]">
@@ -192,20 +202,51 @@ const Home = () => {
         </div>
       )}
 
-      <main className="flex-1 flex justify-center">
-        {/* Main Content Container - Following Figma specs */}
-        <div className="flex flex-col items-start gap-12 w-full max-w-[635px] px-4 md:px-0">
-          {/* TRENDING NOW CAROUSEL */}
-          <section className="w-full pt-8 md:pt-12">
-            <h2 className="font-poppins text-[#FDFDFD] text-xl md:text-4xl font-bold leading-tight md:leading-[48px] tracking-[-0.72px] mb-5 md:mb-10 drop-shadow text-left px-1 md:px-0">
+      {/* Main Content Container - Following Figma Frame Layout */}
+      <main className="flex justify-center w-full">
+        <div 
+          className="flex flex-col items-start px-4 md:px-0"
+          style={{
+            width: 'min(635px, 100%)',
+            padding: '0px',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            gap: '48px',
+            borderRadius: '0px'
+          }}
+        >
+          {/* TRENDING NOW SECTION - Following Figma Layout */}
+          <section 
+            className="w-full pt-8 md:pt-12"
+            style={{
+              display: 'flex',
+              width: '100%',
+              padding: '0px',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              gap: '40px',
+              borderRadius: '0px'
+            }}
+          >
+            <h2 
+              className="text-[#FDFDFD] font-bold drop-shadow px-1 md:px-0"
+              style={{
+                fontFamily: 'Poppins',
+                fontSize: 'clamp(24px, 4vw, 36px)',
+                fontWeight: 700,
+                lineHeight: 'clamp(32px, 5vw, 48px)',
+                letterSpacing: '-0.72px',
+                alignSelf: 'stretch'
+              }}
+            >
               Trending Now
             </h2>
             {trendingLoading ? (
-              <div className="flex items-center justify-center h-44">
+              <div className="flex items-center justify-center h-44 w-full">
                 <Loader2 className="w-8 h-8 text-white animate-spin" />
               </div>
             ) : (
-              <div className="relative">
+              <div className="relative w-full">
                 <Carousel
                   className="w-full"
                   opts={{
@@ -223,7 +264,6 @@ const Home = () => {
                       </CarouselItem>
                     ))}
                   </CarouselContent>
-                  {/* Panah Carousel */}
                   <div className="hidden md:block">
                     <CarouselPrevious className="-left-9" />
                     <CarouselNext className="-right-9" />
@@ -233,20 +273,38 @@ const Home = () => {
             )}
           </section>
 
-          {/* NEW RELEASE GRID */}
+          {/* NEW RELEASE SECTION - Following Figma Layout */}
           <section
             ref={newReleaseSectionRef}
             className="w-full pb-16 md:pb-24"
+            style={{
+              display: 'flex',
+              padding: '0px',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              gap: '40px',
+              borderRadius: '0px'
+            }}
           >
-            <h2 className="font-poppins text-[#FDFDFD] text-xl md:text-4xl font-bold leading-tight md:leading-[48px] tracking-[-0.72px] mb-5 md:mb-7 drop-shadow px-1 md:px-0">
+            <h2 
+              className="text-[#FDFDFD] font-bold drop-shadow px-1 md:px-0"
+              style={{
+                fontFamily: 'Poppins',
+                fontSize: 'clamp(24px, 4vw, 36px)',
+                fontWeight: 700,
+                lineHeight: 'clamp(32px, 5vw, 48px)',
+                letterSpacing: '-0.72px',
+                alignSelf: 'stretch'
+              }}
+            >
               New Release
             </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 xl:grid-cols-6 gap-x-4 md:gap-x-7 gap-y-6 md:gap-y-7">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 xl:grid-cols-6 gap-x-4 md:gap-x-7 gap-y-6 md:gap-y-7 w-full">
               {newReleaseMovies.map((movie) => (
                 <MovieCard key={movie.id} movie={movie} />
               ))}
             </div>
-            <div className="flex justify-center mt-7 md:mt-8">
+            <div className="flex justify-center mt-7 md:mt-8 w-full">
               {newReleaseLoading && (
                 <div className="w-full max-w-xs md:max-w-[220px] flex items-center justify-center rounded-full min-h-[46px] md:min-h-[50px] text-white bg-white/5 border-2 border-[#232631] py-3">
                   <Loader2 className="inline w-5 h-5 animate-spin" />
@@ -255,7 +313,7 @@ const Home = () => {
               )}
             </div>
             {!hasMoreNewReleases && newReleaseMovies.length > 0 && (
-              <div className="text-center text-zinc-500 py-4 text-sm">
+              <div className="text-center text-zinc-500 py-4 text-sm w-full">
                 You've reached the end of the list.
               </div>
             )}
