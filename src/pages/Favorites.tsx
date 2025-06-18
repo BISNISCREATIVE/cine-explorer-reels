@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { Star, Heart, X, Play } from "lucide-react";
@@ -42,7 +41,7 @@ const FavoriteMovieCard = ({
   onWatchTrailer,
   watchingTrailerId,
 }: any) => (
-  <div className="w-full">
+  <div>
     <div className="relative flex flex-col md:flex-row bg-[#181b21] rounded-2xl overflow-hidden shadow-lg p-4 md:p-6 border border-[#232831] w-full">
       <img
         src={tmdbApi.getImageUrl(movie.poster_path)}
@@ -87,6 +86,7 @@ const FavoriteMovieCard = ({
           >
             <span className="pr-2">{watchingTrailerId === movie.id ? 'Close Trailer' : 'Watch Trailer'}</span>
             <span className="flex items-center justify-center">
+              {/* Perubahan: Ikon khusus dari gambar referensi */}
               {watchingTrailerId === movie.id ? (
                 <X size={20} className="text-white" />
               ) : (
@@ -161,53 +161,28 @@ const Favorites = () => {
   return (
     <div className="min-h-screen bg-black text-white pt-24 pb-12">
       <div className="container mx-auto px-4">
-        {/* Main Content Container - Following Figma Layout */}
-        <div 
-          className="mx-auto"
-          style={{
-            display: 'flex',
-            width: '1160px',
-            maxWidth: '100vw',
-            padding: '0px',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '48px',
-            borderRadius: '0px'
-          }}
-        >
-          <h1 
-            className="text-white font-bold self-stretch text-left"
-            style={{
-              fontFamily: 'Poppins',
-              fontSize: '48px',
-              fontWeight: 700,
-              lineHeight: '60px',
-              letterSpacing: '-0.96px'
-            }}
-          >
+        <h1 className="text-3xl md:text-4xl font-bold mb-8">
             Favorites
-          </h1>
+        </h1>
 
-          {favorites.length === 0 ? (
-            <div className="flex flex-col items-center justify-center text-center h-[50vh]">
-              <EmptyState />
-            </div>
-          ) : (
-            <div className="flex flex-col gap-12 w-full">
-              {moviesWithTrailer.map((movie) => (
-                <FavoriteMovieCard
-                  key={movie.id}
-                  movie={movie}
-                  isFavorite={isFavorite(movie.id)}
-                  onToggleFavorite={toggleFavorite}
-                  onWatchTrailer={handleWatchTrailer}
-                  watchingTrailerId={watchingTrailerId}
-                />
-              ))}
-            </div>
-          )}
-        </div>
+        {favorites.length === 0 ? (
+          <div className="flex flex-col items-center justify-center text-center h-[50vh]">
+            <EmptyState />
+          </div>
+        ) : (
+          <div className="space-y-8 w-full max-w-3xl mx-auto">
+            {moviesWithTrailer.map((movie) => (
+              <FavoriteMovieCard
+                key={movie.id}
+                movie={movie}
+                isFavorite={isFavorite(movie.id)}
+                onToggleFavorite={toggleFavorite}
+                onWatchTrailer={handleWatchTrailer}
+                watchingTrailerId={watchingTrailerId}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
