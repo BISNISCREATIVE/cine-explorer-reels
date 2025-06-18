@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Movie } from '@/types/movie';
@@ -114,7 +113,7 @@ const Home = () => {
   }, [handleScroll]);
 
   return (
-    <div className="bg-black min-h-screen flex flex-col w-full max-w-[1440px] mx-auto">
+    <div className="bg-black min-h-screen flex flex-col w-full">
       {/* HERO SECTION */}
       <section className="relative w-full min-h-[430px] md:h-[550px] flex flex-col justify-end items-start bg-gradient-to-b from-[#181c20] to-black overflow-hidden">
         {heroMovie && (
@@ -202,124 +201,112 @@ const Home = () => {
         </div>
       )}
 
-      {/* Main Content Container - Following Figma Frame Layout */}
-      <main className="flex justify-center w-full">
-        <div 
-          className="flex flex-col items-start px-4 md:px-0"
+      {/* TRENDING NOW SECTION - Following Figma Frame Layout */}
+      <section 
+        className="w-full bg-black"
+        style={{
+          display: 'flex',
+          width: '1440px',
+          maxWidth: '100vw',
+          margin: '0 auto',
+          padding: '0px 140px 80px 140px',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          gap: '40px',
+          borderRadius: '0px'
+        }}
+      >
+        <h2 
+          className="text-[#FDFDFD] font-bold drop-shadow"
           style={{
-            width: 'min(635px, 100%)',
-            padding: '0px',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            gap: '48px',
-            borderRadius: '0px'
+            fontFamily: 'Poppins',
+            fontSize: '36px',
+            fontWeight: 700,
+            lineHeight: '48px',
+            letterSpacing: '-0.72px',
+            alignSelf: 'stretch'
           }}
         >
-          {/* TRENDING NOW SECTION - Following Figma Layout */}
-          <section 
-            className="w-full pt-8 md:pt-12"
-            style={{
-              display: 'flex',
-              width: '100%',
-              padding: '0px',
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-              gap: '40px',
-              borderRadius: '0px'
-            }}
-          >
-            <h2 
-              className="text-[#FDFDFD] font-bold drop-shadow px-1 md:px-0"
-              style={{
-                fontFamily: 'Poppins',
-                fontSize: 'clamp(24px, 4vw, 36px)',
-                fontWeight: 700,
-                lineHeight: 'clamp(32px, 5vw, 48px)',
-                letterSpacing: '-0.72px',
-                alignSelf: 'stretch'
+          Trending Now
+        </h2>
+        {trendingLoading ? (
+          <div className="flex items-center justify-center h-44 w-full">
+            <Loader2 className="w-8 h-8 text-white animate-spin" />
+          </div>
+        ) : (
+          <div className="relative w-full">
+            <Carousel
+              className="w-full"
+              opts={{
+                align: 'start',
+                containScroll: 'trimSnaps',
               }}
             >
-              Trending Now
-            </h2>
-            {trendingLoading ? (
-              <div className="flex items-center justify-center h-44 w-full">
-                <Loader2 className="w-8 h-8 text-white animate-spin" />
+              <CarouselContent>
+                {trendingMovies.slice(0, 10).map((movie, idx) => (
+                  <CarouselItem
+                    key={movie.id}
+                    className="max-w-[210px] md:max-w-[215px] min-w-[180px] md:min-w-[215px] px-1 pb-2"
+                  >
+                    <MovieCard movie={movie} rank={idx + 1} />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <div className="hidden md:block">
+                <CarouselPrevious className="-left-9" />
+                <CarouselNext className="-right-9" />
               </div>
-            ) : (
-              <div className="relative w-full">
-                <Carousel
-                  className="w-full"
-                  opts={{
-                    align: 'start',
-                    containScroll: 'trimSnaps',
-                  }}
-                >
-                  <CarouselContent>
-                    {trendingMovies.slice(0, 10).map((movie, idx) => (
-                      <CarouselItem
-                        key={movie.id}
-                        className="max-w-[210px] md:max-w-[215px] min-w-[180px] md:min-w-[215px] px-1 pb-2"
-                      >
-                        <MovieCard movie={movie} rank={idx + 1} />
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <div className="hidden md:block">
-                    <CarouselPrevious className="-left-9" />
-                    <CarouselNext className="-right-9" />
-                  </div>
-                </Carousel>
-              </div>
-            )}
-          </section>
+            </Carousel>
+          </div>
+        )}
+      </section>
 
-          {/* NEW RELEASE SECTION - Following Figma Layout */}
-          <section
-            ref={newReleaseSectionRef}
-            className="w-full pb-16 md:pb-24"
-            style={{
-              display: 'flex',
-              padding: '0px',
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-              gap: '40px',
-              borderRadius: '0px'
-            }}
-          >
-            <h2 
-              className="text-[#FDFDFD] font-bold drop-shadow px-1 md:px-0"
-              style={{
-                fontFamily: 'Poppins',
-                fontSize: 'clamp(24px, 4vw, 36px)',
-                fontWeight: 700,
-                lineHeight: 'clamp(32px, 5vw, 48px)',
-                letterSpacing: '-0.72px',
-                alignSelf: 'stretch'
-              }}
-            >
-              New Release
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 xl:grid-cols-6 gap-x-4 md:gap-x-7 gap-y-6 md:gap-y-7 w-full">
-              {newReleaseMovies.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
-              ))}
-            </div>
-            <div className="flex justify-center mt-7 md:mt-8 w-full">
-              {newReleaseLoading && (
-                <div className="w-full max-w-xs md:max-w-[220px] flex items-center justify-center rounded-full min-h-[46px] md:min-h-[50px] text-white bg-white/5 border-2 border-[#232631] py-3">
-                  <Loader2 className="inline w-5 h-5 animate-spin" />
-                  <span className="ml-2 text-base">Loading...</span>
-                </div>
-              )}
-            </div>
-            {!hasMoreNewReleases && newReleaseMovies.length > 0 && (
-              <div className="text-center text-zinc-500 py-4 text-sm w-full">
-                You've reached the end of the list.
-              </div>
-            )}
-          </section>
+      {/* NEW RELEASE SECTION - Following Figma Frame Layout */}
+      <section
+        ref={newReleaseSectionRef}
+        className="w-full bg-black pb-16 md:pb-24"
+        style={{
+          display: 'inline-flex',
+          padding: '0px 140px',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '40px',
+          borderRadius: '0px'
+        }}
+      >
+        <h2 
+          className="text-[#FDFDFD] font-bold drop-shadow"
+          style={{
+            fontFamily: 'Poppins',
+            fontSize: '36px',
+            fontWeight: 700,
+            lineHeight: '48px',
+            letterSpacing: '-0.72px',
+            alignSelf: 'stretch'
+          }}
+        >
+          New Release
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 xl:grid-cols-6 gap-x-4 md:gap-x-7 gap-y-6 md:gap-y-7 w-full">
+          {newReleaseMovies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
         </div>
-      </main>
+        <div className="flex justify-center mt-7 md:mt-8 w-full">
+          {newReleaseLoading && (
+            <div className="w-full max-w-xs md:max-w-[220px] flex items-center justify-center rounded-full min-h-[46px] md:min-h-[50px] text-white bg-white/5 border-2 border-[#232631] py-3">
+              <Loader2 className="inline w-5 h-5 animate-spin" />
+              <span className="ml-2 text-base">Loading...</span>
+            </div>
+          )}
+        </div>
+        {!hasMoreNewReleases && newReleaseMovies.length > 0 && (
+          <div className="text-center text-zinc-500 py-4 text-sm w-full">
+            You've reached the end of the list.
+          </div>
+        )}
+      </section>
     </div>
   );
 };
