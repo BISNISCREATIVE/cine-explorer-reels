@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Movie } from '@/types/movie';
@@ -191,72 +192,75 @@ const Home = () => {
         </div>
       )}
 
-      <main className="flex-1">
-        {/* TRENDING NOW CAROUSEL */}
-        <section className="container max-w-[1200px] mx-auto px-4 pb-8 pt-8 md:px-10 md:pt-12">
-          <h2 className="font-poppins text-[#FDFDFD] text-xl md:text-4xl font-bold leading-tight md:leading-[48px] tracking-[-0.72px] mb-5 md:mb-10 drop-shadow text-left px-1 md:px-0">
-            Trending Now
-          </h2>
-          {trendingLoading ? (
-            <div className="flex items-center justify-center h-44">
-              <Loader2 className="w-8 h-8 text-white animate-spin" />
-            </div>
-          ) : (
-            <div className="relative">
-              <Carousel
-                className="w-full"
-                opts={{
-                  align: 'start',
-                  containScroll: 'trimSnaps',
-                }}
-              >
-                <CarouselContent>
-                  {trendingMovies.slice(0, 10).map((movie, idx) => (
-                    <CarouselItem
-                      key={movie.id}
-                      className="max-w-[210px] md:max-w-[215px] min-w-[180px] md:min-w-[215px] px-1 pb-2"
-                    >
-                      <MovieCard movie={movie} rank={idx + 1} />
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                {/* Panah Carousel */}
-                <div className="hidden md:block">
-                  <CarouselPrevious className="-left-9" />
-                  <CarouselNext className="-right-9" />
-                </div>
-              </Carousel>
-            </div>
-          )}
-        </section>
-
-        {/* NEW RELEASE GRID */}
-        <section
-          ref={newReleaseSectionRef}
-          className="container max-w-[1200px] mx-auto px-4 pb-16 md:px-10 md:pb-24 pt-4 md:pt-6"
-        >
-          <h2 className="font-poppins text-[#FDFDFD] text-xl md:text-4xl font-bold leading-tight md:leading-[48px] tracking-[-0.72px] mb-5 md:mb-7 drop-shadow px-1 md:px-0">
-            New Release
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 xl:grid-cols-6 gap-x-4 md:gap-x-7 gap-y-6 md:gap-y-7">
-            {newReleaseMovies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
-            ))}
-          </div>
-          <div className="flex justify-center mt-7 md:mt-8">
-            {newReleaseLoading && (
-              <div className="w-full max-w-xs md:max-w-[220px] flex items-center justify-center rounded-full min-h-[46px] md:min-h-[50px] text-white bg-white/5 border-2 border-[#232631] py-3">
-                <Loader2 className="inline w-5 h-5 animate-spin" />
-                <span className="ml-2 text-base">Loading...</span>
+      <main className="flex-1 flex justify-center">
+        {/* Main Content Container - Following Figma specs */}
+        <div className="flex flex-col items-start gap-12 w-full max-w-[635px] px-4 md:px-0">
+          {/* TRENDING NOW CAROUSEL */}
+          <section className="w-full pt-8 md:pt-12">
+            <h2 className="font-poppins text-[#FDFDFD] text-xl md:text-4xl font-bold leading-tight md:leading-[48px] tracking-[-0.72px] mb-5 md:mb-10 drop-shadow text-left px-1 md:px-0">
+              Trending Now
+            </h2>
+            {trendingLoading ? (
+              <div className="flex items-center justify-center h-44">
+                <Loader2 className="w-8 h-8 text-white animate-spin" />
+              </div>
+            ) : (
+              <div className="relative">
+                <Carousel
+                  className="w-full"
+                  opts={{
+                    align: 'start',
+                    containScroll: 'trimSnaps',
+                  }}
+                >
+                  <CarouselContent>
+                    {trendingMovies.slice(0, 10).map((movie, idx) => (
+                      <CarouselItem
+                        key={movie.id}
+                        className="max-w-[210px] md:max-w-[215px] min-w-[180px] md:min-w-[215px] px-1 pb-2"
+                      >
+                        <MovieCard movie={movie} rank={idx + 1} />
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  {/* Panah Carousel */}
+                  <div className="hidden md:block">
+                    <CarouselPrevious className="-left-9" />
+                    <CarouselNext className="-right-9" />
+                  </div>
+                </Carousel>
               </div>
             )}
-          </div>
-          {!hasMoreNewReleases && newReleaseMovies.length > 0 && (
-            <div className="text-center text-zinc-500 py-4 text-sm">
-              You've reached the end of the list.
+          </section>
+
+          {/* NEW RELEASE GRID */}
+          <section
+            ref={newReleaseSectionRef}
+            className="w-full pb-16 md:pb-24"
+          >
+            <h2 className="font-poppins text-[#FDFDFD] text-xl md:text-4xl font-bold leading-tight md:leading-[48px] tracking-[-0.72px] mb-5 md:mb-7 drop-shadow px-1 md:px-0">
+              New Release
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 xl:grid-cols-6 gap-x-4 md:gap-x-7 gap-y-6 md:gap-y-7">
+              {newReleaseMovies.map((movie) => (
+                <MovieCard key={movie.id} movie={movie} />
+              ))}
             </div>
-          )}
-        </section>
+            <div className="flex justify-center mt-7 md:mt-8">
+              {newReleaseLoading && (
+                <div className="w-full max-w-xs md:max-w-[220px] flex items-center justify-center rounded-full min-h-[46px] md:min-h-[50px] text-white bg-white/5 border-2 border-[#232631] py-3">
+                  <Loader2 className="inline w-5 h-5 animate-spin" />
+                  <span className="ml-2 text-base">Loading...</span>
+                </div>
+              )}
+            </div>
+            {!hasMoreNewReleases && newReleaseMovies.length > 0 && (
+              <div className="text-center text-zinc-500 py-4 text-sm">
+                You've reached the end of the list.
+              </div>
+            )}
+          </section>
+        </div>
       </main>
     </div>
   );
